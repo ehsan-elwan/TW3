@@ -17,7 +17,6 @@ import java.util.Properties;
  */
 public class DataSource {
 
-    FileInputStream fis;
     MysqlDataSource mysqlDS;
 
     public MysqlDataSource getMySQLDataSource() {
@@ -29,12 +28,9 @@ public class DataSource {
         try {
             props.load(is);
             mysqlDS = new MysqlDataSource();
-           // mysqlDS.setServerName(props.getProperty("MYSQL_DB_SRNAME"));
-           // mysqlDS.setPortNumber(Integer.valueOf(props.getProperty("MYSQL_DB_SRPORT")));
             mysqlDS.setURL(props.getProperty("MYSQL_DB_URL"));
             mysqlDS.setUser(props.getProperty("MYSQL_DB_USERNAME"));
             mysqlDS.setPassword(props.getProperty("MYSQL_DB_PASSWORD"));
-            System.out.println();
            
         } catch (IOException e) {
             System.out.println(e.getMessage());

@@ -5,19 +5,19 @@
  */
 package Servlet;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import Models.DAO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import network.tw3.DataSource;
+import Models.DataSource;
+import Models.Establishment;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 
 /**
  *
@@ -37,18 +37,14 @@ public class GetStudents extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("application/json");
-        MysqlDataSource ds = new DataSource().getMySQLDataSource();
-        try {
-            Connection conn = ds.getConnection();
-            Statement stmt = conn.createStatement();
-            
-            
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-            Logger.getLogger(GetStudents.class.getName()).log(Level.SEVERE, null, ex);
+        response.setContentType("application/json;charset=UTF-8");
+        DAO dao = new DAO(new DataSource().getMySQLDataSource());
+        List<Establishment> result = dao.getEstablishment();
+        try (PrintWriter out = response.getWriter()) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            out.println(gson.toJson(result));
         }
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

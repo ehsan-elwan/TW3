@@ -24,8 +24,8 @@ public class DAO {
 
     private final MysqlDataSource myDataSource;
 
-    public DAO(DataSource dataSource) {
-        myDataSource = new network.tw3.DataSource().getMySQLDataSource();
+    public DAO(MysqlDataSource dataSource) {
+        myDataSource = new DataSource().getMySQLDataSource();
     }
 
     public List<Student> getStudent() {
