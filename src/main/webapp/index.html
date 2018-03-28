@@ -1,10 +1,197 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Start Page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta charset="utf-8">
+        <script	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  #map {
+    height: 100%;
+  }
+  
+  #floating-panel {
+                position: absolute;
+                top: 10px;
+                right: 10%;
+                z-index: 5;
+                background-color: #fff;
+                padding: 5px;
+                border: 1px solid #999;
+                text-align: center;
+                font-family: 'Roboto','sans-serif';
+                line-height: 30px;
+                padding-left: 10px;
+            }
+</style>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        
+                <div id ="floating-panel">
+            <input id="address" type="textbox" value="">
+            <input type="button" value="Show " onclick="codeAddress()">
+        </div>
+        
+        <div id="map"></div>
+        
+        <script>
+            var geocoder;
+            var map;
+            var nextAddress = -1;
+            var delay = 100;
+            var bounds;
+            var infowindow;
+            var icons;
+            var markerCluster;
+            var latlng;
+            var markers=[];
+            var gmark=[];
+            
+            function initialize() {
+                geocoder = new google.maps.Geocoder();
+                bounds = new google.maps.LatLngBounds();
+                infowindow = new google.maps.InfoWindow();
+
+                latlng = new google.maps.LatLng(-34.397, 150.644);
+                icons = 'sc.png';
+
+                var mapOptions = {
+                    zoom: 8,
+                    center: latlng
+                };
+                map = new google.maps.Map(document.getElementById('map'), mapOptions);
+            }
+            
+            function showError(xhr, status, message) {
+                alert(JSON.parse(xhr.responseText).message);
+            }
+            function setMapOnAll(map) {
+              for (var i = 0; i < gmark.length; i++) {
+                gmark[i].setMap(map);
+              }
+            }
+            
+            function clearMarkers() {
+                setMapOnAll(null);
+            }
+            
+            function toggleBounce(mk) {
+                if (mk.getAnimation() !== null) {
+                  mk.setAnimation(null);
+                } else {
+                  mk.setAnimation(google.maps.Animation.BOUNCE);
+                }
+              }
+            
+            function createMarker(add,lat,lng) {
+                
+                var contentString = add;
+                var marker = new google.maps.Marker({
+                  position: new google.maps.LatLng(lat,lng),
+                  animation: google.maps.Animation.DROP,
+                  icon: icons,
+                  map: map
+                });
+
+               google.maps.event.addListener(marker, 'click', function() {
+                  infowindow.setContent(contentString); 
+                  infowindow.open(map,marker);
+                  toggleBounce(this);
+                });
+                gmark.push(marker);
+              
+                marker.setMap(map);
+                bounds.extend(marker.position);
+                
+              }
+            
+            function getAddress(search) {
+                geocoder.geocode({address:search}, function (results,status) { 
+                        // If that was successful
+                if (status === google.maps.GeocoderStatus.OK) {
+                  // Lets assume that the first marker is the one we want
+                  var p = results[0].geometry.location;
+                  var lat=p.lat();
+                  var lng=p.lng();
+                  /* Output the data 
+                    var msg = 'address="' + search + '" lat=' +lat+ ' lng=' +lng+ '(delay='+delay+'ms)<br>';
+                    document.getElementById("messages").innerHTML += msg;
+                    */
+                  // Create a marker
+                  markers.push([search,lat,lng]);
+                  //createMarker(search,lat,lng);
+                }
+                // ====== Decode the error status ======
+                else {
+                  // === if we were sending the requests to fast, try this one again and increase the delay
+                  if (status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
+                    nextAddress--;
+                    delay++;
+                  } /* else {
+                    var reason="Code "+status;
+                    var msg = 'address="' + search + '" error=' +reason+ '(delay='+delay+'ms)<br>';
+                    document.getElementById("messages").innerHTML += msg;
+                  }  */  
+                }
+                
+                    }
+                );
+      
+            }
+            
+            
+            function theNext(addresses) {
+          
+                if (nextAddress < addresses.length) {
+                    
+                    setTimeout(function() {
+                        
+                                                getAddress(addresses[nextAddress]);
+                                                theNext(addresses);
+                                                
+                                                }, delay );
+                  nextAddress++;
+                } else {
+                  // We're done. Show map bounds
+                  for (i in markers) {
+                     
+                      createMarker(markers[i][0],markers[i][1],markers[i][2]);
+                  }
+                  map.fitBounds(bounds);
+                  //map.panToBounds(bounds);
+                }
+              }
+              
+
+            function codeAddress() {
+                
+                clearMarkers();
+                $.ajax({
+                    url: "Student",
+                    data: {"set":"getCitiesFromEtablissement"},
+                    dataType: "json",
+                    error: showError,
+                    success: // La fonction qui traite les résultats
+                            function (result) {
+                               
+                                theNext(result);
+                            } 
+                });
+                
+                
+                
+                
+                
+            }
+        </script>
+
+     
+                <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxiPjQwKrmWhkfyjPaNH-hOE6k4vSDaYE&callback=initialize">
+        </script>
     </body>
 </html>

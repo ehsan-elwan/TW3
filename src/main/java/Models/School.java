@@ -9,7 +9,7 @@ package Models;
  *
  * @author Ehsan
  */
-public class Establishment {
+public class School {
 
     private final int est_id;
     private final String est_name;
@@ -19,7 +19,7 @@ public class Establishment {
     private final String est_country;
     private final int est_id_region;
 
-    public Establishment(int est_id, String est_name, String sigle,
+    public School(int est_id, String est_name, String sigle,
             String posteCode,String est_city, String est_country, int est_id_region) {
 
         this.est_country = est_country;

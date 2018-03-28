@@ -48,9 +48,13 @@ public class DAO {
 
                     st = new Student(id, fname, lname,
                             email, promotion, spec, cursus, L3average);
+
                     result.add(st);
                 }
+
             }
+            stmt.close();
+            connection.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -58,9 +62,9 @@ public class DAO {
         return result;
     }
 
-    public List<Establishment> getEstablishment() {
-        List<Establishment> result = new LinkedList<>();
-        Establishment est;
+    public List<School> getEstablishment() {
+        List<School> result = new LinkedList<>();
+        School sch;
         String sql = "SELECT distinct * FROM etablissement";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -74,11 +78,15 @@ public class DAO {
                     String city = rs.getString("ville");
                     String country = rs.getString("pays");
                     int id_region = rs.getInt("id_region");
-                    est = new Establishment(id, lname, sigle,
+                    sch = new School(id, lname, sigle,
                             postalCode, city, country, id_region);
-                    result.add(est);
+
+                    result.add(sch);
                 }
+
             }
+            stmt.close();
+            connection.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,9 +120,13 @@ public class DAO {
 
                     st = new Student(id, fname, lname,
                             email, promotion, spec, cursus, L3average);
+
                     result.add(st);
                 }
+
             }
+            stmt.close();
+            connection.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -122,9 +134,9 @@ public class DAO {
         return result;
     }
 
-    public List<Establishment> getEtablissementByFormation(String formationLabel) {
-        List<Establishment> result = new LinkedList<>();
-        Establishment est;
+    public List<School> getEtablissementByFormation(String formationLabel) {
+        List<School> result = new LinkedList<>();
+        School sch;
         String sql = "SELECT Distinct * FROM etablissement, formation "
                 + "WHERE etablissement.id_etablissement=formation.id_etablissement "
                 + "AND formation.intitule=?";
@@ -134,25 +146,30 @@ public class DAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
 
-                    int est_id = rs.getInt("id_etablissement");
-                    String est_name = rs.getString("nom");
+                    int sch_id = rs.getInt("id_etablissement");
+                    String sch_name = rs.getString("nom");
                     String sigle = rs.getString("sigle");
                     String posteCode = rs.getString("codePostal");
-                    String est_city = rs.getString("ville");
-                    String est_country = rs.getString("pays");
-                    int est_id_region = rs.getInt("id_region");
+                    String sch_city = rs.getString("ville");
+                    String sch_country = rs.getString("pays");
+                    int sch_id_region = rs.getInt("id_region");
 
-                    est = new Establishment(est_id, est_name, sigle, posteCode,
-                            est_city, est_country, est_id_region);
+                    sch = new School(sch_id, sch_name, sigle, posteCode,
+                            sch_city, sch_country, sch_id_region);
 
                 }
+
             }
+            stmt.close();
+            connection.close();
+
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return result;
+
     }
 
     public List<Student> getStudentByFormation(String formationLabel) {
@@ -181,7 +198,10 @@ public class DAO {
                             email, promotion, spec, cursus, L3average);
                     result.add(st);
                 }
+
             }
+            stmt.close();
+            connection.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -189,9 +209,9 @@ public class DAO {
         return result;
     }
 
-    public List<Establishment> getEtablissementByCity(String cityName) {
-        List<Establishment> result = new LinkedList<>();
-        Establishment est;
+    public List<School> getEtablissementByCity(String cityName) {
+        List<School> result = new LinkedList<>();
+        School sch;
         String sql = "SELECT * FROM etablissement WHERE ville =?";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -199,19 +219,22 @@ public class DAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
 
-                    int est_id = rs.getInt("id_etablissement");
-                    String est_name = rs.getString("nom");
+                    int sch_id = rs.getInt("id_etablissement");
+                    String sch_name = rs.getString("nom");
                     String sigle = rs.getString("sigle");
                     String posteCode = rs.getString("codePostal");
-                    String est_city = rs.getString("ville");
-                    String est_country = rs.getString("pays");
-                    int est_id_region = rs.getInt("id_region");
+                    String sch_city = rs.getString("ville");
+                    String sch_country = rs.getString("pays");
+                    int sch_id_region = rs.getInt("id_region");
 
-                    est = new Establishment(est_id, est_name, sigle, posteCode,
-                            est_city, est_country, est_id_region);
+                    sch = new School(sch_id, sch_name, sigle, posteCode,
+                            sch_city, sch_country, sch_id_region);
 
                 }
+
             }
+            stmt.close();
+            connection.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -220,17 +243,21 @@ public class DAO {
         return result;
     }
 
-    public List<String> getEtablissementByCity() {
+    public List<String> getCitiesFromEtablissement() {
         List<String> result = new LinkedList<>();
-        String sql = "SELECT Distinct ville FROM etablissement order by ville asc";
+        String sql = "SELECT Distinct ville, pays FROM etablissement order by ville asc";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     String city = rs.getString("ville");
-                    result.add(city);
+                    String country = rs.getString("pays");
+                    result.add(city+", "+country);
                 }
+
             }
+            stmt.close();
+            connection.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -256,13 +283,16 @@ public class DAO {
                     String sigle = rs.getString("sigle");
                     String for_type = rs.getString("type");
                     String for_speciality = rs.getString("specialite");
-                    int for_id_est = rs.getInt("id_etablissement");
+                    int for_id_sch = rs.getInt("id_etablissement");
 
                     form = new Formation(for_id, for_intitule, sigle, for_type,
-                            for_speciality, for_id_est);
+                            for_speciality, for_id_sch);
 
                 }
+
             }
+            stmt.close();
+            connection.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -284,7 +314,10 @@ public class DAO {
                     String city = rs.getString("ville");
                     result.add(city);
                 }
+
             }
+            stmt.close();
+            connection.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -306,7 +339,10 @@ public class DAO {
                 while (rs.next()) {
                     result = rs.getInt("nb");
                 }
+
             }
+            stmt.close();
+            connection.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -314,4 +350,6 @@ public class DAO {
 
         return result;
     }
+
+    //get formations
 }

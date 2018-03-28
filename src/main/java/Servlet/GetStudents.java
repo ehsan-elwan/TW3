@@ -12,12 +12,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Models.DataSource;
-import Models.Establishment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 /**
  *
@@ -38,11 +36,70 @@ public class GetStudents extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
+        String getParm = request.getParameter("set");
         DAO dao = new DAO(new DataSource().getMySQLDataSource());
-        List<Establishment> result = dao.getEstablishment();
-        try (PrintWriter out = response.getWriter()) {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            out.println(gson.toJson(result));
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        switch (getParm) {
+            case "getStudent":
+
+                try (PrintWriter out = response.getWriter()) {
+
+                    out.println(gson.toJson(dao.getStudent()));
+                }
+                break;
+            case "getEstablishment":
+                try (PrintWriter out = response.getWriter()) {
+
+                    out.println(gson.toJson(dao.getEstablishment()));
+                }
+                break;
+            case "getStudentByEstablishment":
+                try (PrintWriter out = response.getWriter()) {
+
+                    out.println(gson.toJson(dao.getStudentByEstablishment(request.getParameter("est_name"))));
+                }
+                break;
+            case "getEtablissementByFormation":
+                try (PrintWriter out = response.getWriter()) {
+
+                    out.println(gson.toJson(dao.getEtablissementByFormation(request.getParameter("form_name"))));
+                }
+                break;
+            case "getStudentByFormation":
+                try (PrintWriter out = response.getWriter()) {
+
+                    out.println(gson.toJson(dao.getStudentByFormation(request.getParameter("form_name"))));
+                }
+                break;
+            case "getEtablissementByCity":
+                try (PrintWriter out = response.getWriter()) {
+
+                    out.println(gson.toJson(dao.getEtablissementByCity(request.getParameter("city_name"))));
+                }
+                break;
+            case "getCitiesFromEtablissement":
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(gson.toJson(dao.getCitiesFromEtablissement()));
+                }
+                break;
+
+            case "getFormationByCity":
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(gson.toJson(dao.getFormationByCity(request.getParameter("city_name"))));
+                }
+                break;
+
+            case "getCityByFormation":
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(gson.toJson(dao.getCityByFormation(request.getParameter("form_lab"))));
+                }
+                break;
+
+            case "getNBOfStudentByFormation":
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(gson.toJson(dao.getNBOfStudentByFormation(request.getParameter("form_lab"))));
+                }
+                break;
         }
 
     }
