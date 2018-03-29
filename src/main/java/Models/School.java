@@ -11,33 +11,33 @@ package Models;
  */
 public class School {
 
-    private final int est_id;
-    private final String est_name;
+    private final int sch_id;
+    private final String sch_name;
     private final String sigle;
     private final String posteCode;
-    private final String est_city;
-    private final String est_country;
-    private final int est_id_region;
+    private final String sch_city;
+    private final String sch_country;
+    private final int sch_id_region;
 
-    public School(int est_id, String est_name, String sigle,
-            String posteCode,String est_city, String est_country, int est_id_region) {
+    public School(int sch_id, String sch_name, String sigle,
+            String posteCode,String sch_city, String sch_country, int sch_id_region) {
 
-        this.est_country = est_country;
-        this.est_id = est_id;
-        this.est_id_region = est_id_region;
-        this.est_name = est_name;
+        this.sch_country = sch_country;
+        this.sch_id = sch_id;
+        this.sch_id_region = sch_id_region;
+        this.sch_name = sch_name;
         this.posteCode = posteCode;
         this.sigle = sigle;
-        this.est_city =est_city;
+        this.sch_city =sch_city;
 
     }
 
     public int getEst_id() {
-        return est_id;
+        return sch_id;
     }
 
     public String getEst_name() {
-        return est_name;
+        return sch_name;
     }
 
     public String getSigle() {
@@ -49,15 +49,15 @@ public class School {
     }
     
     public String getEst_city() {
-        return est_city;
+        return sch_city;
     }
 
     public String getEst_country() {
-        return est_country;
+        return sch_country;
     }
 
     public int getEst_id_region() {
-        return est_id_region;
+        return sch_id_region;
     }
     
 

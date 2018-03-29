@@ -100,6 +100,12 @@ public class GetStudents extends HttpServlet {
                     out.println(gson.toJson(dao.getNBOfStudentByFormation(request.getParameter("form_lab"))));
                 }
                 break;
+                
+            case "getFormationsLikeLabel":
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(gson.toJson(dao.getFormationsLikeLabel(request.getParameter("form_lab"))));
+                }
+                break;
         }
 
     }

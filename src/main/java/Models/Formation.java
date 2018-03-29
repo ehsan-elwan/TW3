@@ -16,22 +16,23 @@ public class Formation {
     private final String sigle;
     private final String for_type;
     private final String for_speciality;
-    private final int for_id_est;
+    private final School sch;
     
     public Formation (int for_id, String for_intitule, String sigle,
-            String for_type, String for_speciality,int for_id_est) {
+            String for_type, String for_speciality,School sch) {
         
         this.for_id = for_id;
         this.for_intitule = for_intitule;
         this.for_speciality = for_speciality;
         this.for_type =for_type;
         this.sigle =sigle;
-        this.for_id_est = for_id_est;
+        this.sch = sch;
     }
 
-    public int getFor_id_est() {
-        return for_id_est;
+    public School getSch() {
+        return sch;
     }
+
 
     public int getFor_id() {
         return for_id;

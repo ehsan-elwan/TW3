@@ -31,8 +31,9 @@
     </head>
     <body>
         
-                <div id ="floating-panel">
-            <input id="address" type="textbox" value="">
+        <div id ="floating-panel">
+            <input id="srarch_form" type="textbox" value="">
+            <input type="button" value="Search " onclick="searchFormations()">
             <input type="button" value="Show " onclick="codeAddress()">
         </div>
         
@@ -111,36 +112,20 @@
             
             function getAddress(search) {
                 geocoder.geocode({address:search}, function (results,status) { 
-                        // If that was successful
                 if (status === google.maps.GeocoderStatus.OK) {
-                  // Lets assume that the first marker is the one we want
                   var p = results[0].geometry.location;
                   var lat=p.lat();
                   var lng=p.lng();
-                  /* Output the data 
-                    var msg = 'address="' + search + '" lat=' +lat+ ' lng=' +lng+ '(delay='+delay+'ms)<br>';
-                    document.getElementById("messages").innerHTML += msg;
-                    */
-                  // Create a marker
+
                   markers.push([search,lat,lng]);
-                  //createMarker(search,lat,lng);
                 }
-                // ====== Decode the error status ======
                 else {
-                  // === if we were sending the requests to fast, try this one again and increase the delay
                   if (status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
                     nextAddress--;
                     delay++;
-                  } /* else {
-                    var reason="Code "+status;
-                    var msg = 'address="' + search + '" error=' +reason+ '(delay='+delay+'ms)<br>';
-                    document.getElementById("messages").innerHTML += msg;
-                  }  */  
-                }
-                
-                    }
-                );
-      
+                  } 
+                }            
+                });
             }
             
             
@@ -148,21 +133,17 @@
           
                 if (nextAddress < addresses.length) {
                     
-                    setTimeout(function() {
-                        
-                                                getAddress(addresses[nextAddress]);
-                                                theNext(addresses);
-                                                
-                                                }, delay );
+                    setTimeout(function() {            
+                        getAddress(addresses[nextAddress]);
+                        theNext(addresses);
+                    }, delay );
                   nextAddress++;
                 } else {
                   // We're done. Show map bounds
-                  for (i in markers) {
-                     
+                  for (i in markers) {            
                       createMarker(markers[i][0],markers[i][1],markers[i][2]);
                   }
                   map.fitBounds(bounds);
-                  //map.panToBounds(bounds);
                 }
               }
               
@@ -180,12 +161,35 @@
                                
                                 theNext(result);
                             } 
-                });
-                
-                
-                
-                
-                
+                });  
+            }
+            
+            function searchFormations(){
+                clearMarkers();
+                var form = $("#srarch_form").val();
+                $.ajax({
+                    url: "Student",
+                    data: {"set":"getFormationsLikeLabel","form_lab":form},
+                    dataType: "json",
+                    error: showError,
+                    success: // La fonction qui traite les résultats
+                            function (results) {                            
+                                var cities=[];
+                                results.map((res) => {
+                                    cities.push(res.sch.sch_city+", "+res.sch.sch_citysch_country);
+                                    info.push([
+                                        res.for_intitule,
+                                        res.sch.sch_name
+                                    ]);
+                                  });
+                                  /*
+                                console.log(info);
+                                nextAddress = -1;
+                                delay = 100;
+                                theNext(cities); 
+                                */
+                            } 
+                });         
             }
         </script>
 
