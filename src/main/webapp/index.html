@@ -129,19 +129,16 @@
 			<label for="test1">Ville</label>
 			<input type="checkbox" id="test2">
 			<label for="test2">Master</label>-->
-      <input class="form-control mr-sm-2" type="search" placeholder="Master" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Recherche</button>
+      <input id="srarch_form" class="form-control mr-sm-2" type="search" placeholder="Master" aria-label="Search">
+      <input class="form-control mr-sm-3" type="button" value="Show" onclick="codeAddress()">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="searchFormations()">Search</button>
     </form>
   </div>
 </nav>
 
 	<div id="map" class="map"></div>
         
-        <div id ="floating-panel">
-            <input id="srarch_form" type="textbox" value="">
-            <input type="button" value="Search " onclick="searchFormations()">
-            <input type="button" value="Show " onclick="codeAddress()">
-        </div>
+
         
        
         
