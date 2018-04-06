@@ -108,11 +108,15 @@ public class GetStudents extends HttpServlet {
                 }
                 break;
                 
-            case "getGraph1":
+            case "graph1":
                 try (PrintWriter out = response.getWriter()) {
-                    JsonObject json = new JsonObject();
-                    json.addProperty("schname", "ATP");
-                    out.println();
+                    out.println(dao.getNBOfStudentoutOfJob());
+                }
+            break;
+                    
+            case "graph2":
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(dao.getAVGByFormation());
                 }
             break;
         }

@@ -1,11 +1,5 @@
--  renvois le nombre de chomeurs 
-  et de personne avec un emploi.
-schname
-withoutjob
-insch
-withjob
 
-- Renvoie la moyenne (note /20) de chaque etudiant par type de master.
+
 - Renvoie la moyenne de la moyenne de tout les etudiants inscrits (pour comparer).
 - (optionel car modifie la base) Renvoie le nombre etudiant d'un master a avoir
   fait un doctorat.
@@ -14,4 +8,3 @@ withjob
 - Les entrerises dans lesquels travail les gens d'un master.
 
 DONC la page stats doit pouvoir s'adapter selon un parametre d'entrée qui est le nom de l'etablisement.
-

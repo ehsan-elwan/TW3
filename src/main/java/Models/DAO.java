@@ -5,16 +5,22 @@
  */
 package Models;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -409,59 +415,93 @@ public class DAO {
         return result;
     }
 
-    public int getNBOfStudentWithoutJobBySchool(String SchoolName) {
-        int result = 0;
-        String sql = "SELECT formation.sigle , COUNT(*) AS withjob FROM "
-                + "ancien_etudiant, a_effectue, etablissement,formation "
-                + "WHERE ancien_etudiant.id_etud NOT IN ( SELECT distinct poste.id_etud FROM "
-                + "poste, etablissement, a_effectue, ancien_etudiant, formation WHERE "
-                + "ancien_etudiant.id_etud=a_effectue.id_etud AND "
-                + "a_effectue.id_formation = formation.id_formation "
+    public JSONObject getNBOfStudentoutOfJob() {
+        JSONObject json = new JSONObject();
+        HashMap<String, Integer> studentoutOfJob = new HashMap<>();
+        String sql = "SELECT formation.sigle, COUNT(*) AS withoutjob "
+                + "FROM ancien_etudiant, a_effectue, formation WHERE "
+                + "ancien_etudiant.id_etud NOT IN (SELECT distinct poste.id_etud "
+                + "FROM poste, ancien_etudiant,a_effectue,formation, etablissement "
+                + "WHERE poste.id_etud = ancien_etudiant.id_etud "
+                + "AND ancien_etudiant.id_etud=a_effectue.id_etud "
+                + "AND a_effectue.id_formation = formation.id_formation "
                 + "AND etablissement.id_etablissement=formation.id_etablissement "
-                + "AND poste.fin<CURDATE() ) "
-                + "AND ancien_etudiant.id_etud=a_effectue.id_etud AND "
-                + "a_effectue.id_formation = formation.id_formation "
-                + "AND etablissement.id_etablissement=formation.id_etablissement "
-                + "GROUP BY formation.sigle";
+                + "AND poste.fin is null or poste.fin> CURDATE()) "
+                + "AND formation.id_formation=a_effectue.id_formation "
+                + "AND ancien_etudiant.id_etud = a_effectue.id_etud AND "
+                + "a_effectue.fin_formation is NOT NULL "
+                + "or a_effectue.fin_formation>CURDATE() GROUP BY formation.sigle";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, SchoolName);
+
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    result = rs.getInt("withOutJob");
+                    int nb = rs.getInt("withoutjob");
+                    String sig = rs.getString("sigle");
+                    studentoutOfJob.put(sig, nb);
+                }
+                HashMap<String, Integer> joinmap = new HashMap();
+                HashMap<String, Integer> studentWithJob = getNBOfStudentWithJob();
+                HashMap<String, Integer> studentinMaster = getNBOfStudentMaster();
+                joinmap.putAll(studentWithJob);
+                joinmap.putAll(studentoutOfJob);
+                joinmap.putAll(studentinMaster);
+                for (Map.Entry<String, Integer> entry : joinmap.entrySet()) {
+                    JSONArray array = new JSONArray();
+                    JSONObject item = new JSONObject();
+                    Integer nbnojob = studentoutOfJob.get(entry.getKey());
+                    Integer nbjob = studentWithJob.get(entry.getKey());
+                    Integer nbsch = studentinMaster.get(entry.getKey());
+                    if (nbnojob == null) {
+                        nbnojob = 0;
+                    }
+                    if (nbjob == null) {
+                        nbjob = 0;
+                    }
+                    if (nbsch == null) {
+                        nbsch = 0;
+                    }
+                    item.put("withoutjob", nbnojob);
+                    item.put("withjob", nbjob);
+                    item.put("insch", nbsch);
+                    array.put(item);
+                    json.put(entry.getKey(), array);
                 }
 
             }
             stmt.close();
             connection.close();
+
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return result;
+        return json;
     }
-    
-    public int getNBOfStudentMaster(String SchoolName) {
-        int result = 0;
-        String sql = "SELECT formation.sigle , COUNT(*) AS withjob FROM "
-                + "ancien_etudiant, a_effectue, etablissement,formation "
-                + "WHERE ancien_etudiant.id_etud IN ( SELECT distinct poste.id_etud FROM "
-                + "poste, etablissement, a_effectue, ancien_etudiant, formation WHERE "
-                + "ancien_etudiant.id_etud=a_effectue.id_etud AND "
-                + "a_effectue.id_formation = formation.id_formation "
+
+    public HashMap<String, Integer> getNBOfStudentWithJob() {
+        HashMap<String, Integer> hMap = new HashMap<>();
+        String sql = "SELECT formation.sigle, COUNT(*) AS withjob  "
+                + "FROM ancien_etudiant, a_effectue, formation WHERE "
+                + "ancien_etudiant.id_etud IN (SELECT distinct poste.id_etud "
+                + "FROM poste, ancien_etudiant,a_effectue,formation, etablissement "
+                + "WHERE poste.id_etud = ancien_etudiant.id_etud "
+                + "AND ancien_etudiant.id_etud=a_effectue.id_etud "
+                + "AND a_effectue.id_formation = formation.id_formation "
                 + "AND etablissement.id_etablissement=formation.id_etablissement "
-                + "AND poste.fin<CURDATE() ) "
-                + "AND ancien_etudiant.id_etud=a_effectue.id_etud AND "
-                + "a_effectue.id_formation = formation.id_formation "
-                + "AND etablissement.id_etablissement=formation.id_etablissement "
+                + "AND poste.fin is null or poste.fin> CURDATE()) "
+                + "AND formation.id_formation=a_effectue.id_formation "
+                + "AND ancien_etudiant.id_etud = a_effectue.id_etud "
                 + "GROUP BY formation.sigle";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, SchoolName);
+
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    result = rs.getInt("withjob");
+                    int nb = rs.getInt("withjob");
+                    String sig = rs.getString("sigle");
+                    hMap.put(sig, nb);
                 }
 
             }
@@ -472,6 +512,68 @@ public class DAO {
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return result;
+        return hMap;
+    }
+
+    public HashMap<String, Integer> getNBOfStudentMaster() {
+        HashMap<String, Integer> hMap = new HashMap<>();
+        String sql = "SELECT formation.sigle, COUNT(*) AS insch FROM "
+                + "ancien_etudiant, a_effectue, formation WHERE "
+                + "ancien_etudiant.id_etud IN (SELECT "
+                + "distinct a_effectue.id_etud FROM ancien_etudiant,a_effectue,formation WHERE "
+                + "ancien_etudiant.id_etud=a_effectue.id_etud AND "
+                + "a_effectue.id_formation = formation.id_formation AND "
+                + "a_effectue.fin_formation is null or a_effectue.fin_formation > CURDATE()) "
+                + "AND formation.id_formation=a_effectue.id_formation AND "
+                + "ancien_etudiant.id_etud = a_effectue.id_etud GROUP BY formation.sigle";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int nb = rs.getInt("insch");
+                    String sig = rs.getString("sigle");
+                    hMap.put(sig, nb);
+                }
+
+            }
+            stmt.close();
+            connection.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return hMap;
+    }
+
+    public HashMap<String, Integer> getAVGByFormation() {
+        HashMap<String, Integer> hMap = new HashMap<>();
+        String sql = "SELECT formation.sigle, AVG(a_effectue.moyenne_M) AS avg"
+                + " FROM a_effectue,formation where "
+                + "a_effectue.id_formation=formation.id_formation "
+                + "GROUP BY formation.sigle";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Integer nb = rs.getInt("avg");
+                    if (nb != null && nb>1) {
+                        String sig = rs.getString("sigle");
+                        hMap.put(sig, nb);
+                    }
+
+                }
+
+            }
+            stmt.close();
+            connection.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return hMap;
     }
 }
