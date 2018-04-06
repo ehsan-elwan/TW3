@@ -412,17 +412,17 @@ public class DAO {
     public int getNBOfStudentWithoutJobBySchool(String SchoolName) {
         int result = 0;
         String sql = "SELECT formation.sigle , COUNT(*) AS withjob FROM "
-                + " ancien_etudiant, a_effectue, etablissement,formation "
-                + " WHERE ancien_etudiant.id_etud NOT IN ( SELECT distinct poste.id_etud FROM "
-                + " poste, etablissement, a_effectue, ancien_etudiant, formation WHERE "
-                + " ancien_etudiant.id_etud=a_effectue.id_etud AND "
-                + " a_effectue.id_formation = formation.id_formation "
-                + " AND etablissement.id_etablissement=formation.id_etablissement "
-                + " AND poste.fin<CURDATE() AND etablissement.nom=?) "
-                + " AND ancien_etudiant.id_etud=a_effectue.id_etud AND "
-                + " a_effectue.id_formation = formation.id_formation "
-                + " AND etablissement.id_etablissement=formation.id_etablissement"
-                + " GROUP BY formation.sigle";
+                + "ancien_etudiant, a_effectue, etablissement,formation "
+                + "WHERE ancien_etudiant.id_etud NOT IN ( SELECT distinct poste.id_etud FROM "
+                + "poste, etablissement, a_effectue, ancien_etudiant, formation WHERE "
+                + "ancien_etudiant.id_etud=a_effectue.id_etud AND "
+                + "a_effectue.id_formation = formation.id_formation "
+                + "AND etablissement.id_etablissement=formation.id_etablissement "
+                + "AND poste.fin<CURDATE() ) "
+                + "AND ancien_etudiant.id_etud=a_effectue.id_etud AND "
+                + "a_effectue.id_formation = formation.id_formation "
+                + "AND etablissement.id_etablissement=formation.id_etablissement "
+                + "GROUP BY formation.sigle";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, SchoolName);
@@ -445,17 +445,17 @@ public class DAO {
     public int getNBOfStudentMaster(String SchoolName) {
         int result = 0;
         String sql = "SELECT formation.sigle , COUNT(*) AS withjob FROM "
-                + " ancien_etudiant, a_effectue, etablissement,formation "
-                + " WHERE ancien_etudiant.id_etud IN ( SELECT distinct poste.id_etud FROM "
-                + " poste, etablissement, a_effectue, ancien_etudiant, formation WHERE "
-                + " ancien_etudiant.id_etud=a_effectue.id_etud AND "
-                + " a_effectue.id_formation = formation.id_formation "
-                + " AND etablissement.id_etablissement=formation.id_etablissement "
-                + " AND poste.fin<CURDATE() AND etablissement.nom=?) "
-                + " AND ancien_etudiant.id_etud=a_effectue.id_etud AND "
-                + " a_effectue.id_formation = formation.id_formation "
-                + " AND etablissement.id_etablissement=formation.id_etablissement"
-                + " GROUP BY formation.sigle";
+                + "ancien_etudiant, a_effectue, etablissement,formation "
+                + "WHERE ancien_etudiant.id_etud IN ( SELECT distinct poste.id_etud FROM "
+                + "poste, etablissement, a_effectue, ancien_etudiant, formation WHERE "
+                + "ancien_etudiant.id_etud=a_effectue.id_etud AND "
+                + "a_effectue.id_formation = formation.id_formation "
+                + "AND etablissement.id_etablissement=formation.id_etablissement "
+                + "AND poste.fin<CURDATE() ) "
+                + "AND ancien_etudiant.id_etud=a_effectue.id_etud AND "
+                + "a_effectue.id_formation = formation.id_formation "
+                + "AND etablissement.id_etablissement=formation.id_etablissement "
+                + "GROUP BY formation.sigle";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, SchoolName);
