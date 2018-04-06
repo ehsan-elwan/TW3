@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import Models.DataSource;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -56,13 +57,13 @@ public class GetStudents extends HttpServlet {
             case "getStudentByEstablishment":
                 try (PrintWriter out = response.getWriter()) {
 
-                    out.println(gson.toJson(dao.getStudentByEstablishment(request.getParameter("est_name"))));
+                    out.println(gson.toJson(dao.getStudentByEstablishment(request.getParameter("sch_name"))));
                 }
                 break;
             case "getEtablissementByFormation":
                 try (PrintWriter out = response.getWriter()) {
 
-                    out.println(gson.toJson(dao.getEtablissementByFormation(request.getParameter("form_name"))));
+                    out.println(gson.toJson(dao.getSchoolByFormation(request.getParameter("form_name"))));
                 }
                 break;
             case "getStudentByFormation":
@@ -74,12 +75,12 @@ public class GetStudents extends HttpServlet {
             case "getEtablissementByCity":
                 try (PrintWriter out = response.getWriter()) {
 
-                    out.println(gson.toJson(dao.getEtablissementByCity(request.getParameter("city_name"))));
+                    out.println(gson.toJson(dao.getSchoolByCity(request.getParameter("city_name"))));
                 }
                 break;
             case "getCitiesFromEtablissement":
                 try (PrintWriter out = response.getWriter()) {
-                    out.println(gson.toJson(dao.getCitiesFromEtablissement()));
+                    out.println(gson.toJson(dao.getCitiesFromSchool()));
                 }
                 break;
 
@@ -106,6 +107,14 @@ public class GetStudents extends HttpServlet {
                     out.println(gson.toJson(dao.getFormationsLikeLabel(request.getParameter("form_lab"))));
                 }
                 break;
+                
+            case "getGraph1":
+                try (PrintWriter out = response.getWriter()) {
+                    JsonObject json = new JsonObject();
+                    json.addProperty("schname", "ATP");
+                    out.println();
+                }
+            break;
         }
 
     }

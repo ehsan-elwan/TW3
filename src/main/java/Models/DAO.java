@@ -65,13 +65,13 @@ public class DAO {
     public List<School> getEstablishment() {
         List<School> result = new LinkedList<>();
         School sch;
-        String sql = "SELECT distinct * FROM etablissement";
+        String sql = "SELECT distinct * FROM SchoolName";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
 
-                    int id = rs.getInt("id_etablissement");
+                    int id = rs.getInt("id_SchoolName");
                     String lname = rs.getString("nom");
                     String sigle = rs.getString("sigle");
                     String postalCode = rs.getString("codePostal");
@@ -94,18 +94,18 @@ public class DAO {
         return result;
     }
 
-    public List<Student> getStudentByEstablishment(String etablissementName) {
+    public List<Student> getStudentByEstablishment(String SchoolName) {
         List<Student> result = new LinkedList<>();
         Student st;
         String sql = "SELECT Distinct * FROM ancien_etudiant, a_effectue, "
-                + "etablissement, formation WHERE "
+                + "SchoolName, formation WHERE "
                 + "ancien_etudiant.id_etud=a_effectue.id_etud AND "
                 + "a_effectue.id_formation = formation.id_formation AND "
-                + "etablissement.nom = ? AND "
-                + "etablissement.id_etablissement=formation.id_etablissement";
+                + "SchoolName.nom = ? AND "
+                + "SchoolName.id_SchoolName=formation.id_SchoolName";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, etablissementName);
+            stmt.setString(1, SchoolName);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
 
@@ -134,11 +134,11 @@ public class DAO {
         return result;
     }
 
-    public List<School> getEtablissementByFormation(String formationLabel) {
+    public List<School> getSchoolByFormation(String formationLabel) {
         List<School> result = new LinkedList<>();
         School sch;
-        String sql = "SELECT Distinct * FROM etablissement, formation "
-                + "WHERE etablissement.id_etablissement=formation.id_etablissement "
+        String sql = "SELECT Distinct * FROM SchoolName, formation "
+                + "WHERE SchoolName.id_SchoolName=formation.id_SchoolName "
                 + "AND formation.intitule=?";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -146,7 +146,7 @@ public class DAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
 
-                    int sch_id = rs.getInt("id_etablissement");
+                    int sch_id = rs.getInt("id_SchoolName");
                     String sch_name = rs.getString("nom");
                     String sigle = rs.getString("sigle");
                     String posteCode = rs.getString("codePostal");
@@ -209,17 +209,17 @@ public class DAO {
         return result;
     }
 
-    public List<School> getEtablissementByCity(String cityName) {
+    public List<School> getSchoolByCity(String cityName) {
         List<School> result = new LinkedList<>();
         School sch;
-        String sql = "SELECT * FROM etablissement WHERE ville =?";
+        String sql = "SELECT * FROM SchoolName WHERE ville =?";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, cityName);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
 
-                    int sch_id = rs.getInt("id_etablissement");
+                    int sch_id = rs.getInt("id_SchoolName");
                     String sch_name = rs.getString("nom");
                     String sch_sigle = rs.getString("sigle");
                     String sch_posteCode = rs.getString("codePostal");
@@ -243,16 +243,16 @@ public class DAO {
         return result;
     }
 
-    public List<String> getCitiesFromEtablissement() {
+    public List<String> getCitiesFromSchool() {
         List<String> result = new LinkedList<>();
-        String sql = "SELECT Distinct ville, pays FROM etablissement order by ville asc";
+        String sql = "SELECT Distinct ville, pays FROM SchoolName order by ville asc";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     String city = rs.getString("ville");
                     String country = rs.getString("pays");
-                    result.add(city+", "+country);
+                    result.add(city + ", " + country);
                 }
 
             }
@@ -265,14 +265,14 @@ public class DAO {
 
         return result;
     }
-    
+
     public List<Formation> getFormationByCity(String cityName) {
         List<Formation> result = new LinkedList<>();
         Formation form;
         School sch;
-        String sql = "SELECT Distinct * FROM  formation ,etablissement "
-                + "WHERE formation.id_etablissement = etablissement.id_etablissement "
-                + "AND etablissement.ville=?";
+        String sql = "SELECT Distinct * FROM  formation ,SchoolName "
+                + "WHERE formation.id_SchoolName = SchoolName.id_SchoolName "
+                + "AND SchoolName.ville=?";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, cityName);
@@ -284,16 +284,15 @@ public class DAO {
                     String sigle = rs.getString("sigle");
                     String for_type = rs.getString("type");
                     String for_speciality = rs.getString("specialite");
-                    int for_id_sch = rs.getInt("id_etablissement");
 
-                    int sch_id = rs.getInt("id_etablissement");
+                    int sch_id = rs.getInt("id_SchoolName");
                     String sch_name = rs.getString("nom");
                     String sch_sigle = rs.getString("sigle");
                     String sch_posteCode = rs.getString("codePostal");
                     String sch_city = rs.getString("ville");
                     String sch_country = rs.getString("pays");
                     int sch_id_region = rs.getInt("id_region");
-                    
+
                     sch = new School(sch_id, sch_name, sch_sigle, sch_posteCode,
                             sch_city, sch_country, sch_id_region);
 
@@ -318,8 +317,8 @@ public class DAO {
         List<Formation> result = new LinkedList<>();
         Formation form;
         School sch;
-        String sql = "SELECT Distinct * FROM  formation ,etablissement "
-                + "WHERE formation.id_etablissement = etablissement.id_etablissement "
+        String sql = "SELECT Distinct * FROM  formation ,SchoolName "
+                + "WHERE formation.id_SchoolName = SchoolName.id_SchoolName "
                 + "AND formation.intitule LIKE ?";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -332,16 +331,15 @@ public class DAO {
                     String sigle = rs.getString("sigle");
                     String for_type = rs.getString("type");
                     String for_speciality = rs.getString("specialite");
-                    int for_id_sch = rs.getInt("id_etablissement");
-                    
-                    int sch_id = rs.getInt("id_etablissement");
+
+                    int sch_id = rs.getInt("id_SchoolName");
                     String sch_name = rs.getString("nom");
                     String sch_sigle = rs.getString("sigle");
                     String sch_posteCode = rs.getString("codePostal");
                     String sch_city = rs.getString("ville");
                     String sch_country = rs.getString("pays");
                     int sch_id_region = rs.getInt("id_region");
-                    
+
                     sch = new School(sch_id, sch_name, sch_sigle, sch_posteCode,
                             sch_city, sch_country, sch_id_region);
 
@@ -363,8 +361,8 @@ public class DAO {
 
     public List<String> getCityByFormation(String form_label) {
         List<String> result = new LinkedList<>();
-        String sql = "SELECT Distinct etablissement.ville FROM formation ,etablissement "
-                + "WHERE formation.id_etablissement = etablissement.id_etablissement "
+        String sql = "SELECT Distinct SchoolName.ville FROM formation ,SchoolName "
+                + "WHERE formation.id_SchoolName = SchoolName.id_SchoolName "
                 + "AND formation.intitule=?";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -411,5 +409,69 @@ public class DAO {
         return result;
     }
 
-    //get formations
+    public int getNBOfStudentWithoutJobBySchool(String SchoolName) {
+        int result = 0;
+        String sql = "SELECT formation.sigle , COUNT(*) AS withjob FROM "
+                + " ancien_etudiant, a_effectue, etablissement,formation "
+                + " WHERE ancien_etudiant.id_etud NOT IN ( SELECT distinct poste.id_etud FROM "
+                + " poste, etablissement, a_effectue, ancien_etudiant, formation WHERE "
+                + " ancien_etudiant.id_etud=a_effectue.id_etud AND "
+                + " a_effectue.id_formation = formation.id_formation "
+                + " AND etablissement.id_etablissement=formation.id_etablissement "
+                + " AND poste.fin<CURDATE() AND etablissement.nom=?) "
+                + " AND ancien_etudiant.id_etud=a_effectue.id_etud AND "
+                + " a_effectue.id_formation = formation.id_formation "
+                + " AND etablissement.id_etablissement=formation.id_etablissement"
+                + " GROUP BY formation.sigle";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, SchoolName);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    result = rs.getInt("withOutJob");
+                }
+
+            }
+            stmt.close();
+            connection.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return result;
+    }
+    
+    public int getNBOfStudentMaster(String SchoolName) {
+        int result = 0;
+        String sql = "SELECT formation.sigle , COUNT(*) AS withjob FROM "
+                + " ancien_etudiant, a_effectue, etablissement,formation "
+                + " WHERE ancien_etudiant.id_etud IN ( SELECT distinct poste.id_etud FROM "
+                + " poste, etablissement, a_effectue, ancien_etudiant, formation WHERE "
+                + " ancien_etudiant.id_etud=a_effectue.id_etud AND "
+                + " a_effectue.id_formation = formation.id_formation "
+                + " AND etablissement.id_etablissement=formation.id_etablissement "
+                + " AND poste.fin<CURDATE() AND etablissement.nom=?) "
+                + " AND ancien_etudiant.id_etud=a_effectue.id_etud AND "
+                + " a_effectue.id_formation = formation.id_formation "
+                + " AND etablissement.id_etablissement=formation.id_etablissement"
+                + " GROUP BY formation.sigle";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, SchoolName);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    result = rs.getInt("withjob");
+                }
+
+            }
+            stmt.close();
+            connection.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return result;
+    }
 }
