@@ -547,8 +547,8 @@ public class DAO {
         return hMap;
     }
 
-    public HashMap<String, Integer> getAVGByFormation() {
-        HashMap<String, Integer> hMap = new HashMap<>();
+    public JSONObject getAVGByFormation() {
+        JSONObject json = new JSONObject();
         String sql = "SELECT formation.sigle, AVG(a_effectue.moyenne_M) AS avg"
                 + " FROM a_effectue,formation where "
                 + "a_effectue.id_formation=formation.id_formation "
@@ -561,7 +561,7 @@ public class DAO {
                     Integer nb = rs.getInt("avg");
                     if (nb != null && nb>1) {
                         String sig = rs.getString("sigle");
-                        hMap.put(sig, nb);
+                        json.put(sig, nb);
                     }
 
                 }
@@ -574,6 +574,6 @@ public class DAO {
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return hMap;
+        return json;
     }
 }

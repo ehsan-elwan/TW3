@@ -114,7 +114,7 @@ public class GetStudents extends HttpServlet {
                 }
             break;
                     
-            case "graph2":
+            case "graph0":
                 try (PrintWriter out = response.getWriter()) {
                     out.println(dao.getAVGByFormation());
                 }
