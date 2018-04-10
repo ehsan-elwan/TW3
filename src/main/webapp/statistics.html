@@ -1,9 +1,15 @@
 <html>
     <head>
+            <meta charset="utf-8">
+
         <title> State </title>
         <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
+            
             google.charts.load('current', {'packages': ['bar']});
             google.charts.setOnLoadCallback(drawChart);
 
@@ -69,15 +75,114 @@
                             }
                         };
                         var chart = new google.charts.Bar(document.getElementById('graph1'));
-                        chart.draw(data, google.charts.Bar.convertOptions(options));    
+                        chart.draw(data, google.charts.Bar.convertOptions(options));
                     }
                 });
             }
             ;
 
         </script>
+        <style>
+            .navbar{
+		font-family: "Arial Black", Gadget, sans-serif;
+		font-size: 17px;
+		letter-spacing: 2px;
+		word-spacing: 2px;
+		color: #8E8E8E;
+		font-weight: normal;
+		text-decoration: none;
+		font-style: normal;
+		font-variant: normal;
+		text-transform: none;
+	 }
+	 #navbarSupportedContent ul li {
+		display: inline;
+	 }
+  
+  #floating-panel {
+                position: absolute;
+                top: 10px;
+                right: 10%;
+                z-index: 5;
+                background-color: #fff;
+                padding: 5px;
+                border: 1px solid #999;
+                text-align: center;
+                font-family: 'Roboto','sans-serif';
+                line-height: 30px;
+                padding-left: 10px;
+            }
+            #menu-deroulant, #menu-deroulant ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+#menu-deroulant {
+/* on centre le menu dans la page */
+
+    text-align: center;
+}
+#menu-deroulant li {
+/* on place les liens du menu horizontalement */
+    display: inline-block;
+}
+#menu-deroulant ul li {
+/* on enlève ce comportement pour les liens du sous menu */
+    display: inherit;
+    font-family: "Arial Black", Gadget, sans-serif;
+		font-size: 17px;
+		letter-spacing: 2px;
+		word-spacing: 2px;
+		color: #8E8E8E;
+		font-weight: normal;
+		text-decoration: none;
+		font-style: normal;
+		font-variant: normal;
+                		text-transform: none;
+
+}
+#menu-deroulant a {
+    display: block;
+}
+#menu-deroulant ul {
+    position: absolute;
+/* on cache les sous menus complètement sur la gauche */
+    left: -999em;
+    text-align: left;
+    z-index: 1000;
+}
+#menu-deroulant li:hover ul {
+/* Au survol des li du menu on replace les sous menus */
+    left: auto;
+}
+        </style>
     </head>
+    
     <body>
+       	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+
+  <a class="navbar" href="index.html">Acceuil</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+   
+<ul id="menu-deroulant">
+	<li><a href="#">Statistiques</a>
+		<ul>
+			<li><a href="#">Statut des étudiants</a></li>
+			<li><a href="#">lien sous menu 1</a></li>
+			<li><a href="#">lien sous menu 1</a></li>
+			<li><a href="#">lien sous menu 1</a></li>
+		</ul>
+	</li>
+  </ul>
+  </div>
+     <a class="ui button" href="index.html">Retour</a>
+
+  
+</nav>
         <div id="graph0" style="height: 500px;"></div>
         <div id="graph1" style="height: 500px;"></div>
     </body>
