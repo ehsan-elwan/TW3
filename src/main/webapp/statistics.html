@@ -128,8 +128,8 @@
 }
 #menu-deroulant ul li {
 /* on enlève ce comportement pour les liens du sous menu */
-    display: inherit;
-    font-family: "Arial Black", Gadget, sans-serif;
+            display: inherit;
+            font-family: "Arial Black", Gadget, sans-serif;
 		font-size: 17px;
 		letter-spacing: 2px;
 		word-spacing: 2px;
@@ -138,11 +138,16 @@
 		text-decoration: none;
 		font-style: normal;
 		font-variant: normal;
-                		text-transform: none;
+                text-transform: none;
 
 }
 #menu-deroulant a {
     display: block;
+     text-decoration:none; 
+}
+#menu-deroulant ul a {
+     display: block;
+     text-decoration:none; 
 }
 #menu-deroulant ul {
     position: absolute;
@@ -172,14 +177,13 @@
 	<li><a href="#">Statistiques</a>
 		<ul>
 			<li><a href="#">Statut des étudiants</a></li>
-			<li><a href="#">lien sous menu 1</a></li>
-			<li><a href="#">lien sous menu 1</a></li>
-			<li><a href="#">lien sous menu 1</a></li>
+			<li><a href="#">Moyenne par master</a></li>
+
 		</ul>
 	</li>
   </ul>
   </div>
-     <a class="ui button" href="index.html">Retour</a>
+
 
   
 </nav>
