@@ -176,7 +176,7 @@ input:-webkit-autofill:focus {
     background: -webkit-gradient(linear, left top, left bottom, from(#f0ffff), to(#f0ffff));
     background: linear-gradient(to bottom, #f0ffff 0%, #f0ffff 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0ffff', endColorstr='#f0ffff', GradientType=0);
-    color: #f0ffff;
+    color: black;
 }
 
 .gray-bg {
@@ -357,8 +357,10 @@ input:-webkit-autofill:focus {
 }
 
 .mainmenu-area.affix {
-    background-color: #138fc2;
+    background-color: #ff542f;
 }
+
+
 
 
 
@@ -368,13 +370,9 @@ input:-webkit-autofill:focus {
 **/ 
 
 .client-area,
-.header-area {
-    background: #000000 url('images/parallax-2.jpg') no-repeat scroll center center / cover;
-}
 
-.anlge-bg {
-    background: url('images/angle-bg.png') no-repeat scroll center bottom -120px / 100% auto;
-}
+
+
 
 .overlay {
     position: relative;
@@ -598,11 +596,7 @@ input:-webkit-autofill:focus {
 *Testimonial-Page
 ***/
 
-.testimonial-area {
-    background: url('images/parallax-7.jpg') no-repeat scroll center center / cover;
-    position: relative;
-    color: #ffffff;
-}
+
 
 .testimonial-area:before {
     opacity: 0.9
@@ -638,7 +632,7 @@ input:-webkit-autofill:focus {
 }
 
 .nav {
-   background-color: #3c3c3c;
+   background-color: #ff542f;
 }
 
 
@@ -646,12 +640,13 @@ input:-webkit-autofill:focus {
 *Price-area
 ***/
 
-.price-area {
-    background: url('images/parallax-6.jpg') no-repeat scroll center center / cover
-}
 
 .price-table h3 {
     margin-bottom: 30px;
+}
+
+h7 {
+    font-size: 10px;
 }
 
 .price-table {
@@ -795,10 +790,7 @@ input:-webkit-autofill:focus {
     z-index: 1;
 }
 
-.footer-bg {
-    background: url('images/angle-bg.png') no-repeat scroll center bottom / 100% auto;
-    z-index: -1;
-}
+
 
 .footer-top {
     margin-bottom: 150px;
@@ -811,7 +803,7 @@ input:-webkit-autofill:focus {
 }
 
 .side-icon-box a {
-    color: #ffffff;
+    color: black;
 }
 
 .side-icon-box .side-icon {
@@ -861,7 +853,7 @@ input:-webkit-autofill:focus {
 }
 
 /*-----------
-preloader
+preloader background: #75cbe7;
 ------------*/
 
 .preloader {
@@ -870,10 +862,10 @@ preloader
     left: 0;
     width: 100%;
     height: 100%;
-    background: #75cbe7;
-    background: -webkit-gradient(linear, left top, left bottom, from(#75cbe7), to(#138fc2));
-    background: linear-gradient(to bottom, #75cbe7 0%, #138fc2 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#75cbe7', endColorstr='#138fc2', GradientType=0);
+    background: white;
+    background: -webkit-gradient(linear, left top, left bottom, from(white), to(white));
+    background: linear-gradient(to bottom, white 0%, white 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='white', endColorstr='white', GradientType=0);
     z-index: 99999999999;
 }
 
@@ -941,6 +933,34 @@ preloader
 .sk-folding-cube .sk-cube4:before {
     -webkit-animation-delay: 0.9s;
     animation-delay: 0.9s;
+}
+
+
+.btn-tw {
+  background-color: #ff542f;
+  border-color: #ff542f;
+}
+.btn-tw:hover,
+.btn-tw:focus,
+.btn-tw:active,
+.btn-tw.active {
+  background-color: #ff3f16;
+  border-color: #fb2d00;
+}
+.btn-tw.disabled:hover,
+.btn-tw.disabled:focus,
+.btn-tw.disabled:active,
+.btn-tw.disabled.active,
+.btn-tw[disabled]:hover,
+.btn-tw[disabled]:focus,
+.btn-tw[disabled]:active,
+.btn-tw[disabled].active,
+fieldset[disabled] .btn-tw:hover,
+fieldset[disabled] .btn-tw:focus,
+fieldset[disabled] .btn-tw:active,
+fieldset[disabled] .btn-tw.active {
+  background-color: #ff542f;
+  border-color: #ff542f;
 }
 
 @-webkit-keyframes sk-foldCubeAngle {

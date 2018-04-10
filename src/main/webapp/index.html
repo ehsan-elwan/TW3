@@ -1,140 +1,298 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html class="no-js" lang="en">
+
     <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-	  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
-       	  <style>
-	   [type="checkbox"]:not(:checked),
-	    [type="checkbox"]:checked {
-	       position: absolute;
-	        left: -9999px;
-	       }
+        <meta charset="utf-8">
+        <meta name="author" content="John Doe">
+        <meta name="description" content="">
+        <meta name="keywords" content="HTML,CSS,XML,JavaScript">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Title -->
+        <title>Home</title>
+        <!-- Place favicon.ico in the root directory -->
+        <link rel="shortcut icon" type="image/ico" href="images/favicon.ico" />
+        <!-- Plugin-CSS -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/owl.carousel.min.css">
+        <link rel="stylesheet" href="css/themify-icons.css">
+        <link rel="stylesheet" href="css/magnific-popup.css">
+        <link rel="stylesheet" href="css/animate.css">
+        <!-- Main-Stylesheets -->
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="css/responsive.css">
+        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
 
-	   [type="checkbox"]:not(:checked) + label,
-     [type="checkbox"]:checked + label {
-       position: relative; /* permet de positionner les pseudo-éléments */
-       padding-left: 25px; /* fait un peu d'espace pour notre case à venir */
-       cursor: pointer;    /* affiche un curseur adapté */
-     }
 
 
-		[type="checkbox"]:not(:checked) + label:before,
-    [type="checkbox"]:checked + label:before {
-      content: '';
-      position: absolute;
-      left:0; top: 2px;
-      width: 17px; height: 17px; /* dim. de la case */
-      border: 1px solid #aaa;
-      background: #f8f8f8;
-      border-radius: 3px; /* angles arrondis */
-      box-shadow: inset 0 1px 3px rgba(0,0,0,.3) /* légère ombre interne */
-    }
-
-/* Aspect général de la coche */
-    [type="checkbox"]:not(:checked) + label:after,
-    [type="checkbox"]:checked + label:after {
-      content: '✔';
-      position: absolute;
-      top: 0; left: 4px;
-      font-size: 14px;
-      color: #09ad7e;
-      transition: all .2s; /* on prévoit une animation */
-    }
-/* Aspect si "pas cochée" */
-    [type="checkbox"]:not(:checked) + label:after {
-      opacity: 0; /* coche invisible */
-      transform: scale(0); /* mise à l'échelle à 0 */
-    }
-/* Aspect si "cochée" */
-    [type="checkbox"]:checked + label:after {
-      opacity: 1; /* coche opaque */
-      transform: scale(1); /* mise à l'échelle 1:1 */
-    }
-
-		.map {
-        height: 100%;
-        width: 100%;
-      }
-	  .navbar{
-		font-family: "Arial Black", Gadget, sans-serif;
-		font-size: 17px;
-		letter-spacing: 2px;
-		word-spacing: 2px;
-		color: #8E8E8E;
-		font-weight: normal;
-		text-decoration: none;
-		font-style: normal;
-		font-variant: normal;
-		text-transform: none;
-	 }
-	 #navbarSupportedContent ul li {
-		display: inline;
-                border-left:3px solid;
-		border-left-color:#8E8E80;
-	 }
-  
-  #floating-panel {
-                position: absolute;
-                top: 10px;
-                right: 10%;
-                z-index: 5;
-                background-color: #fff;
-                padding: 5px;
-                border: 1px solid #999;
-                text-align: center;
-                font-family: 'Roboto','sans-serif';
-                line-height: 30px;
-                padding-left: 10px;
-            }
-</style>
+        <!--[if lt IE 9]>
+            <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
     </head>
-    <body>
-       	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    <body data-spy="scroll" data-target="#primary-menu">
+
+        <div class="preloader">
+            <div class="sk-folding-cube">
+                <div class="sk-cube1 sk-cube"></div>
+                <div class="sk-cube2 sk-cube"></div>
+                <div class="sk-cube4 sk-cube"></div>
+                <div class="sk-cube3 sk-cube"></div>
+            </div>
+        </div>
+        <!--Mainmenu-area-->
+        <div class="mainmenu-area nav" data-spy="affix" data-offset-top="100">
+            <div class="container">
+                <!--Logo-->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#primary-menu">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="#" class="navbar-brand logo">
+                        <h5>INU Champollion</h5>
+                        <h6>Trouvez votre Master</h6>
+                    </a>
+                </div>
+                <!--Logo/-->
+                <nav class="collapse navbar-collapse" id="primary-menu">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a href="#home-page">Trouver votre Master</a></li>
+                        <li><a href="#service-page">Ajouter un master</a></li>
+                        <li><a href="#feature-page">Statistiques</a></li>
+                        <li><a href="#price-page">Classements</a></li>
+                        <li><a href="#team-page">Ancien élèves</a></li>
+                        <li><a href="#faq-page">FAQ</a></li>
+                        <li><a href="#blog-page">Blog</a></li>
+                        <li><a href="#contact-page">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!--Mainmenu-area/-->
 
 
-  <a class="navbar" href="#">Trouver votre Master</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
 
-      <li class="nav-item">
-        <a class="nav-link" href="AddMaster.html">Ajouter un master</a>
-      </li>
+        <!--Header-area-->
+        <header class="header-area overlay full-height relative v-center" id="home-page">
+            <div class="absolute anlge-bg"></div>
+            <div class="container">
+                <div class="col-md-6 form-line">
+                    
+                    <div class="form-control" id="map" style="height: 500px; width: 600px"></div>
+                </div>
+    
+                <div class="col-md-6 form-line">
+                    <div class="col-md-10 form-group">
+                        <input id="search_form" class="form-control input" type="search" placeholder="Master" aria-label="Search" required>
+                        <input class="ui button btn-tw" type="button" value="Show" onclick="codeAddress()">
+                        <button class="ui button btn-tw" type="button" onclick="searchFormations()">Search</button>
+                    </div>
+                </div>
 
-      <li class="nav-item">
-        <a class="nav-link" href="statistics.html">Statistiques</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Classements</a>
-      </li>
-	  <li class="nav-item">
-        <a class="nav-link" href="#">Ancien élèves</a>
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-			<!--<input type="checkbox" id="test1">
-			<label for="test1">Ville</label>
-			<input type="checkbox" id="test2">
-			<label for="test2">Master</label>-->
-      <input id="srarch_form" class="form-control mr-sm-2" type="search" placeholder="Master" aria-label="Search">
-      <input class="form-control mr-sm-3" type="button" value="Show" onclick="codeAddress()">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="searchFormations()">Search</button>
-    </form>
-  </div>
-</nav>
 
-	<div id="map" class="map"></div>
-        
+            </div>
 
-        
-       
-        
+        </header>
+        <!--Header-area/-->
+
+
+
+
+        <!--Feature-area-->
+        <section class="gray-bg section-padding" id="service-page">
+
+
+            <section class="angle-bg sky-bg section-padding">
+                <div class="contact-section">
+                    <div class="section-content">
+                        <h1 class="section-header">Ajouter <span class="content-header wow fadeIn " data-wow-delay="0.2s" data-wow-duration="2s"> une master</span></h1>
+                    </div>
+                    <div class="container">
+
+                        <form>
+                            <div class="col-md-6 form-line">
+                                <div class="col-md-12 form-group">
+                                    <label>Intitulé</label>
+                                    <input class="form-control input" name="ville" type="text" placeholder="Quelle est l'intitulé du master ?" required> 
+                                </div>
+                                <div class="col-md-6 form-line">
+                                    <label>type</label>
+                                    <input class="form-control input" name="type" type="text" placeholder="Quelle est le type du master ?" required>
+                                </div>	
+                                <div class="col-md-6 form-line">
+                                    <label>Sigle</label>
+                                    <input class="form-control input" name="sigle" type="text" placeholder="Sigle de formation ?" required>
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-6 form-line">
+                                <div class="col-md-12 form-group">
+                                    <label>Specialité</label>
+                                    <input class="form-control input" name="specialte" type="text" placeholder="Quelle est votre spécialité ?" required>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label>Etablissement</label>
+                                    <a id="etlab_name" class="form-control input" data-toggle="dropdown" href="#">Veuillez choisir un établissement <span class="caret"></span></a>
+                                    <ul id="etabdp" class="dropdown-menu etabdp"></ul>                          
+                                    <input id="etab_id" name="etablissement" type="hidden" value="">
+                                </div>
+                            </div>
+                            <div>
+                                <button type="button" class="ui button btn-tw btn-block">
+                                    <span class="glyphicon glyphicon-plus"></span> Ajoute
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+            </section>
+            <!--Feature-area/-->
+
+        </section>
+
+        <section class="gray-bg section-padding" id="feature-page">
+
+            <div class="contact-section">
+                <div class="section-content">
+                    <div class="section-content">
+                        <h1 class="section-header">Stati<span class="content-header wow fadeIn " data-wow-delay="0.2s" data-wow-duration="2s">ques</span></h1>
+                    </div>
+                    <div class="container">
+                        <div id="graph0" style="height: 500px;"></div>
+                        <div id="graph1" style="height: 500px;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+        <section class="price-area overlay section-padding" id="price-page">
+
+        </section>
+
+
+
+        <section class="section-padding gray-bg" id="team-page">
+
+        </section>
+
+
+
+
+        <section class="testimonial-area section-padding gray-bg overlay">
+
+        </section>
+
+
+
+
+
+
+        <section class="gray-bg section-padding" id="faq-page">
+
+        </section>
+
+
+
+
+
+
+
+
+        <section class="section-padding overlay client-area overlay" id="client-page">
+
+        </section>
+
+
+        <section class="section-padding gray-bg" id="blog-page">
+            <div class="container">
+
+            </div>
+        </section>
+
+
+
+
+
+        <footer class="footer-area relative sky-bg" id="contact-page">
+            <div class="absolute footer-bg"></div>
+            <div class="footer-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-center">
+                            <div class="page-title">
+                                <h2>Contact with us</h2>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit voluptates, temporibus at, facere harum fugiat!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-4">
+                            <address class="side-icon-boxes">
+                                <div class="side-icon-box">
+                                    <div class="side-icon">
+                                        <img src="images/location-arrow.png" alt="">
+                                    </div>
+                                    <p><strong>Address: </strong> Box 564, Disneyland <br />USA</p>
+                                </div>
+                                <div class="side-icon-box">
+                                    <div class="side-icon">
+                                        <img src="images/phone-arrow.png" alt="">
+                                    </div>
+                                    <p><strong>Telephone: </strong>
+                                        <a href="callto:8801812726495">+8801812726495</a> <br />
+                                        <a href="callto:8801687420471">+8801687420471</a>
+                                    </p>
+                                </div>
+                                <div class="side-icon-box">
+                                    <div class="side-icon">
+                                        <img src="images/mail-arrow.png" alt="">
+                                    </div>
+                                    <p><strong>E-mail: </strong>
+                                        <a href="mailto:youremail@example.com">youremail@example.com</a> <br />
+                                        <a href="mailto:youremail@example.com">example@mail.com</a>
+                                    </p>
+                                </div>
+                            </address>
+                        </div>
+                        <div class="col-xs-12 col-md-8">
+                            <form action="process.php" id="contact-form" method="post" class="contact-form">
+                                <div class="form-double">
+                                    <input type="text" id="form-name" name="form-name" placeholder="Your name" class="form-control" required="required">
+                                    <input type="email" id="form-email" name="form-email" class="form-control" placeholder="E-mail address" required="required">
+                                </div>
+                                <input type="text" id="form-subject" name="form-subject" class="form-control" placeholder="Message topic">
+                                <textarea name="message" id="form-message" rows="5" class="form-control" placeholder="Your message" required="required"></textarea>
+                                <button type="submit" class="button">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-middle">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 pull-right">
+                            <ul class="social-menu text-right x-left">
+                                <li><a href="#"><i class="ti-facebook"></i></a></li>
+                                <li><a href="#"><i class="ti-twitter"></i></a></li>
+                                <li><a href="#"><i class="ti-google"></i></a></li>
+                                <li><a href="#"><i class="ti-linkedin"></i></a></li>
+                                <li><a href="#"><i class="ti-github"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
         <script>
             var geocoder;
             var map;
@@ -143,159 +301,282 @@
             var bounds;
             var infowindow;
             var icons = 'sc.png';
-            var ser_lat_lng=[];
-            var gmark=[];
-            
+            var ser_lat_lng = [];
+            var gmark = [];
+
             function initialize() {
+
                 geocoder = new google.maps.Geocoder();
                 bounds = new google.maps.LatLngBounds();
                 infowindow = new google.maps.InfoWindow();
 
                 var latlng = new google.maps.LatLng(46.6382444, 3.2481221);
-                
-                
+
+
 
                 var mapOptions = {
                     zoom: 6,
                     center: latlng
                 };
                 map = new google.maps.Map(document.getElementById('map'), mapOptions);
-                codeAddress();
+
+                $.ajax({
+                    url: "Student",
+                    data: {"set": "getEstablishment"},
+                    dataType: "json",
+                    error: showError,
+                    success: // La fonction qui traite les résultats
+                            function (results) {
+                                var myUl = $("#etabdp");
+                                var li;
+                                var aOp;
+                                results.map((res) => {
+                                    aOp = $('<a>' + res.sch_name + '</a>').attr({'id': res.sch_id, 'href': '#'});
+                                    li = $('<li> </li>').append(aOp);
+                                    myUl.append(li);
+
+                                });
+                                $(".dropdown-menu li a").click(function (event) {
+                                    event.preventDefault();
+                                    var selText = $(this).text();
+                                    var v = $(this).attr("id");
+                                    var elem = $("#etlab_name");
+                                    console.log(v);
+
+                                    elem.html(selText + ' <span class="caret"></span>');
+
+                                    $("#etab_id").val(v);
+                                });
+                            }
+                });
+
+                drawChart();
             }
-            
+
+            function drawChart() {
+
+
+                $.ajax({
+                    url: "Student",
+                    data: {"set": "graph0"},
+                    dataType: "json",
+                    async: true,
+                    error: function (a, b, c) {
+                        console.log(b);
+                    },
+                    success: function (res) {
+
+                        var array = [["Sigle", "Average", {role: 'style'}]];
+                        for (key in res) {
+                            array.push([key, res[key], 'color: ' + getRandomColor()]);
+
+                        }
+                        var data = new google.visualization.arrayToDataTable(array);
+                        var options = {
+                            chart: {
+                                title: 'Students average',
+                                subtitle: 'Students average in all Spec: 2014-2017'
+                            }
+                        };
+                        var chart = new google.charts.Bar(document.getElementById('graph0'));
+                        chart.draw(data, google.charts.Bar.convertOptions());
+                    }
+                });
+
+                $.ajax({
+                    url: "Student",
+                    data: {"set": "graph1"},
+                    dataType: "json",
+                    async: true,
+                    success: function (res) {
+
+                        var array = [["Graph_1", "Employed students ", "Looking for a job", "In school"]];
+                        for (key in res) {
+                            var tmp = res[key][0];
+                            array.push([key, tmp.withjob, tmp.withoutjob, tmp.insch]);
+                        }
+                        var data = new google.visualization.arrayToDataTable(array);
+                        var options = {
+                            chart: {
+                                title: 'Students status',
+                                subtitle: 'Employed students, looking for a job, in school: 2014-2017'
+                            },
+                            isStacked: true
+                        };
+                        var chart = new google.charts.Bar(document.getElementById('graph1'));
+                        chart.draw(data, google.charts.Bar.convertOptions(options));
+                    }
+                });
+            }
+            ;
+
+            function getRandomColor() {
+                var letters = '0123456789ABCDEF';
+                var color = '#';
+                for (var i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
+
             function showError(xhr, status, message) {
                 alert(JSON.parse(xhr.responseText).message);
             }
             function setMapOnAll(map) {
-              for (var i = 0; i < gmark.length; i++) {
-                gmark[i].setMap(map);
-              }
+                for (var i = 0; i < gmark.length; i++) {
+                    gmark[i].setMap(map);
+                }
             }
-            
+
             function clearMarkers() {
                 setMapOnAll(null);
-                ser_lat_lng=[];
-                gmark=[];
+                ser_lat_lng = [];
+                gmark = [];
                 nextAddress = -1;
             }
-            
+
             function toggleBounce(mk) {
                 if (mk.getAnimation() !== null) {
-                  mk.setAnimation(null);
+                    mk.setAnimation(null);
                 } else {
-                  mk.setAnimation(google.maps.Animation.BOUNCE);
+                    mk.setAnimation(google.maps.Animation.BOUNCE);
                 }
-              }
-            
-            function createMarker(add,lat,lng) {
+            }
 
-        
-                    var marker = new google.maps.Marker({
-                      position: new google.maps.LatLng(lat,lng),
-                      animation: google.maps.Animation.DROP,
-                      icon: icons,
-                      map: map
-                    });
+            function createMarker(add, lat, lng) {
 
-                    google.maps.event.addListener(marker, 'click', function() {
-                       infowindow.setContent(add); 
-                       infowindow.open(map,marker);
-                        marker.setAnimation(google.maps.Animation.BOUNCE);
-                        setTimeout(function () {
-                            marker.setAnimation(null);
-                        }, 700);
-                     });
 
-                     gmark.push(marker);     
-                     marker.setMap(map);
-                     bounds.extend(marker.position);
-  
-                }
-                
-            
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(lat, lng),
+                    animation: google.maps.Animation.DROP,
+                    icon: icons,
+                    map: map
+                });
+
+                google.maps.event.addListener(marker, 'click', function () {
+                    infowindow.setContent(add);
+                    infowindow.open(map, marker);
+                    marker.setAnimation(google.maps.Animation.BOUNCE);
+                    setTimeout(function () {
+                        marker.setAnimation(null);
+                    }, 700);
+                });
+
+                gmark.push(marker);
+                marker.setMap(map);
+                bounds.extend(marker.position);
+
+            }
+
+
             function getAddress(search) {
                 var lat;
                 var lng;
                 var add = search.split(';')[0];
-                geocoder.geocode({address:add}, function (results,status) { 
-                if (status === google.maps.GeocoderStatus.OK) {
-                  var p = results[0].geometry.location;
-                  lat=p.lat();
-                  lng=p.lng();
-                  ser_lat_lng.push([search,lat,lng]);
-                  //markers.push([search,lat,lng]);
-                }
-                else {
-                  if (status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
-                    nextAddress--;
-                    delay++;
-                  } 
-                }            
+                geocoder.geocode({address: add}, function (results, status) {
+                    if (status === google.maps.GeocoderStatus.OK) {
+                        var p = results[0].geometry.location;
+                        lat = p.lat();
+                        lng = p.lng();
+                        ser_lat_lng.push([search, lat, lng]);
+                        //markers.push([search,lat,lng]);
+                    } else {
+                        if (status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
+                            nextAddress--;
+                            delay++;
+                        }
+                    }
                 });
-               
+
             }
-            
-            
+
+
             function theNext(addresses) {
-          
-                if (nextAddress < addresses.length-1) {
-                    
-                    setTimeout(function() {            
+
+                if (nextAddress < addresses.length - 1) {
+
+                    setTimeout(function () {
                         getAddress(addresses[nextAddress]);
                         theNext(addresses);
-                    }, delay );
-                  nextAddress++;
+                    }, delay);
+                    nextAddress++;
                 } else {
                     ser_lat_lng.map((res) => {
                         var add = res[0].split(';');
-                        createMarker(add[2]+" <PRE> <b> "+add[1],res[1],res[2]);
+                        createMarker(add[2] + " <PRE> <b> " + add[1], res[1], res[2]);
                     });
                     map.fitBounds(bounds);
-                   
-                }
-              }
-              
 
-            function codeAddress() {        
+                }
+            }
+
+
+            function codeAddress() {
                 clearMarkers();
-                ser_lat_lng=[];
+                ser_lat_lng = [];
                 $.ajax({
                     url: "Student",
-                    data: {"set":"getCitiesFromEtablissement"},
+                    data: {"set": "getCitiesFromEtablissement"},
                     dataType: "json",
                     error: showError,
                     success: // La fonction qui traite les résultats
                             function (result) {
-                               
+
                                 theNext(result);
-                            } 
-                });  
+                            }
+                });
             }
-            
-            function searchFormations(){
+
+            function searchFormations() {
                 clearMarkers();
-                ser_lat_lng=[];
-                var form = $("#srarch_form").val();
+                ser_lat_lng = [];
+                var form = $("#search_form").val();
                 $.ajax({
                     url: "Student",
-                    data: {"set":"getFormationsLikeLabel","form_lab":form},
+                    data: {"set": "getFormationsLikeLabel", "form_lab": form},
                     dataType: "json",
                     error: showError,
                     success: // La fonction qui traite les résultats
-                            function (results) {                            
-                                var cities=[];
+                            function (results) {
+                                var cities = [];
                                 results.map((res) => {
-                                    cities.push(res.sch.sch_city+", "+res.sch.sch_country+
-                                            ";"+res.for_intitule+";"+res.sch.sch_name);
-                                  });
-                                  theNext(cities);
+                                    cities.push(res.sch.sch_city + ", " + res.sch.sch_country +
+                                            ";" + res.for_intitule + ";" + res.sch.sch_name);
+                                });
+                                theNext(cities);
 
-                            } 
-                });         
+                            }
+                });
             }
+
+
+
         </script>
-                <script async defer
-                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxiPjQwKrmWhkfyjPaNH-hOE6k4vSDaYE&callback=initialize">
+
+
+        <!--Vendor-JS-->
+        <script src="js/vendor/jquery-1.12.4.min.js"></script>
+
+        <script src="js/vendor/bootstrap.min.js"></script>
+        <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxiPjQwKrmWhkfyjPaNH-hOE6k4vSDaYE">
         </script>
+        <!--Plugin-JS-->
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/contact-form.js"></script>
+        <script src="js/jquery.parallax-1.1.3.js"></script>
+        <script src="js/scrollUp.min.js"></script>
+        <script src="js/magnific-popup.min.js"></script>
+        <script src="js/wow.min.js"></script>
+        <!--Main-active-JS-->
+        <script src="js/main.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            google.charts.load('current', {'packages': ['bar']});
+            google.charts.setOnLoadCallback(initialize);
+        </script>
+
+
     </body>
+
 </html>

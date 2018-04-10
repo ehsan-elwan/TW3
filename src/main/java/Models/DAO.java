@@ -71,13 +71,13 @@ public class DAO {
     public List<School> getEstablishment() {
         List<School> result = new LinkedList<>();
         School sch;
-        String sql = "SELECT distinct * FROM SchoolName";
+        String sql = "SELECT distinct * FROM etablissement";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
 
-                    int id = rs.getInt("id_SchoolName");
+                    int id = rs.getInt("id_etablissement");
                     String lname = rs.getString("nom");
                     String sigle = rs.getString("sigle");
                     String postalCode = rs.getString("codePostal");
