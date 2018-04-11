@@ -964,9 +964,7 @@ fieldset[disabled] .btn-tw.active {
 }
 
 #dropinfo {
-    border-radius: 25px;
     color: black;
-    border: 2px solid #ff542f;
 }
 
 #map {

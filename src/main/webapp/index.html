@@ -165,7 +165,7 @@
             <div class="contact-section">
                 <div class="section-content">
                     <div class="section-content">
-                        <h1 class="section-header">Stati<span class="content-header wow fadeIn " data-wow-delay="0.2s" data-wow-duration="2s">ques</span></h1>
+                        <h1 class="section-header" id="stat">Stati<span class="content-header wow fadeIn " data-wow-delay="0.2s" data-wow-duration="2s">ques</span></h1>
                     </div>
                     <div class="container">
                         <div id="graph0" style="height: 500px;"></div>
@@ -334,7 +334,9 @@
         $(document).on("click", function () {
             $.get("/mockjax");
         });
-        
+       
+       
+       
         var geocoder;
         var map;
         var nextAddress = -1;
@@ -418,10 +420,18 @@
                         chart: {
                             title: 'Students average',
                             subtitle: 'Students average in all Spec: 2014-2017'
-                        }
+                            
+                        },
+                        animation:{
+                                duration: 1000,
+                                easing: 'inAndOut',
+                                startup: true
+                              },
+                              backgroundColor: '#f2fefe',
+                              is3D: true
                     };
-                    var chart = new google.charts.Bar(document.getElementById('graph0'));
-                    chart.draw(data, google.charts.Bar.convertOptions());
+                    var chartg1 = new google.visualization.ColumnChart(document.getElementById('graph0'));
+                    chartg1.draw(data, options);  
                 }
             });
 
@@ -443,10 +453,18 @@
                             title: 'Students status',
                             subtitle: 'Employed students, looking for a job, in school: 2014-2017'
                         },
-                        isStacked: true
+                        animation:{
+                                duration: 1000,
+                                easing: 'inAndOut',
+                                startup: true
+                              },
+                              isStacked:true,
+                              backgroundColor: '#f2fefe',
+                              is3D: true
+                        
                     };
-                    var chart = new google.charts.Bar(document.getElementById('graph1'));
-                    chart.draw(data, google.charts.Bar.convertOptions(options));
+                    var chartg2 = new google.visualization.ColumnChart(document.getElementById('graph1'));
+                    chartg2.draw(data, options);
                 }
             });
         }
@@ -661,7 +679,7 @@
             });
         }
 
-        google.charts.load('current', {'packages': ['bar']});
+        google.charts.load('visualization', {'packages': ['bar','corechart']});
         google.charts.setOnLoadCallback(initialize);
         </script>
 
