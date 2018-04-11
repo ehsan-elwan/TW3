@@ -35,6 +35,7 @@
 
     <body data-spy="scroll" data-target="#primary-menu">
 
+
         <div class="preloader">
             <div class="sk-folding-cube">
                 <div class="sk-cube1 sk-cube"></div>
@@ -82,7 +83,7 @@
             <div class="container">
                 <div class="col-md-6 form-line">
 
-                    <div class="form-control" id="map" style="height: 500px; width: 550px"></div>
+                    <div class="form-control" id="map"></div>
                 </div>
 
                 <div class="col-md-6 form-line">
@@ -274,7 +275,7 @@
                                 </div>
                                 <input type="text" id="form-subject" name="form-subject" class="form-control" placeholder="Message topic">
                                 <textarea name="message" id="form-message" rows="5" class="form-control" placeholder="Your message" required="required"></textarea>
-                                <button type="submit" class="button">Submit</button>
+                                <button type="submit" class="ui button btn-tw">Submit</button>
                             </form>
                         </div>
                     </div>
@@ -285,8 +286,8 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-6 pull-right">
                             <ul class="social-menu text-right x-left">
-                                <li><a href="#"><i class="ti-facebook"></i></a></li>
-                                <li><a href="#"><i class="ti-twitter"></i></a></li>
+                                <li><a href="https://www.facebook.com/enseignementsup.recherche/"><i class="ti-facebook"></i></a></li>
+                                <li><a href="https://twitter.com/sup_recherche"><i class="ti-twitter"></i></a></li>
                                 <li><a href="#"><i class="ti-google"></i></a></li>
                                 <li><a href="#"><i class="ti-linkedin"></i></a></li>
                                 <li><a href="#"><i class="ti-github"></i></a></li>
@@ -297,338 +298,9 @@
             </div>
         </footer>
 
-
-        <script>
-            var geocoder;
-            var map;
-            var nextAddress = -1;
-            var delay = 100;
-            var bounds;
-            var infowindow;
-            var icons = 'sc.png';
-            var ser_lat_lng = [];
-            var gmark = [];
-            var donefac = [];
-
-            function initialize() {
-
-                geocoder = new google.maps.Geocoder();
-                bounds = new google.maps.LatLngBounds();
-                infowindow = new google.maps.InfoWindow();
-
-                var latlng = new google.maps.LatLng(46.6382444, 3.2481221);
+        <div class="modal"></div>
 
 
-
-                var mapOptions = {
-                    zoom: 6,
-                    center: latlng
-                };
-                map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-                $.ajax({
-                    url: "Student",
-                    data: {"set": "getEstablishment"},
-                    dataType: "json",
-                    error: showError,
-                    success: // La fonction qui traite les résultats
-                            function (results) {
-                                var myUl = $("#etabdp");
-                                var li;
-                                var aOp;
-                                results.map((res) => {
-                                    aOp = $('<a>' + res.sch_name + '</a>').attr({'id': res.sch_id, 'href': '#'});
-                                    li = $('<li> </li>').append(aOp);
-                                    myUl.append(li);
-
-                                });
-                                $(".dropdown-menu li a").click(function (event) {
-                                    event.preventDefault();
-                                    var selText = $(this).text();
-                                    var v = $(this).attr("id");
-                                    var elem = $("#etlab_name");
-                                    console.log(v);
-
-                                    elem.html(selText + ' <span class="caret"></span>');
-
-                                    $("#etab_id").val(v);
-                                });
-                            }
-                });
-
-                drawChart();
-            }
-
-            function drawChart() {
-
-
-                $.ajax({
-                    url: "Student",
-                    data: {"set": "graph0"},
-                    dataType: "json",
-                    async: true,
-                    error: function (a, b, c) {
-                        console.log(b);
-                    },
-                    success: function (res) {
-
-                        var array = [["Sigle", "Average", {role: 'style'}]];
-                        for (key in res) {
-                            array.push([key, res[key], 'color: ' + getRandomColor()]);
-
-                        }
-                        var data = new google.visualization.arrayToDataTable(array);
-                        var options = {
-                            chart: {
-                                title: 'Students average',
-                                subtitle: 'Students average in all Spec: 2014-2017'
-                            }
-                        };
-                        var chart = new google.charts.Bar(document.getElementById('graph0'));
-                        chart.draw(data, google.charts.Bar.convertOptions());
-                    }
-                });
-
-                $.ajax({
-                    url: "Student",
-                    data: {"set": "graph1"},
-                    dataType: "json",
-                    async: true,
-                    success: function (res) {
-
-                        var array = [["Graph_1", "Employed students ", "Looking for a job", "In school"]];
-                        for (key in res) {
-                            var tmp = res[key][0];
-                            array.push([key, tmp.withjob, tmp.withoutjob, tmp.insch]);
-                        }
-                        var data = new google.visualization.arrayToDataTable(array);
-                        var options = {
-                            chart: {
-                                title: 'Students status',
-                                subtitle: 'Employed students, looking for a job, in school: 2014-2017'
-                            },
-                            isStacked: true
-                        };
-                        var chart = new google.charts.Bar(document.getElementById('graph1'));
-                        chart.draw(data, google.charts.Bar.convertOptions(options));
-                    }
-                });
-            }
-            ;
-
-            function getRandomColor() {
-                var letters = '0123456789ABCDEF';
-                var color = '#';
-                for (var i = 0; i < 6; i++) {
-                    color += letters[Math.floor(Math.random() * 16)];
-                }
-                return color;
-            }
-
-            function showError(xhr, status, message) {
-                alert(JSON.parse(xhr.responseText).message);
-            }
-            function setMapOnAll(map) {
-                for (var i = 0; i < gmark.length; i++) {
-                    gmark[i].setMap(map);
-                }
-            }
-
-            function clearMarkers() {
-                setMapOnAll(null);
-                ser_lat_lng = [];
-                gmark = [];
-                nextAddress = -1;
-            }
-
-            function toggleBounce(mk) {
-                if (mk.getAnimation() !== null) {
-                    mk.setAnimation(null);
-                } else {
-                    mk.setAnimation(google.maps.Animation.BOUNCE);
-                }
-            }
-
-            function createMarker(add, lat, lng) {
-
-
-                var marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(lat, lng),
-                    animation: google.maps.Animation.DROP,
-                    icon: icons,
-                    map: map
-                });
-
-                google.maps.event.addListener(marker, 'click', function () {
-                    infowindow.setContent(add);
-                    infowindow.open(map, marker);
-                    marker.setAnimation(google.maps.Animation.BOUNCE);
-                    setTimeout(function () {
-                        marker.setAnimation(null);
-                    }, 700);
-                });
-
-                gmark.push(marker);
-                marker.setMap(map);
-                bounds.extend(marker.position);
-
-            }
-
-
-            function getAddress(search) {
-
-                var lat;
-                var lng;
-                var add = search.split(';')[0];
-                var fac = search.split(';')[2];
-                if (donefac.indexOf(fac) > -1) {
-                    //console.log("already there");
-                    //console.log(fac);
-
-                } else {
-                    geocoder.geocode({address: add}, function (results, status) {
-                        if (status === google.maps.GeocoderStatus.OK) {
-
-                            var p = results[0].geometry.location;
-                            lat = p.lat();
-                            lng = p.lng();
-                            ser_lat_lng.push([search, lat, lng]);
-                            donefac.push(fac);
-                            //markers.push([search,lat,lng]);
-                        } else {
-                            if (status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
-                                nextAddress--;
-                                delay++;
-                            }
-                        }
-                    });
-                }
-            }
-
-
-            function theNext(addresses) {
-
-                if (nextAddress < addresses.length - 1) {
-
-                    setTimeout(function () {
-                        getAddress(addresses[nextAddress]);
-
-                        theNext(addresses);
-                    }, delay);
-                    nextAddress++;
-                } else {
-                    ser_lat_lng.map((res) => {
-                        var add = res[0].split(';');
-                        createMarker(add[1] + " <PRE> <b> " + add[2], res[1], res[2]);
-                    });
-                    map.fitBounds(bounds);
-                    $("#dropinfo").show();
-
-                }
-            }
-
-
-            function searchFormations() {
-                clearMarkers();
-                ser_lat_lng = [];
-                donefac = [];
-                cities = [];
-                var form = $("#search_form").val();
-                $.ajax({
-                    url: "Student",
-                    data: {"set": "getFormationsLikeLabel", "form_lab": form},
-                    dataType: "json",
-                    error: showError,
-                    success: // La fonction qui traite les résultats
-                            function (results) {
-                                var cities = [];
-                                var str;
-                                var cityc;
-                                var sch_name;
-                                var div;
-                         
-                                results.map((res) => {
-                                    cityc=res.sch.sch_city + " ( " + res.sch.posteCode +" )";
-                                    sch_name=res.sch.sch_name;
-                                    str = res.sch.sch_city + ", " + res.sch.sch_country +
-                                            " ; " + cityc + ";" + sch_name;
-                                    cities.push(str);
-                                    var tt = parse("<div class='col-xs-3 form-line'><header >"
-                                            + "<a> %s</a></header><h4><a href='#'>%s</a></h4><p >"
-                                            + "%s</p><p >%s"
-                                            + "</p></div><div class='col-xs-2 form-line'><span ><img src='images/sch_avatar/%s.png'"
-                                            + " alt=''></span><div class='SavoirPlus'><a target='_blank' "
-                                            + "href='http://www.google.com/search?q=%s'>"
-                                            + "<span>En savoir plus</span></a></div></div><hr>", res.sigle, res.for_intitule, sch_name, cityc, res.sch.sch_id, sch_name);
-                                    div = $('<div> '+tt+' </div>').attr({"id":res.sch.sch_id,"class":"container dropdiv"});
-                                    $("#dropinfo").append(div);
-                                    
-                                });
-                                theNext(cities);
-
-                            }
-                });
-            }
-            function searchAllFormations() {
-                clearMarkers();
-                ser_lat_lng = [];
-                donefac = [];
-                cities = [];
-                var dropelement = $("#dropinfo");
-                dropelement.hide();
-                var form = $("#search_form").val();
-                $.ajax({
-                    url: "Student",
-                    data: {"set": "getAllFormations"},
-                    dataType: "json",
-                    error: showError,
-                    success: // La fonction qui traite les résultats
-                            function (results) {
-                                var cities = [];
-                                var str;
-                                var cityc;
-                                var sch_name;
-                                var div;
-                         
-                                results.map((res) => {
-                                    cityc=res.sch.sch_city + " ( " + res.sch.posteCode +" )";
-                                    sch_name=res.sch.sch_name;
-                                    str = res.sch.sch_city + ", " + res.sch.sch_country +
-                                            " ; " + cityc + ";" + sch_name;
-                                    cities.push(str);
-                                    var tt = parse("<div class='col-xs-3 form-line'><header >"
-                                            + "<a> %s</a></header><h4><a href='#'>%s</a></h4><p >"
-                                            + "%s</p><p >%s"
-                                            + "</p></div><div class='col-xs-2 form-line'><span ><img src='images/sch_avatar/%s.png'"
-                                            + " alt=''></span><div class='SavoirPlus'><a target='_blank' "
-                                            + "href='http://www.google.com/search?q=%s'>"
-                                            + "<span>En savoir plus</span></a></div></div><hr>", res.sigle, res.for_intitule, sch_name, cityc, res.sch.sch_id, sch_name);
-                                    div = $('<div> '+tt+' </div>').attr({"id":res.sch.sch_id,"class":"container dropdiv"});
-                                    $("#dropinfo").append(div);
-                                    
-                                });
-                                theNext(cities);
-
-                            }
-                });
-            }
-
-
-
-
-            function parse(str) {
-                var args = [].slice.call(arguments, 1),
-                        i = 0;
-
-                return str.replace(/%s/g, function () {
-                    return args[i++];
-                });
-            }
-
-
-
-        </script>
-        <!--Vendor-JS-->
         <script src="js/vendor/jquery-1.12.4.min.js"></script>
 
         <script src="js/vendor/bootstrap.min.js"></script>
@@ -646,10 +318,352 @@
         <script src="js/main.js"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
-            google.charts.load('current', {'packages': ['bar']});
-            google.charts.setOnLoadCallback(initialize);
-        </script>
 
+        $body = $("body");
+
+        $(document).on({
+            ajaxStart: function () {
+                $body.addClass("loading");
+            },
+            ajaxStop: function () {
+                $body.removeClass("loading");
+            }
+        });
+
+
+        $(document).on("click", function () {
+            $.get("/mockjax");
+        });
+        
+        var geocoder;
+        var map;
+        var nextAddress = -1;
+        var delay = 100;
+        var bounds;
+        var infowindow;
+        var icons = 'sc.png';
+        var ser_lat_lng = [];
+        var gmark = [];
+        var donefac = [];
+
+        function initialize() {
+
+            geocoder = new google.maps.Geocoder();
+            bounds = new google.maps.LatLngBounds();
+            infowindow = new google.maps.InfoWindow();
+
+            var latlng = new google.maps.LatLng(46.6382444, 3.2481221);
+
+
+
+            var mapOptions = {
+                zoom: 6,
+                center: latlng
+            };
+            map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+            $.ajax({
+                url: "Student",
+                data: {"set": "getEstablishment"},
+                dataType: "json",
+                error: showError,
+                success: // La fonction qui traite les résultats
+                        function (results) {
+                            var myUl = $("#etabdp");
+                            var li;
+                            var aOp;
+                            results.map((res) => {
+                                aOp = $('<a>' + res.sch_name + '</a>').attr({'id': res.sch_id, 'href': '#'});
+                                li = $('<li> </li>').append(aOp);
+                                myUl.append(li);
+
+                            });
+                            $(".dropdown-menu li a").click(function (event) {
+                                event.preventDefault();
+                                var selText = $(this).text();
+                                var v = $(this).attr("id");
+                                var elem = $("#etlab_name");
+                                console.log(v);
+
+                                elem.html(selText + ' <span class="caret"></span>');
+
+                                $("#etab_id").val(v);
+                            });
+                        }
+            });
+
+            drawChart();
+        }
+
+        function drawChart() {
+
+
+            $.ajax({
+                url: "Student",
+                data: {"set": "graph0"},
+                dataType: "json",
+                async: true,
+                error: function (a, b, c) {
+                    console.log(b);
+                },
+                success: function (res) {
+
+                    var array = [["Sigle", "Average", {role: 'style'}]];
+                    for (key in res) {
+                        array.push([key, res[key], 'color: ' + getRandomColor()]);
+
+                    }
+                    var data = new google.visualization.arrayToDataTable(array);
+                    var options = {
+                        chart: {
+                            title: 'Students average',
+                            subtitle: 'Students average in all Spec: 2014-2017'
+                        }
+                    };
+                    var chart = new google.charts.Bar(document.getElementById('graph0'));
+                    chart.draw(data, google.charts.Bar.convertOptions());
+                }
+            });
+
+            $.ajax({
+                url: "Student",
+                data: {"set": "graph1"},
+                dataType: "json",
+                async: true,
+                success: function (res) {
+
+                    var array = [["Graph_1", "Employed students ", "Looking for a job", "In school"]];
+                    for (key in res) {
+                        var tmp = res[key][0];
+                        array.push([key, tmp.withjob, tmp.withoutjob, tmp.insch]);
+                    }
+                    var data = new google.visualization.arrayToDataTable(array);
+                    var options = {
+                        chart: {
+                            title: 'Students status',
+                            subtitle: 'Employed students, looking for a job, in school: 2014-2017'
+                        },
+                        isStacked: true
+                    };
+                    var chart = new google.charts.Bar(document.getElementById('graph1'));
+                    chart.draw(data, google.charts.Bar.convertOptions(options));
+                }
+            });
+        }
+        ;
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function showError(xhr, status, message) {
+            alert(JSON.parse(xhr.responseText).message);
+        }
+        function setMapOnAll(map) {
+            for (var i = 0; i < gmark.length; i++) {
+                gmark[i].setMap(map);
+            }
+        }
+
+        function clearMarkers() {
+            setMapOnAll(null);
+            ser_lat_lng = [];
+            gmark = [];
+            nextAddress = -1;
+        }
+
+        function toggleBounce(mk) {
+            if (mk.getAnimation() !== null) {
+                mk.setAnimation(null);
+            } else {
+                mk.setAnimation(google.maps.Animation.BOUNCE);
+            }
+        }
+
+        function createMarker(add, lat, lng) {
+
+
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(lat, lng),
+                animation: google.maps.Animation.DROP,
+                icon: icons,
+                map: map
+            });
+
+            google.maps.event.addListener(marker, 'click', function () {
+                infowindow.setContent(add);
+                infowindow.open(map, marker);
+                marker.setAnimation(google.maps.Animation.BOUNCE);
+                setTimeout(function () {
+                    marker.setAnimation(null);
+                }, 700);
+            });
+
+            gmark.push(marker);
+            marker.setMap(map);
+            bounds.extend(marker.position);
+
+        }
+
+
+        function getAddress(search) {
+
+            var lat;
+            var lng;
+            var add = search.split(';')[0];
+            var fac = search.split(';')[2];
+            if (donefac.indexOf(fac) > -1) {
+                //console.log("already there");
+                //console.log(fac);
+
+            } else {
+                geocoder.geocode({address: add}, function (results, status) {
+                    if (status === google.maps.GeocoderStatus.OK) {
+
+                        var p = results[0].geometry.location;
+                        lat = p.lat();
+                        lng = p.lng();
+                        ser_lat_lng.push([search, lat, lng]);
+                        donefac.push(fac);
+                        //markers.push([search,lat,lng]);
+                    } else {
+                        if (status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
+                            nextAddress--;
+                            delay++;
+                        }
+                    }
+                });
+            }
+        }
+
+
+        function theNext(addresses) {
+
+            if (nextAddress < addresses.length - 1) {
+
+                setTimeout(function () {
+                    getAddress(addresses[nextAddress]);
+
+                    theNext(addresses);
+                }, delay);
+                nextAddress++;
+            } else {
+                ser_lat_lng.map((res) => {
+                    var add = res[0].split(';');
+                    createMarker(add[1] + " <PRE> <b> " + add[2], res[1], res[2]);
+                });
+                map.fitBounds(bounds);
+                $("#dropinfo").show();
+
+            }
+        }
+
+
+        function searchFormations() {
+            clearMarkers();
+            ser_lat_lng = [];
+            donefac = [];
+            cities = [];
+            var form = $("#search_form").val();
+            $.ajax({
+                url: "Student",
+                data: {"set": "getFormationsLikeLabel", "form_lab": form},
+                dataType: "json",
+                error: showError,
+                success: // La fonction qui traite les résultats
+                        function (results) {
+                            var cities = [];
+                            var str;
+                            var cityc;
+                            var sch_name;
+                            var div;
+
+                            results.map((res) => {
+                                cityc = res.sch.sch_city + " ( " + res.sch.posteCode + " )";
+                                sch_name = res.sch.sch_name;
+                                str = res.sch.sch_city + ", " + res.sch.sch_country +
+                                        " ; " + cityc + ";" + sch_name;
+                                cities.push(str);
+                                var tt = parse("<div class='col-xs-3 form-line'><header >"
+                                        + "<a> %s</a></header><h4><a href='#'>%s</a></h4><p >"
+                                        + "%s</p><p >%s"
+                                        + "</p></div><div class='col-xs-2 form-line'><span ><img src='images/sch_avatar/%s.png'"
+                                        + " alt=''></span><div class='SavoirPlus'><a target='_blank' "
+                                        + "href='http://www.google.com/search?q=%s'>"
+                                        + "<span>En savoir plus</span></a></div></div><hr>", res.sigle, res.for_intitule, sch_name, cityc, res.sch.sch_id, sch_name);
+                                div = $('<div> ' + tt + ' </div>').attr({"id": res.sch.sch_id, "class": "container dropdiv"});
+                                $("#dropinfo").append(div);
+
+                            });
+                            theNext(cities);
+
+                        }
+            });
+        }
+        function searchAllFormations() {
+            clearMarkers();
+            ser_lat_lng = [];
+            donefac = [];
+            cities = [];
+            var dropelement = $("#dropinfo");
+            dropelement.hide();
+            var form = $("#search_form").val();
+            $.ajax({
+                url: "Student",
+                data: {"set": "getAllFormations"},
+                dataType: "json",
+                error: showError,
+                success: // La fonction qui traite les résultats
+                        function (results) {
+                            var cities = [];
+                            var str;
+                            var cityc;
+                            var sch_name;
+                            var div;
+
+                            results.map((res) => {
+                                cityc = res.sch.sch_city + " ( " + res.sch.posteCode + " )";
+                                sch_name = res.sch.sch_name;
+                                str = res.sch.sch_city + ", " + res.sch.sch_country +
+                                        " ; " + cityc + ";" + sch_name;
+                                cities.push(str);
+                                var tt = parse("<div class='col-xs-3 form-line'><header >"
+                                        + "<a> %s</a></header><h4><a href='#'>%s</a></h4><p >"
+                                        + "%s</p><p >%s"
+                                        + "</p></div><div class='col-xs-2 form-line'><span ><img src='images/sch_avatar/%s.png'"
+                                        + " alt=''></span><div class='SavoirPlus'><a target='_blank' "
+                                        + "href='http://www.google.com/search?q=%s'>"
+                                        + "<span>En savoir plus</span></a></div></div><hr>", res.sigle, res.for_intitule, sch_name, cityc, res.sch.sch_id, sch_name);
+                                div = $('<div> ' + tt + ' </div>').attr({"id": res.sch.sch_id, "class": "container dropdiv"});
+                                $("#dropinfo").append(div);
+
+                            });
+                            theNext(cities);
+
+                        }
+            });
+        }
+
+
+
+
+        function parse(str) {
+            var args = [].slice.call(arguments, 1),
+                    i = 0;
+
+            return str.replace(/%s/g, function () {
+                return args[i++];
+            });
+        }
+
+        google.charts.load('current', {'packages': ['bar']});
+        google.charts.setOnLoadCallback(initialize);
+        </script>
 
     </body>
 
