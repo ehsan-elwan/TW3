@@ -106,6 +106,12 @@ public class GetStudents extends HttpServlet {
                 try (PrintWriter out = response.getWriter()) {
                     out.println(gson.toJson(dao.getFormationsLikeLabel(request.getParameter("form_lab"))));
                 }
+                
+            case "getAllFormations":
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(gson.toJson(dao.getAllFormations()));
+                }
+                
                 break;
                 
             case "graph1":

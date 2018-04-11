@@ -305,7 +305,7 @@ input:-webkit-autofill:focus {
 .overlay,
 .overlay a,
 .mainmenu-area a {
-    color: #ffffff;
+    color: whitesmoke;
 }
 
 .mainmenu-area .logo {
@@ -803,7 +803,7 @@ h7 {
 }
 
 .side-icon-box a {
-    color: black;
+    color: white;
 }
 
 .side-icon-box .side-icon {
@@ -962,6 +962,23 @@ fieldset[disabled] .btn-tw.active {
   background-color: #ff542f;
   border-color: #ff542f;
 }
+
+#dropinfo {
+    border-radius: 25px;
+    color: black;
+    border: 2px solid #ff542f;
+}
+
+#dropinfo a {
+    color: black;
+}
+
+.dropdiv{
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ff542f;
+    margin-bottom:10px;
+}
+
 
 @-webkit-keyframes sk-foldCubeAngle {
     0%,

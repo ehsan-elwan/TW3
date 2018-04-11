@@ -26,6 +26,7 @@
 
 
 
+
         <!--[if lt IE 9]>
             <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
             <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -44,7 +45,7 @@
         </div>
         <!--Mainmenu-area-->
         <div class="mainmenu-area nav" data-spy="affix" data-offset-top="100">
-            <div class="container">
+            <div class="container-fluid">
                 <!--Logo-->
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#primary-menu">
@@ -78,24 +79,30 @@
 
         <!--Header-area-->
         <header class="header-area overlay full-height relative v-center" id="home-page">
-            <div class="absolute anlge-bg"></div>
             <div class="container">
                 <div class="col-md-6 form-line">
-                    
-                    <div class="form-control" id="map" style="height: 500px; width: 600px"></div>
+
+                    <div class="form-control" id="map" style="height: 500px; width: 550px"></div>
                 </div>
-    
+
                 <div class="col-md-6 form-line">
                     <div class="col-md-10 form-group">
-                        <input id="search_form" class="form-control input" type="search" placeholder="Master" aria-label="Search" required>
-                        <input class="ui button btn-tw" type="button" value="Show" onclick="codeAddress()">
-                        <button class="ui button btn-tw" type="button" onclick="searchFormations()">Search</button>
+
+                        <div class="input-group">
+                            <input id="search_form" class="form-control input" placeholder="Recherche par mot clé" required>
+                            <div class="input-group-btn">
+                                <button class="ui btn btn-default form-control" onclick="searchFormations()"><i class="glyphicon glyphicon-search"></i></button>
+                            </div>
+                        </div>
+
+                    </div> 
+                    <div class="col-md-10 form-group">
+                        <input class="ui button btn-tw" type="button" value="Show" onclick="searchAllFormations()">
+                    </div>
+                    <div id="dropinfo" class="col-md-10 form-group" style="overflow-y: scroll; height:400px; display: none;">
                     </div>
                 </div>
-
-
             </div>
-
         </header>
         <!--Header-area/-->
 
@@ -104,8 +111,6 @@
 
         <!--Feature-area-->
         <section class="gray-bg section-padding" id="service-page">
-
-
             <section class="angle-bg sky-bg section-padding">
                 <div class="contact-section">
                     <div class="section-content">
@@ -227,27 +232,27 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-center">
                             <div class="page-title">
-                                <h2>Contact with us</h2>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit voluptates, temporibus at, facere harum fugiat!</p>
+                                <h2>Contactez nous</h2>
+                                <p></p>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" >
                         <div class="col-xs-12 col-md-4">
                             <address class="side-icon-boxes">
                                 <div class="side-icon-box">
                                     <div class="side-icon">
                                         <img src="images/location-arrow.png" alt="">
                                     </div>
-                                    <p><strong>Address: </strong> Box 564, Disneyland <br />USA</p>
+                                    <p><strong>Address: </strong> Place de Verdun <br />81 012 Albi</p>
                                 </div>
                                 <div class="side-icon-box">
                                     <div class="side-icon">
                                         <img src="images/phone-arrow.png" alt="">
                                     </div>
-                                    <p><strong>Telephone: </strong>
-                                        <a href="callto:8801812726495">+8801812726495</a> <br />
-                                        <a href="callto:8801687420471">+8801687420471</a>
+                                    <p ><strong>Telephone: </strong>
+                                        <a style="color:black;" href="callto:0563481717">05 63 48 17 17</a> <br />
+                                        <a style="color:black;" href="callto:0563481717">05 63 48 17 17</a>
                                     </p>
                                 </div>
                                 <div class="side-icon-box">
@@ -255,8 +260,8 @@
                                         <img src="images/mail-arrow.png" alt="">
                                     </div>
                                     <p><strong>E-mail: </strong>
-                                        <a href="mailto:youremail@example.com">youremail@example.com</a> <br />
-                                        <a href="mailto:youremail@example.com">example@mail.com</a>
+                                        <a style="color:black;" href="mailto:youremail@example.com">youremail@example.com</a> <br />
+                                        <a style="color:black;" href="mailto:youremail@example.com">example@mail.com</a>
                                     </p>
                                 </div>
                             </address>
@@ -303,6 +308,7 @@
             var icons = 'sc.png';
             var ser_lat_lng = [];
             var gmark = [];
+            var donefac = [];
 
             function initialize() {
 
@@ -470,24 +476,33 @@
 
 
             function getAddress(search) {
+
                 var lat;
                 var lng;
                 var add = search.split(';')[0];
-                geocoder.geocode({address: add}, function (results, status) {
-                    if (status === google.maps.GeocoderStatus.OK) {
-                        var p = results[0].geometry.location;
-                        lat = p.lat();
-                        lng = p.lng();
-                        ser_lat_lng.push([search, lat, lng]);
-                        //markers.push([search,lat,lng]);
-                    } else {
-                        if (status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
-                            nextAddress--;
-                            delay++;
-                        }
-                    }
-                });
+                var fac = search.split(';')[2];
+                if (donefac.indexOf(fac) > -1) {
+                    //console.log("already there");
+                    //console.log(fac);
 
+                } else {
+                    geocoder.geocode({address: add}, function (results, status) {
+                        if (status === google.maps.GeocoderStatus.OK) {
+
+                            var p = results[0].geometry.location;
+                            lat = p.lat();
+                            lng = p.lng();
+                            ser_lat_lng.push([search, lat, lng]);
+                            donefac.push(fac);
+                            //markers.push([search,lat,lng]);
+                        } else {
+                            if (status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
+                                nextAddress--;
+                                delay++;
+                            }
+                        }
+                    });
+                }
             }
 
 
@@ -497,39 +512,27 @@
 
                     setTimeout(function () {
                         getAddress(addresses[nextAddress]);
+
                         theNext(addresses);
                     }, delay);
                     nextAddress++;
                 } else {
                     ser_lat_lng.map((res) => {
                         var add = res[0].split(';');
-                        createMarker(add[2] + " <PRE> <b> " + add[1], res[1], res[2]);
+                        createMarker(add[1] + " <PRE> <b> " + add[2], res[1], res[2]);
                     });
                     map.fitBounds(bounds);
+                    $("#dropinfo").show();
 
                 }
             }
 
 
-            function codeAddress() {
-                clearMarkers();
-                ser_lat_lng = [];
-                $.ajax({
-                    url: "Student",
-                    data: {"set": "getCitiesFromEtablissement"},
-                    dataType: "json",
-                    error: showError,
-                    success: // La fonction qui traite les résultats
-                            function (result) {
-
-                                theNext(result);
-                            }
-                });
-            }
-
             function searchFormations() {
                 clearMarkers();
                 ser_lat_lng = [];
+                donefac = [];
+                cities = [];
                 var form = $("#search_form").val();
                 $.ajax({
                     url: "Student",
@@ -539,9 +542,70 @@
                     success: // La fonction qui traite les résultats
                             function (results) {
                                 var cities = [];
+                                var str;
+                                var cityc;
+                                var sch_name;
+                                var div;
+                         
                                 results.map((res) => {
-                                    cities.push(res.sch.sch_city + ", " + res.sch.sch_country +
-                                            ";" + res.for_intitule + ";" + res.sch.sch_name);
+                                    cityc=res.sch.sch_city + " ( " + res.sch.posteCode +" )";
+                                    sch_name=res.sch.sch_name;
+                                    str = res.sch.sch_city + ", " + res.sch.sch_country +
+                                            " ; " + cityc + ";" + sch_name;
+                                    cities.push(str);
+                                    var tt = parse("<div class='col-xs-3 form-line'><header >"
+                                            + "<a> %s</a></header><h4><a href='#'>%s</a></h4><p >"
+                                            + "%s</p><p >%s"
+                                            + "</p></div><div class='col-xs-2 form-line'><span ><img src='images/sch_avatar/%s.png'"
+                                            + " alt=''></span><div class='SavoirPlus'><a target='_blank' "
+                                            + "href='http://www.google.com/search?q=%s'>"
+                                            + "<span>En savoir plus</span></a></div></div><hr>", res.sigle, res.for_intitule, sch_name, cityc, res.sch.sch_id, sch_name);
+                                    div = $('<div> '+tt+' </div>').attr({"id":res.sch.sch_id,"class":"container dropdiv"});
+                                    $("#dropinfo").append(div);
+                                    
+                                });
+                                theNext(cities);
+
+                            }
+                });
+            }
+            function searchAllFormations() {
+                clearMarkers();
+                ser_lat_lng = [];
+                donefac = [];
+                cities = [];
+                var dropelement = $("#dropinfo");
+                dropelement.hide();
+                var form = $("#search_form").val();
+                $.ajax({
+                    url: "Student",
+                    data: {"set": "getAllFormations"},
+                    dataType: "json",
+                    error: showError,
+                    success: // La fonction qui traite les résultats
+                            function (results) {
+                                var cities = [];
+                                var str;
+                                var cityc;
+                                var sch_name;
+                                var div;
+                         
+                                results.map((res) => {
+                                    cityc=res.sch.sch_city + " ( " + res.sch.posteCode +" )";
+                                    sch_name=res.sch.sch_name;
+                                    str = res.sch.sch_city + ", " + res.sch.sch_country +
+                                            " ; " + cityc + ";" + sch_name;
+                                    cities.push(str);
+                                    var tt = parse("<div class='col-xs-3 form-line'><header >"
+                                            + "<a> %s</a></header><h4><a href='#'>%s</a></h4><p >"
+                                            + "%s</p><p >%s"
+                                            + "</p></div><div class='col-xs-2 form-line'><span ><img src='images/sch_avatar/%s.png'"
+                                            + " alt=''></span><div class='SavoirPlus'><a target='_blank' "
+                                            + "href='http://www.google.com/search?q=%s'>"
+                                            + "<span>En savoir plus</span></a></div></div><hr>", res.sigle, res.for_intitule, sch_name, cityc, res.sch.sch_id, sch_name);
+                                    div = $('<div> '+tt+' </div>').attr({"id":res.sch.sch_id,"class":"container dropdiv"});
+                                    $("#dropinfo").append(div);
+                                    
                                 });
                                 theNext(cities);
 
@@ -551,9 +615,19 @@
 
 
 
+
+            function parse(str) {
+                var args = [].slice.call(arguments, 1),
+                        i = 0;
+
+                return str.replace(/%s/g, function () {
+                    return args[i++];
+                });
+            }
+
+
+
         </script>
-
-
         <!--Vendor-JS-->
         <script src="js/vendor/jquery-1.12.4.min.js"></script>
 
@@ -580,3 +654,5 @@
     </body>
 
 </html>
+
+

@@ -365,6 +365,50 @@ public class DAO {
         return result;
     }
 
+    public List<Formation> getAllFormations() {
+        List<Formation> result = new LinkedList<>();
+        Formation form;
+        School sch;
+        String sql = "SELECT Distinct * FROM  formation ,etablissement "
+                + "WHERE formation.id_etablissement = etablissement.id_etablissement ";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+
+                    int for_id = rs.getInt("id_formation");
+                    String for_intitule = rs.getString("intitule");
+                    String sigle = rs.getString("sigle");
+                    String for_type = rs.getString("type");
+                    String for_speciality = rs.getString("specialite");
+
+                    int sch_id = rs.getInt("id_etablissement");
+                    String sch_name = rs.getString("nom");
+                    String sch_sigle = rs.getString("sigle");
+                    String sch_posteCode = rs.getString("codePostal");
+                    String sch_city = rs.getString("ville");
+                    String sch_country = rs.getString("pays");
+                    int sch_id_region = rs.getInt("id_region");
+
+                    sch = new School(sch_id, sch_name, sch_sigle, sch_posteCode,
+                            sch_city, sch_country, sch_id_region);
+
+                    form = new Formation(for_id, for_intitule, sigle, for_type,
+                            for_speciality, sch);
+                    result.add(form);
+                }
+
+            }
+            stmt.close();
+            connection.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return result;
+    }
+
     public List<String> getCityByFormation(String form_label) {
         List<String> result = new LinkedList<>();
         String sql = "SELECT Distinct SchoolName.ville FROM formation ,etablissement "
@@ -559,7 +603,7 @@ public class DAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Integer nb = rs.getInt("avg");
-                    if (nb != null && nb>1) {
+                    if (nb != null && nb > 1) {
                         String sig = rs.getString("sigle");
                         json.put(sig, nb);
                     }
