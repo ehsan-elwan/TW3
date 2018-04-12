@@ -587,6 +587,8 @@
             ser_lat_lng = [];
             donefac = [];
             cities = [];
+            var maindiv=$("#dropinfo");
+            maindiv.empty();
             var form = $("#search_form").val();
             $.ajax({
                 url: "Student",
@@ -615,7 +617,7 @@
                                         + "href='http://www.google.com/search?q=%s'>"
                                         + "<span>En savoir plus</span></a></div></div><hr>", res.sigle, res.for_intitule, sch_name, cityc, res.sch.sch_id, sch_name);
                                 div = $('<div> ' + tt + ' </div>').attr({"id": res.sch.sch_id, "class": "container dropdiv"});
-                                $("#dropinfo").append(div);
+                                maindiv.append(div);
 
                             });
                             theNext(cities);
