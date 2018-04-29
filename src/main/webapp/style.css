@@ -32,6 +32,7 @@ CSS INDEX
 ------------------*/
 
 @import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700');
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 
 /*-------------------
 2. Theme Default CSS
@@ -98,6 +99,14 @@ input:-webkit-autofill:focus {
 .full-height {
     width: 100%;
     height: 100vh;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.centerediv{
+    left: 10%;
 }
 
 .relative {
@@ -965,24 +974,61 @@ fieldset[disabled] .btn-tw.active {
 
 #dropinfo {
     color: black;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height:400px;
+    display: none;
 }
 
-#map {
-    height: 500px;
-    width: 550px;
+
+.mapcont{
+    width: 55%;
+    height: 100%;
+
+}
+
+#map { 
+    height: 600px;
     border-radius: 25px;
     color: black;
     border: 1px solid #ff542f;
 }
 
+.maintheme{
+    padding-top: 8%;
+}
+
+.sercont{
+    width: 45%;
+    padding-right: 0px;
+}
+
+
 #dropinfo a {
     color: black;
 }
+
+.container-fluid{
+    width: 100%; 
+}
+
 
 .dropdiv{
     padding-bottom: 10px;
     border-bottom: 1px solid #ff542f;
     margin-bottom:10px;
+}
+
+input[type="checkbox"], input[type="radio"]{
+	position: absolute;
+	right: 9000px;
+        
+}
+
+.block{
+    width: 100px;
+    display: inline-block;
+    color: black;
 }
 
 /* Start by setting display:none to make this hidden.
@@ -1004,6 +1050,59 @@ fieldset[disabled] .btn-tw.active {
                 no-repeat;
 }
 
+.mapajax {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 ) 
+                url('images/loader.gif') 
+                50% 50% 
+                no-repeat;
+}
+
+
+.toggle input[type="radio"] + .label-text:before{
+	content: "\f204";
+	font-family: "FontAwesome";
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing:antialiased;
+	width: 1em;
+	display: inline-block;
+	margin-right: 10px;
+        
+}
+
+.toggle input[type="radio"]:checked + .label-text:before{
+	content: "\f205";
+	color: #16a085;
+	animation: effect 250ms ease-in;
+}
+
+.toggle input[type="radio"]:disabled + .label-text{
+	color: #aaa;
+}
+
+.toggle input[type="radio"]:disabled + .label-text:before{
+	content: "\f204";
+	color: #ccc;
+}
+
+
+@keyframes effect{
+	0%{transform: scale(0);}
+	25%{transform: scale(1.3);}
+	75%{transform: scale(1.4);}
+	100%{transform: scale(1);}
+}
 /* When the body has the loading class, we turn
    the scrollbar off with overflow:hidden */
 body.loading {

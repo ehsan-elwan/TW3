@@ -5,8 +5,6 @@
  */
 package Models;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.Connection;
 import java.sql.Date;
@@ -276,7 +274,7 @@ public class DAO {
         List<Formation> result = new LinkedList<>();
         Formation form;
         School sch;
-        String sql = "SELECT Distinct * FROM  formation ,SchoolName "
+        String sql = "SELECT Distinct * FROM  formation ,etablissement "
                 + "WHERE formation.id_etablissement = etablissement.id_etablissement "
                 + "AND etablissement.ville=?";
         try (Connection connection = myDataSource.getConnection();

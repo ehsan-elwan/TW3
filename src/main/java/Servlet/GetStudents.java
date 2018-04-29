@@ -86,7 +86,7 @@ public class GetStudents extends HttpServlet {
 
             case "getFormationByCity":
                 try (PrintWriter out = response.getWriter()) {
-                    out.println(gson.toJson(dao.getFormationByCity(request.getParameter("city_name"))));
+                    out.println(gson.toJson(dao.getFormationByCity(request.getParameter("form_lab"))));
                 }
                 break;
 
