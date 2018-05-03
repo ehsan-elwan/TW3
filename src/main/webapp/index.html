@@ -62,14 +62,91 @@
                 <!--Logo/-->
                 <nav class="collapse navbar-collapse" id="primary-menu">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="#home-page">Trouver votre Master</a></li>
-                        <li><a href="#service-page">Ajouter un master</a></li>
-                        <li><a href="#feature-page">Statistiques</a></li>
+                        <li class="active">
+                            <a href="#master-map">
+                                <span class="glyphicon glyphicon-education"></span>
+                                Trouver votre Master
+                            </a>
+                            
+                        </li>
+                        <li>
+                            <a href="#add-master">
+                                <span class="glyphicon glyphicon-plus"></span>
+                                Ajouter un master
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#static">
+                                <span class="glyphicon glyphicon-stats"></span>
+                                Statistiques
+                            </a>
+                        </li>
+                        <!--
                         <li><a href="#price-page">Classements</a></li>
-                        <li><a href="#team-page">Ancien élèves</a></li>
-                        <li><a href="#faq-page">FAQ</a></li>
-                        <li><a href="#blog-page">Blog</a></li>
-                        <li><a href="#contact-page">Contact</a></li>
+                        /-->
+                        <li>
+                            <a href="#ex-student">
+                                <span class="glyphicon glyphicon-user"></span>
+                                Ancien élèves
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#faq-page">
+                                <span class="glyphicon glyphicon-question-sign"></span>
+                                FAQ
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#contact-page">
+                                <span class="glyphicon glyphicon-comment"></span>
+                                Contact
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-log-in"></span>
+                                 Connexion
+                                <span class="caret"></span>
+              
+                            </a>
+                            
+                            <ul id="login-dp" class="dropdown-menu">
+				<li>
+                                    <div class="row">
+					<div class="col-md-12">Se connecter
+                                            <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+						<div class="form-group">
+                                                    <label class="sr-only" for="exampleInputEmail2">Email address</label>
+                                                    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Adresse email" required>
+						</div>
+						<div class="form-group">
+                                                    <label class="sr-only" for="exampleInputPassword2">Password</label>
+                                                    <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Mot de passe" required>
+                                                    <div class="help-block text-right">
+                                                        <a href="https://www.univ-jfc.fr">Mot de pass oublié ?</a>
+                                                    </div>
+						</div>
+						<div class="form-group">
+                                                    <button type="submit" class="btn btn-primary btn-block">Se connecter</button>
+						</div>
+                                                <div class="checkbox">
+                                                    <!-- 
+                                                         <label>
+                                                         <input type="checkbox"> keep me logged-in
+                                                         </label>
+                                                     -->
+                                                </div>
+                                            </form>
+					</div>
+                                        <div class="bottom text-center">
+                                                Rejoignez nous  <a target="_blank" href="https://www.univ-jfc.fr">
+                                                    <b>INU Champollion</b>
+                                                </a>                 
+                                        </div>
+                                    </div>
+				</li>
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -79,7 +156,7 @@
 
 
         <!--Header-area-->
-        <header class="header-area overlay full-height relative v-center" id="home-page">
+        <header class="header-area overlay full-height relative v-center" id="master-map">
             <div class="container-fluid maintheme">
                 <div class="col-md-6 form-line mapcont">
                     <div class="form-control" id="map"></div>
@@ -130,7 +207,7 @@
 
 
         <!--Feature-area-->
-        <section class="gray-bg section-padding" id="service-page">
+        <section class="gray-bg section-padding" id="add-master">
             <section class="angle-bg sky-bg section-padding">
                 <div class="contact-section">
                     <div class="section-content">
@@ -180,7 +257,7 @@
 
         </section>
 
-        <section class="gray-bg section-padding" id="feature-page">
+        <section class="gray-bg section-padding" id="static">
 
             <div class="contact-section">
                 <div class="section-content">
@@ -196,14 +273,15 @@
         </section>
 
         
-
+        <!--
         <section class="price-area overlay section-padding" id="price-page">
 
         </section>
+        /-->
 
 
 
-        <section class="section-padding gray-bg" id="team-page">
+        <section class="section-padding gray-bg" id="ex-student">
 
         </section>
 

@@ -5,6 +5,7 @@
  */
 package Models;
 
+import Exceptions.DAOException;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.Connection;
 import java.sql.Date;
@@ -617,5 +618,36 @@ public class DAO {
         }
 
         return json;
+    }
+
+    public Student Login(String mail, int pass) throws DAOException {
+        Student result = null;
+
+        String sql = "SELECT * FROM ancien_etudiant WHERE"
+                + " mail=? and id_etud =?";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, mail);
+            stmt.setInt(2, pass);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+
+                    String lname = rs.getString("nom");
+                    String fname = rs.getString("prenom");
+                    Date promo = rs.getDate("promotion");
+                    String spec = rs.getString("specialite");
+                    String cursus = rs.getString("cursus");
+                    int avgID = rs.getInt("moyenne_l3_id");
+
+                    result = new Student(pass, fname, lname,
+                            mail, promo, spec, cursus, avgID);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+            throw new DAOException(ex.getMessage());
+        }
+        return result;
     }
 }
