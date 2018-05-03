@@ -114,14 +114,14 @@
 				<li>
                                     <div class="row">
 					<div class="col-md-12">Se connecter
-                                            <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+                                            <form class="form" role="form" method="post" action="LoginController" accept-charset="UTF-8">
 						<div class="form-group">
-                                                    <label class="sr-only" for="exampleInputEmail2">Email address</label>
-                                                    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Adresse email" required>
+                                                    <label class="sr-only" for="login">Email address</label>
+                                                    <input type="email" class="form-control" name="login" placeholder="Adresse email" required>
 						</div>
 						<div class="form-group">
-                                                    <label class="sr-only" for="exampleInputPassword2">Password</label>
-                                                    <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Mot de passe" required>
+                                                    <label class="sr-only" for="pass">Password</label>
+                                                    <input type="password" class="form-control" name="pass" placeholder="Mot de passe" required>
                                                     <div class="help-block text-right">
                                                         <a href="https://www.univ-jfc.fr">Mot de pass oublié ?</a>
                                                     </div>
@@ -168,7 +168,10 @@
                         <div class="input-group">
                             <input id="search_form" class="form-control input" placeholder="Recherche par mot clé" required>
                             <div class="input-group-btn">
-                                <button class="ui btn btn-default form-control" onclick="searchFormations()"><i class="glyphicon glyphicon-search"></i></button>
+                                <button class="ui btn btn-default form-control" onclick="searchFormations()">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                    <i class="fa fa-spinner fa-spin btn-spin"></i>
+                                </button>
                             </div>
 
                         </div>
@@ -194,11 +197,18 @@
 
                     </div> 
                     <div class="col-md-10 form-group centerediv">
-                        <button class="ui button btn-tw form-control" type="button" onclick="searchAllFormations()">Afficher toutes les Master</button>
+                        <button class="ui button btn-tw form-control" type="button" onclick="searchAllFormations()">
+                            <i class="fa fa-spinner fa-spin btn-spin"></i>
+                            Afficher toutes les Master
+                        </button>
+                    </div>
+                    <div id="div1" data-special-value="${sessionScope.msg}" style="width: 30px; height: 30px;">
+           
                     </div>
                     <div id="dropinfo" class="col-md-10 form-group">
                     </div>
                 </div>
+               
             </div>
         </header>
         <!--Header-area/-->
@@ -426,7 +436,7 @@
 
             function initialize() {
 
-
+            
                 geocoder = new google.maps.Geocoder();
                 bounds = new google.maps.LatLngBounds();
                 infowindow = new google.maps.InfoWindow();
@@ -476,6 +486,7 @@
                     $("#filter_input").val(value);
                 });
                 drawChart();
+                $(".btn-spin").hide();
             }
 
             function drawChart() {
@@ -571,6 +582,7 @@
 
             function clearMarkers() {
                 $("button.ui").attr("disabled", true);
+                $(".btn-spin").show();
                 setMapOnAll(null);
                 ser_lat_lng = [];
                 gmark = [];
@@ -658,14 +670,12 @@
                     $("#dropinfo").removeClass("loading").show();
                     $("#map").removeClass("loading");
                     $("button.ui").attr("disabled", false);
-                   
+                    $(".btn-spin").hide();
                 }
             }
 
 
             function searchFormations() {
-                $("#dropinfo").addClass("loading");
-                $("#map").addClass("loading");
                 clearMarkers();
                 ser_lat_lng = [];
                 donefac = [];
@@ -722,8 +732,6 @@
 
             }
             function searchAllFormations() {
-                $("#dropinfo").addClass("loading");
-                $("#map").addClass("loading");
                 clearMarkers();
                 ser_lat_lng = [];
                 donefac = [];

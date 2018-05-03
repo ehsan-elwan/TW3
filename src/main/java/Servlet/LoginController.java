@@ -10,13 +10,13 @@ import Models.DAO;
 import Models.DataSource;
 import Models.Student;
 import java.io.IOException;
-import java.util.Date;
+import java.sql.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 /**
  *
@@ -37,61 +37,49 @@ public class LoginController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String action = request.getParameter("act");
-        int connected = (Integer) request.getSession().getServletContext().getAttribute("numberConnected");
-        action = (action == null) ? "" : action;
-        switch (action) {
-            case "out":
-                //request.getSession().invalidate();
-                request.getSession().getServletContext().setAttribute("numberConnected", connected-1);
-                response.sendRedirect(request.getContextPath() + "/Login.jsp");
-                break;
+        String msg = "";
+        String mail = request.getParameter("login");
+        String st_id = request.getParameter("pass");
+        String adminUser = getInitParameter("login");
+        String adminPassword = getInitParameter("pass");
+        String adminName = getInitParameter("userName");
+        if (mail.equals(adminUser) && st_id.equals(adminPassword)) {
 
-            case "in":
-
-                String msg = "";
-                String mail = request.getParameter("mail");
-                String st_id = request.getParameter("st_id");
-                String adminUser = getInitParameter("login");
-                String adminPassword = getInitParameter("pass");
-                String adminName = getInitParameter("userName");           
-                if (mail.equals(adminUser) && st_id.equals(adminPassword)) {
-
-                    Student admin = new Student(0, "Admin", "Admin",
-            "Contact@test.com", (java.sql.Date) new Date(), "info",  "c", 1);
-                    request.getSession().setAttribute("user", admin);
-                    //request.getSession().getServletContext().setAttribute("numberConnected", connected+1);
-                    request.getRequestDispatcher("admin.jsp").forward(request, response);
-                } else {
-                    try {
-                        int id = 0;
-                        DAO dao = new DAO(new DataSource().getMySQLDataSource());
-                        try {
-                            id = Integer.parseInt(st_id);
-                        } catch (NumberFormatException ex) {
-                            throw new DAOException("Password must be numeric."+ex.getMessage());
-                        }
-
-                        Student customer = dao.Login(mail, id);
-                        if (customer != null) {
-                            request.getSession().setAttribute("user", customer);
-                            request.getSession().getServletContext().setAttribute("numberConnected", connected+1);
-                            response.sendRedirect(request.getContextPath() + "/customer.jsp");
-
-                        } else {
-                            throw new DAOException("Your account or password is incorrect.");
-                        }
-
-                    } catch (DAOException | IllegalStateException ex) {
-                        msg = ex.getMessage();
-                        request.setAttribute("message", msg);
-                        request.getRequestDispatcher("errorView.jsp").forward(request, response);
-                        //Logger.getLogger("LoginController").log(Level.SEVERE, "Action en erreur", ex);
-
-                    }
+            Student admin = new Student(0, "Admin", adminName,
+                    "Contact@test.com", new Date(15, 1, 20), "info", "c", 1);
+            request.getSession().setAttribute("user", admin);
+            msg = "All good";
+            request.getSession().setAttribute("message", msg);
+            request.getRequestDispatcher("index.html").forward(request, response);
+        } else {
+            try {
+                int id = 0;
+                DAO dao = new DAO(new DataSource().getMySQLDataSource());
+                try {
+                    id = Integer.parseInt(st_id);
+                } catch (NumberFormatException ex) {
+                    throw new DAOException("Password must be numeric." + ex.getMessage());
                 }
-        }
 
+                Student customer = dao.Login(mail, id);
+                if (customer != null) {
+                    request.getSession().setAttribute("user", customer);
+                    //request.getSession().getServletContext().setAttribute("numberConnected", connected+1);
+                    response.sendRedirect(request.getContextPath() + "/customer.jsp");
+
+                } else {
+                    throw new DAOException("Your account or password is incorrect.");
+                }
+
+            } catch (DAOException | IllegalStateException ex) {
+                msg = ex.getMessage();
+                request.setAttribute("message", msg);
+                request.getRequestDispatcher("index.html").forward(request, response);
+                //Logger.getLogger("LoginController").log(Level.SEVERE, "Action en erreur", ex);
+
+            }
+        }
+        //}
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
