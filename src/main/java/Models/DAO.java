@@ -12,6 +12,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -591,25 +592,55 @@ public class DAO {
     }
 
     public JSONObject getAVGByFormation() {
-        JSONObject json = new JSONObject();
-        String sql = "SELECT formation.sigle, AVG(a_effectue.moyenne_M) AS avg"
-                + " FROM a_effectue,formation where "
+        JSONObject mainObj = new JSONObject();
+        Calendar cal = Calendar.getInstance();
+        String sql = "SELECT formation.sigle, AVG(a_effectue.moyenne_M) "
+                + "AS avg,a_effectue.debut_formation as yf FROM "
+                + "a_effectue,formation where "
                 + "a_effectue.id_formation=formation.id_formation "
-                + "GROUP BY formation.sigle";
+                + "GROUP BY yf,formation.sigle Order by yf";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             try (ResultSet rs = stmt.executeQuery()) {
+                Date date;
+                JSONArray ja = new JSONArray();
+                JSONObject jo = new JSONObject();
+                rs.first();
+                date = rs.getDate("yf");
+                Integer nb = rs.getInt("avg");
+                String sig = rs.getString("sigle");
+                jo.put("sigle", sig);
+                jo.put("avg", nb);
+                ja.put(jo);
+
                 while (rs.next()) {
-                    Integer nb = rs.getInt("avg");
-                    if (nb != null && nb > 1) {
-                        String sig = rs.getString("sigle");
-                        json.put(sig, nb);
+                    jo = new JSONObject();
+                    if (date.equals(rs.getDate("yf"))) {
+                        nb = rs.getInt("avg");
+                        if (nb != null && nb > 1) {
+                            sig = rs.getString("sigle");
+                            jo.put("sigle", sig);
+                            jo.put("avg", nb);
+                            ja.put(jo);
+
+                        }
+
+                    } else {
+                        cal.setTime(date);
+                        mainObj.put(String.valueOf(cal.get(Calendar.YEAR)), ja);
+                        ja = new JSONArray();
+                        date = rs.getDate("yf");
+                        nb = rs.getInt("avg");
+                        sig = rs.getString("sigle");
+                        jo.put("sigle", sig);
+                        jo.put("avg", nb);
+                        ja.put(jo);
                     }
 
                 }
-
             }
+
             stmt.close();
             connection.close();
         } catch (SQLException ex) {
@@ -617,14 +648,13 @@ public class DAO {
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return json;
+        return mainObj;
     }
 
     public Student Login(String mail, int pass) throws DAOException {
         Student result = null;
 
-        String sql = "SELECT * FROM ancien_etudiant WHERE"
-                + " mail=? and id_etud =?";
+        String sql = "SELECT * FROM ancien_etudiant WHERE mail=? AND id_etud=?";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
 
@@ -632,14 +662,12 @@ public class DAO {
             stmt.setInt(2, pass);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-
                     String lname = rs.getString("nom");
                     String fname = rs.getString("prenom");
                     Date promo = rs.getDate("promotion");
                     String spec = rs.getString("specialite");
                     String cursus = rs.getString("cursus");
                     int avgID = rs.getInt("moyenne_l3_id");
-
                     result = new Student(pass, fname, lname,
                             mail, promo, spec, cursus, avgID);
                 }

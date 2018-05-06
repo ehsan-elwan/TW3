@@ -124,6 +124,11 @@ public class GetStudents extends HttpServlet {
                     out.println(dao.getAVGByFormation());
                 }
             break;
+            case "graph2":
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(dao.getNBOfStudentMaster());
+                }
+            break;
         }
 
     }

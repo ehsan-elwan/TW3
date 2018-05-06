@@ -197,8 +197,8 @@ input:-webkit-autofill:focus {
 **/
 
 .button {
-    display: inline-block;
-    padding: 8px 30px;
+
+    padding: 5px 30px;
     border-radius: 50px;
     color: #ffffff;
     background-color: #2f60c3;
@@ -212,7 +212,7 @@ input:-webkit-autofill:focus {
 .button.white,
 .button:hover {
     background-color: #ffffff;
-    color: #138fc2;
+    color: black;
 }
 
 .button.white:hover {
@@ -385,6 +385,7 @@ input:-webkit-autofill:focus {
 
 .overlay {
     position: relative;
+    margin-top: 10px;
 }
 
 .overlay:before {
@@ -613,6 +614,7 @@ input:-webkit-autofill:focus {
 
 .testimonial {
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .testimonial .testimonial-photo {
@@ -977,9 +979,13 @@ fieldset[disabled] .btn-tw.active {
     overflow-x: hidden;
     overflow-y: scroll;
     height:400px;
+    width: 35%;
     display: none;
 }
 
+. helement {
+    display: none;
+}
 
 .mapcont{
     width: 55%;
@@ -1012,6 +1018,39 @@ fieldset[disabled] .btn-tw.active {
     width: 100%; 
 }
 
+.titles{
+    color:#515656;
+}
+
+.wrap-input {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 31px;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.datepicker-here {
+  width: 25%;
+  background-color: #fff;
+  border-radius: 31px;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+  padding: 5px 30px;
+}
+
+#GC .slider-selection {
+	background: transparent;
+}
+#GC .slider-handle {
+	background: #ff542f;
+}
+
+#GC .slider-tick{
+    background-image: linear-gradient(to bottom,whitesmoke,whitesmoke);
+}
 
 .dropdiv{
     padding-bottom: 10px;
@@ -1120,6 +1159,10 @@ input[type="checkbox"], input[type="radio"]{
 .toggle input[type="radio"]:disabled + .label-text:before{
 	content: "\f204";
 	color: #ccc;
+}
+
+.label-text{
+        color:#515656;
 }
 
 

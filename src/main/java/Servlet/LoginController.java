@@ -9,7 +9,11 @@ import Exceptions.DAOException;
 import Models.DAO;
 import Models.DataSource;
 import Models.Student;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Date;
 
 import javax.servlet.ServletException;
@@ -36,21 +40,26 @@ public class LoginController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
         String msg = "";
         String mail = request.getParameter("login");
         String st_id = request.getParameter("pass");
         String adminUser = getInitParameter("login");
         String adminPassword = getInitParameter("pass");
         String adminName = getInitParameter("userName");
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        JsonObject jsonObject = new JsonObject();
         if (mail.equals(adminUser) && st_id.equals(adminPassword)) {
 
             Student admin = new Student(0, "Admin", adminName,
-                    "Contact@test.com", new Date(15, 1, 20), "info", "c", 1);
-            request.getSession().setAttribute("user", admin);
-            msg = "All good";
-            request.getSession().setAttribute("message", msg);
-            request.getRequestDispatcher("index.html").forward(request, response);
+                    mail, new Date(15, 1, 20), "info", "c", 1);
+            //request.getSession().setAttribute("user", admin);
+            msg = "Login successful Admin";
+            jsonObject.add("student", gson.toJsonTree(admin));
+            jsonObject.addProperty("msg", msg);
+            try (PrintWriter out = response.getWriter()) {
+                out.println(jsonObject);
+            }
         } else {
             try {
                 int id = 0;
@@ -58,28 +67,30 @@ public class LoginController extends HttpServlet {
                 try {
                     id = Integer.parseInt(st_id);
                 } catch (NumberFormatException ex) {
-                    throw new DAOException("Password must be numeric." + ex.getMessage());
+                    throw new DAOException("Password must be numeric."+ex.getMessage());
                 }
 
-                Student customer = dao.Login(mail, id);
-                if (customer != null) {
-                    request.getSession().setAttribute("user", customer);
-                    //request.getSession().getServletContext().setAttribute("numberConnected", connected+1);
-                    response.sendRedirect(request.getContextPath() + "/customer.jsp");
-
+                Student student = dao.Login(mail, id);
+                if (student != null) {
+                    //request.getSession().setAttribute("user", student);
+                    msg = "Login successful";
+                    
+                    jsonObject.add("student", gson.toJsonTree(student));
+                    jsonObject.addProperty("msg", msg);
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println(jsonObject);
+                    }
                 } else {
                     throw new DAOException("Your account or password is incorrect.");
                 }
 
             } catch (DAOException | IllegalStateException ex) {
                 msg = ex.getMessage();
-                request.setAttribute("message", msg);
-                request.getRequestDispatcher("index.html").forward(request, response);
-                //Logger.getLogger("LoginController").log(Level.SEVERE, "Action en erreur", ex);
-
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(gson.toJson(msg));
+                }
             }
         }
-        //}
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
