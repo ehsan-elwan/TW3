@@ -983,8 +983,12 @@ fieldset[disabled] .btn-tw.active {
     display: none;
 }
 
-. helement {
+.element-to-hide{
     display: none;
+}
+
+#graph1 {
+    height: 500px; padding-left: 20px; width: 100%;
 }
 
 .mapcont{

@@ -67,7 +67,7 @@
                                 Trouver votre Master
                             </a>
                         </li>
-                        <li class="helement">
+                        <li class="element-to-hide">
                             <a href="#add-master">
                                 <span class="glyphicon glyphicon-plus"></span>
                                 Ajouter un master
@@ -82,7 +82,7 @@
                         <!--
                         <li><a href="#price-page">Classements</a></li>
                         /-->
-                        <li class="helement">
+                        <li class="element-to-hide">
                             <a href="#ex-student">
                                 <span class="glyphicon glyphicon-user"></span>
                                 Ancien élèves
@@ -207,50 +207,52 @@
 
 
     <!--Feature-area-->
-    <section class="gray-bg section-padding" id="add-master">
-        <section class="angle-bg sky-bg section-padding">
+    <section class="gray-bg section-padding element-to-hide" id="add-master">
+        
             <div class="contact-section">
                 <div class="section-content" style="padding-left: 60px;">
-                    <h1 class="section-header"> 
-                        <span class="content-header wow fadeIn " data-wow-delay="0.2s" data-wow-duration="2s"> Ajouter un master</span>
-                    </h1>
+                    <h1 class="section-header"><span class="content-header wow fadeIn " data-wow-delay="0.5s" data-wow-duration="5s">Ajouter un master</span></h1>
                 </div>
-                <div class="container"> 
-                    <form>                     
+                <div class="container" style="padding-top: 30px;"> 
+                    <form id ="add-formation">                     
                         <div class="col-md-6 form-line">
                             <div class="col-md-12 form-group">
                                 <label>Intitulé</label>
-                                <input class="form-control input wrap-input" name="ville" type="text" placeholder="Quelle est l'intitulé du master ?" required>
+                                <input class="form-control input wrap-input" name="title" type="text" placeholder="Quelle est l'intitulé du master ?" required size="20" minlength="4" maxlength="20">
                             </div>
                             <div class="col-md-6 form-line">
                                 <label>type</label>
-                                <input class="form-control input wrap-input" name="type" type="text" placeholder="Quelle est le type du master ?" required>
+                                <input class="form-control input wrap-input" name="type" type="text" placeholder="Quelle est le type du master ?" required size="15" minlength="4" maxlength="15">
                             </div>
                             <div class="col-md-6 form-line">
                                 <label>Sigle</label>
-                                <input class="form-control input wrap-input" name="sigle" type="text" placeholder="Sigle de formation ?" required>
+                                <input class="form-control input wrap-input" name="sigle" type="text" placeholder="Sigle de formation ?" required size="7" minlength="2" maxlength="7">
                             </div>
                         </div>
                         <div class="col-md-6 form-line">
                             <div class="col-md-12 form-group">
                                 <label>Specialité</label>
-                                <input class="form-control input wrap-input" name="specialte" type="text" placeholder="Quelle est votre spécialité ?" required>
+                                <input class="form-control input wrap-input" name="spec" type="text" placeholder="Quelle est votre spécialité ?" required required size="15" minlength="2" maxlength="15">
                             </div>
                             <div class="col-md-12 form-group">
                                 <label>Etablissement</label>
                                 <a id="etlab_name" class="form-control input wrap-input" data-toggle="dropdown" href="#">Veuillez choisir un établissement <span class="caret"></span></a>
                                 <ul id="etabdp" class="dropdown-menu etabdp"></ul>
-                                <input id="etab_id" name="etablissement" type="hidden" value="">
+                                <input id="etab_id" name="sch-id" type="hidden" value="">
+                                <input name="todo" type="hidden" value="add_formation">
                             </div>
                         </div>
                         <div>
-                            <button type="button" class="ui button btn-tw btn-block" style=" margin: 10px auto; width: 30%;">
-                                <span class="glyphicon glyphicon-plus"></span> Ajoute
+                            <button type="submit" class="ui button btn-tw btn-block" style=" margin: 10px auto; width: 30%;">
+                                   <span class="glyphicon glyphicon-plus"></span> Ajoute
                             </button>
+                            <div id = "alert-div" style="padding-top:20px;"></div>
+                          
                         </div>
                     </form>
                 </div>
-        </section>
+            </div>
+        
         <!--Feature-area/-->
 
     </section>
@@ -260,13 +262,13 @@
         <div class="contact-section">
             <div class="section-content">
                 <div class="section-content" style="padding-left: 60px;">
-                    <h1 class="section-header" id="stat">Stati<span class="content-header wow fadeIn " data-wow-delay="0.2s" data-wow-duration="2s">ques</span></h1>
+                    <h1 class="section-header" id="stat"><span class="content-header wow fadeIn " data-wow-delay="0.5s" data-wow-duration="5s">Statiques</span></h1>
                 </div>
-                <div class="container">
+                <div class="container" style="padding-top: 30px;">
                     <p id="year-slider" class="testimonial"> Moyenne par master</p>
                     <div id="chart_graph0" style="height: 500px;"></div>
                     <p class="testimonial"> Situation des étudiants</p>
-                    <div id="graph1" style="height: 500px;"></div>
+                    <div id="graph1"></div>
                 </div>
             </div>
         </div>
@@ -432,6 +434,7 @@
                 $body.removeClass("loading");
             }
         });
+        
 
         function initialize() {
 
@@ -498,18 +501,53 @@
                     success: // La fonction qui traite les résultats
                         function (results) {
                             var element = '<span class="glyphicon glyphicon-user"></span> '
-                            + results.student.st_fname + ' ' + results.student.st_lname;
+                            + results.user.st_fname + ' ' + results.user.st_lname;
                             $("#user-tag").empty().append(element);
-                            $("#login-dp").hide();
-                            $("#logout-dp").show();
-                            $(".helement").show();
+                            $("#login-dp").hide(1000);
+                            $("#logout-dp").show(1000);
+                            $(".element-to-hide").show(1000);
+                            //alert(results.msg);
                         }
                 });
             });
+            
+            $("#add-formation").submit(function(event){
+                event.preventDefault();
+                var form_data = $(this).serialize();
+                $.ajax({
+                    url : "actions",
+                    data : form_data,
+                    error: function(a,b,c) {
+                        alert (a,b,c);
+                    },
+                    success: function(res) {
+                        var e =$("#alert-div");
+                        e.empty();
+                        var tt = parse("<button type='button' class='close' \n\
+                            aria-hidden='true'>&times;</button><p><strong> %s \n\
+                            </strong></p>",res.msg);
+                        var alertClass;
+                        if (res.code === 0) {
+                            alertClass = "alert-success";
+                        } else {
+                            alertClass = "alert-danger";
+                        }
+                        var newalert = $('<div> ' + tt + ' </div>').attr({"class": "alert "+alertClass+" alert-dismissable"});
+                        e.append(newalert);
+                        $(".alert button.close").click(function() {
+                            $(this).parent().fadeOut('slow');
+                        });
+                    //alert(res.msg);
+                    }
+                }); 
+            });
+            
+            //// Listner  /////
             //drawChart();
             drawDashboard();
             $("input.slider").slider();
-            $(".btn-spin").hide();
+            $(".btn-spin").hide(1000);
+            
 
         }
 
@@ -606,7 +644,7 @@
                 }
             });
         }
-
+        
         function getRandomColor() {
             var letters = '0123456789ABCDEF';
             var color = '#';
@@ -627,7 +665,7 @@
 
         function clearMarkers() {
             $("button.ui").attr("disabled", true);
-            $(".btn-spin").show();
+            $(".btn-spin").show(500);
             setMapOnAll(null);
             ser_lat_lng = [];
             gmark = [];
@@ -712,33 +750,35 @@
                     createMarker(add[1] + " <PRE> <b> " + add[2], res[1], res[2]);
                 });
                 map.fitBounds(bounds);
-                $("#dropinfo").removeClass("loading").show();
+                $("#dropinfo").removeClass("loading").show(1000);
                 $("#map").removeClass("loading");
                 $("button.ui").attr("disabled", false);
-                $(".btn-spin").hide();
+                $(".btn-spin").hide(1000);
             }
         }
 
         function searchFormations() {
-        clearMarkers();
-                ser_lat_lng = [];
-                donefac = [];
-                cities = [];
-                var maindiv = $("#dropinfo");
-                maindiv.empty();
-                var form = $("#search_form").val();
-                var value = $("#filter_input").val();
-                var callfun;
-                switch (value) {
-        case "ville":
-                callfun = "getFormationByCity";
-                break;
-                case "sigle":
-                callfun = "getFormationByCity";
-                break;
-                default:
-                callfun = "getFormationsLikeLabel";
-        }
+            clearMarkers();
+            var dropelement = $("#dropinfo");
+            dropelement.empty();
+            ser_lat_lng = [];
+            donefac = [];
+            cities = [];
+            var maindiv = $("#dropinfo");
+            maindiv.hide(500).empty();
+            var form = $("#search_form").val();
+            var value = $("#filter_input").val();
+            var callfun;
+            switch (value) {
+                case "ville":
+                        callfun = "getFormationByCity";
+                        break;
+                        case "sigle":
+                        callfun = "getFormationByCity";
+                        break;
+                        default:
+                        callfun = "getFormationsLikeLabel";
+                }
         $.ajax({
         url: "Student",
                 data: {"set": callfun, "form_lab": form},
@@ -777,7 +817,7 @@
             donefac = [];
             cities = [];
             var dropelement = $("#dropinfo");
-            dropelement.empty();
+            dropelement.hide(500).empty();
             $.ajax({
                 url: "Student",
                 data: {"set": "getAllFormations"},

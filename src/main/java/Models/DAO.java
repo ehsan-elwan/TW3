@@ -6,6 +6,7 @@
 package Models;
 
 import Exceptions.DAOException;
+import com.google.gson.JsonObject;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.Connection;
 import java.sql.Date;
@@ -651,9 +652,8 @@ public class DAO {
         return mainObj;
     }
 
-    public Student Login(String mail, int pass) throws DAOException {
+    public Student login(String mail, int pass) throws SQLException  {
         Student result = null;
-
         String sql = "SELECT * FROM ancien_etudiant WHERE mail=? AND id_etud=?";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -672,10 +672,39 @@ public class DAO {
                             mail, promo, spec, cursus, avgID);
                 }
             }
-        } catch (SQLException ex) {
-            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
-            throw new DAOException(ex.getMessage());
-        }
+        } 
         return result;
+    }
+
+    public JsonObject addFormation(String title, String sigle,
+            String type, String spec, int sch_id) {
+        JsonObject mainObj = new JsonObject();
+        String msg = "";
+        int msg_code = 0;
+        String sql = "INSERT INTO formation "
+                + "(intitule,sigle ,type,specialite,id_etablissement) "
+                + "values (?,?,?,?,?)";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, title);
+            stmt.setString(2, sigle);
+            stmt.setString(3, type);
+            stmt.setString(4, spec);
+            stmt.setInt(5, sch_id);
+            int count = stmt.executeUpdate();
+            if (count > 0) {
+                msg = "Formation ajouter avec success";
+            } else {
+                msg = "Formation n'est pas ajouter, cause: ";
+            }
+
+        } catch (SQLException ex) {
+            msg += ex.getMessage();
+            msg_code = -1;
+        }
+        mainObj.addProperty("msg", msg);
+        mainObj.addProperty("code", msg_code);
+        return mainObj;
     }
 }

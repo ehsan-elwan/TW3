@@ -7,14 +7,10 @@ package Servlet;
 
 import Models.DAO;
 import Models.DataSource;
-import Models.Student;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
-import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Ehsan
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
-public class LoginController extends HttpServlet {
+@WebServlet(name = "actions", urlPatterns = {"/actions"})
+public class actions extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,40 +36,23 @@ public class LoginController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        String msg = "";
-        Student user = null;
-        String mail = request.getParameter("login");
-        String st_id = request.getParameter("pass");
-        String adminUser = getInitParameter("login");
-        String adminPassword = getInitParameter("pass");
-        String adminName = getInitParameter("userName");
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        JsonObject jsonObject = new JsonObject();
-        int id = 0;
         DAO dao = new DAO(new DataSource().getMySQLDataSource());
-        if (mail.equals(adminUser) && st_id.equals(adminPassword)) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String getParm = request.getParameter("todo");
 
-            user = new Student(0, "Admin", adminName,
-                    mail, new Date(15, 1, 20), "info", "c", 1);
-            msg = "connexion réussie, Bienvenue "+adminName;
-            jsonObject.add("user", gson.toJsonTree(user));
-            
-
-        } else {
-            try {
-                id = Integer.parseInt(st_id);
-                user = dao.login(mail, id);
-                msg = "connexion réussie, Bienvenue "+user.getFname();
-            } catch (IllegalStateException | NumberFormatException |SQLException  ex) {
-                msg = "connexion echouée, cause: "+ex.getMessage();
-            } 
-            
-        }
-        jsonObject.add("user", gson.toJsonTree(user));
-        jsonObject.addProperty("msg", msg);
-        try (PrintWriter out = response.getWriter()) {
-                    out.println(jsonObject);
+        switch (getParm) {
+            case "add_formation":
+                String title = request.getParameter("title");
+                String sigle = request.getParameter("sigle");
+                String type = request.getParameter("type");
+                String spec = request.getParameter("spec");
+                int sch_id = Integer.valueOf(request.getParameter("sch-id"));
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(dao.addFormation(title, sigle, type, spec, sch_id));
                 }
+                break;
+
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
