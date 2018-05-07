@@ -24,6 +24,7 @@
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="css/responsive.css">             
         <link rel="stylesheet" href="css/bootstrap-slider.min.css" />
+        
 
 
         <!--[if lt IE 9]>
@@ -67,7 +68,13 @@
                                 Trouver votre Master
                             </a>
                         </li>
-                        <li class="element-to-hide">
+                        <li><!--class="element-to-hide"/-->
+                            <a href="#ex-student">
+                                <span class="glyphicon glyphicon-user"></span>
+                                Ancien élèves
+                            </a>
+                        </li>
+                        <li><!--class="element-to-hide"/-->
                             <a href="#add-master">
                                 <span class="glyphicon glyphicon-plus"></span>
                                 Ajouter un master
@@ -82,12 +89,7 @@
                         <!--
                         <li><a href="#price-page">Classements</a></li>
                         /-->
-                        <li class="element-to-hide">
-                            <a href="#ex-student">
-                                <span class="glyphicon glyphicon-user"></span>
-                                Ancien élèves
-                            </a>
-                        </li>
+  
                         <li>
                             <a href="#faq-page">
                                 <span class="glyphicon glyphicon-question-sign"></span>
@@ -166,11 +168,10 @@
                 </div>
                 <div class="col-md-6 form-line sercont">
                     <div class="col-md-10 form-group full-width">
-
                         <div class="input-group">
                             <input id="search_form" class="form-control input wrap-input" placeholder="Recherche par mot clé" required>
-                            <div class="input-group-btn">
-                                <button class="ui btn btn-default form-control" onclick="searchFormations()">
+                            <div class="input-group-btn input">
+                                <button class="ui btn btn-default wrap-input" onclick="searchFormations()">
                                     <i class="glyphicon glyphicon-search"></i>
                                     <i class="fa fa-spinner fa-spin btn-spin"></i>
                                 </button>
@@ -179,21 +180,21 @@
                         <div class="form-check testimonial">
 
                             <label class="toggle block">
-                                <input type="radio" name="toggle" value="mot clé" checked> <span class="label-text">mot clé</span>
+                                <input code="search-for-input" type="radio" name="toggle" value="mot clé" checked> <span class="label-text">mot clé</span>
                             </label>
 
                             <label class="toggle block" >
-                                <input type="radio" name="toggle" value="ville"> <span class="label-text">ville</span>
+                                <input code="search-for-input" type="radio" name="toggle" value="ville"> <span class="label-text">ville</span>
                             </label>
 
                             <label class="toggle block">
-                                <input type="radio" name="toggle" value="sigle"> <span class="label-text">sigle</span>
+                                <input code="search-for-input" type="radio" name="toggle" value="sigle"> <span class="label-text">sigle</span>
                             </label>
                         </div>
                         <input id="filter_input" name="filter" type="hidden" value="mot clé">
                     </div>
                     <div class="col-md-10 form-group centerediv">
-                        <button class="ui button btn-tw form-control" type="button" onclick="searchAllFormations()">
+                        <button class="ui button btn-tw" type="button" onclick="searchAllFormations()">
                             <i class="fa fa-spinner fa-spin btn-spin"></i>
                             Afficher toutes les Master
                         </button>
@@ -204,10 +205,57 @@
             </div>
         </header>
     <!--Header-area/-->
+    
+    
+    <section class="section-padding gray-bg" id="ex-student">
+        <div class="container-fluid maintheme">
+        
+            <div class="form-group full-width">
+                <div class="input-group">
+
+                    <input id="search_form-ex" class="form-control input wrap-input" placeholder="Recherche par nom" required>
+                    <div id = "sch-ex-student-dp" class="input wrap-input" style="display: none;">        
+                        <a id="etlab_name" class="form-control input wrap-input" data-toggle="dropdown" href="#">Veuillez choisir un établissement <span class="caret"></span></a>
+                        <ul id="etabdp" class="dropdown-menu etabdp"></ul>
+                    </div>
+                    <div class="input-group-btn input">
+                        <button class="ui btn btn-default wrap-input" onclick="searchStudent()">
+                            <i class="glyphicon glyphicon-search"></i>
+                            <i class="fa fa-spinner fa-spin btn-spin" style="display: none;"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-check testimonial">
+
+
+                    <label class="toggle block-ex">
+                        <input code="ex-st-input" type="radio" name="toggle" value="nom" checked=""> <span class="label-text">Nom</span>
+                    </label>
+
+                    <label class="toggle block-ex">
+                        <input code="ex-st-input" type="radio" name="toggle" value="promotion"> <span class="label-text">Promotion</span>
+                    </label>
+                    <label class="toggle block-ex">
+                        <input code="ex-st-input" type="radio" name="toggle" value="formation"> <span class="label-text">Formation</span>
+                    </label>
+                    <label class="toggle block-ex">
+                        <input code="ex-st-input" type="radio" name="toggle" value="etablissement"> <span class="label-text">Etablissement</span>
+                    </label>
+                </div>
+                <input id="filter_input-ex-student" name="filter" type="hidden" value="nom">
+            </div>
+        
+            <div class="container">
+                <div id="ex-student-div" class="row">
+                </div>
+            </div>
+        </div>
+    </section>
+
 
 
     <!--Feature-area-->
-    <section class="gray-bg section-padding element-to-hide" id="add-master">
+    <section class="gray-bg section-padding " id="add-master"><!--element-to-hide-->
         
             <div class="contact-section">
                 <div class="section-content" style="padding-left: 60px;">
@@ -274,20 +322,11 @@
         </div>
     </section>
 
-
     <!--
     <section class="price-area overlay section-padding" id="price-page">
 
     </section>
     /-->
-
-
-
-    <section class="section-padding gray-bg" id="ex-student">
-
-    </section>
-
-
 
     <section class="testimonial-area section-padding gray-bg overlay">
 
@@ -477,13 +516,30 @@
             });
 
             //Listener:
-            $("input[name=toggle]").change(function () {
+            // Search formation
+            $("input[code=search-for-input]").change(function () {
                 var e = $('#search_form');
                 var value = $(this).val();
                 e.attr('placeholder', "Recherche par " + value);
                 $("#filter_input").val(value);
             });
-
+            
+            // Search ex-student
+            $("input[code=ex-st-input]").change(function () {
+                var e = $('#search_form-ex');
+                var value = $(this).val();
+                var e2 = $("#sch-ex-student-dp");
+                if (value === "etablissement") {
+                    e.hide(500);
+                    e2.show(500);
+                } else {
+                    e2.hide();
+                    e.show(500);
+                e.attr('placeholder', "Recherche par " + value);     
+                }
+            $("#filter_input-ex-student").val(value);
+            });
+            
             $("#conn-btn").click(function (evt) {
                 evt.preventDefault();
                 var login = $("#login-id").val();
@@ -506,7 +562,6 @@
                             $("#login-dp").hide(1000);
                             $("#logout-dp").show(1000);
                             $(".element-to-hide").show(1000);
-                            //alert(results.msg);
                         }
                 });
             });
@@ -534,10 +589,11 @@
                         }
                         var newalert = $('<div> ' + tt + ' </div>').attr({"class": "alert "+alertClass+" alert-dismissable"});
                         e.append(newalert);
+                        newalert.hide();
+                        newalert.show(1000);
                         $(".alert button.close").click(function() {
                             $(this).parent().fadeOut('slow');
                         });
-                    //alert(res.msg);
                     }
                 }); 
             });
@@ -756,6 +812,79 @@
                 $(".btn-spin").hide(1000);
             }
         }
+        
+        
+        function searchStudent(){
+            var maindiv = $("#ex-student-div");
+            maindiv.hide(500);
+            var parm;
+            parm = $("#search_form-ex").val();
+            maindiv.empty();
+            var value = $("#filter_input-ex-student").val(); 
+            var callfun;
+            switch (value) {
+                case "promotion":
+                        callfun = "getFormationByCity";                    
+                        break;
+                case "formation":
+                        callfun = "getStudentByFormation";
+                        break;
+                case "etablissement":
+                        callfun = "getStudentByEstablishment";
+                        parm = $("#etab_id").val();
+                        break;
+                default:
+                    callfun = "getStudentsLikeName";
+                }
+            $.ajax({
+                url: "Student",
+                data: {"set": callfun, "var": parm},
+                dataType: "json",
+                error: showError,
+                success: // La fonction qui traite les résultats
+                function (results) {
+                    var div;
+                    var avg;
+                    results.map((res) => {
+                        switch (res.st_L3average) {
+                            case 1:
+                                avg = "Passable";
+                                break;
+                            case 2:
+                                avg = "Assez bien";
+                                break;
+                            case 3:
+                                avg = "Bien";
+                                break;
+                            default:
+                                avg = "Très bien";
+                            }
+                        var tt = parse("<div class='well well-sm'><div class='row'>\n\
+                                <div class='col-sm-6 col-md-4'>\n\
+                                <img src='images/avatars/%s.png' alt='' class='img-rounded img-responsive' />\n\
+                                </div><div class='col-sm-6 col-md-8'><h4>%s %s</h4>\n\
+                                <small><cite title='San Francisco, USA'>Moyenne L3 : %s \n\
+                                <i class='glyphicon glyphicon-pencil'></i></cite></small>\n\
+                                <p><i class='glyphicon glyphicon-envelope'>\n\
+                                </i> %s <br /><i class='glyphicon glyphicon-console'>\n\
+                                </i>Specialty: %s <br /><i class='glyphicon glyphicon-bookmark'>\n\
+                                </i>Poste actuel: %s <br /><i class='glyphicon glyphicon-education'>\n\
+                                </i>Promotion: %s </p><div class='btn-group'><button type='button' class='btn btn-primary'>Social</button>\n\
+                                <button type='button' class='btn btn-primary dropdown-toggle' data-toggle='dropdown'>\n\
+                                <span class='caret'></span><span class='sr-only'>Social</span></button>\n\
+                                <ul class='dropdown-menu' role='menu'><li><a href='#'>Twitter</a></li><li>\n\
+                                <a href='https://google.fr'>Google +</a></li><li><a href='https://www.facebook.com'>Facebook\n\
+                                </a></li><li class='divider'></li><li><a href='#'>Github</a></li></ul></div></div></div></div>",
+                                getRandomInt(1,8), res.st_fname, res.st_lname, avg, res.st_email, res.st_spec,
+                                " M2 CSA ", res.st_promotion);
+                        div = $('<div> ' + tt + ' </div>').attr({ "class": "col-xs-12 col-sm-6 col-md-6"});
+                        maindiv.append(div);
+                    });
+                    maindiv.show(1000);
+                    }
+            });
+            
+        }
 
         function searchFormations() {
             clearMarkers();
@@ -779,8 +908,8 @@
                         default:
                         callfun = "getFormationsLikeLabel";
                 }
-        $.ajax({
-        url: "Student",
+            $.ajax({
+                url: "Student",
                 data: {"set": callfun, "form_lab": form},
                 dataType: "json",
                 error: showError,
@@ -861,6 +990,10 @@
             return str.replace(/%s/g, function () {
                 return args[i++];
             });
+        }
+        
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
         }
         
         function getPivotArray(dataArray, rowIndex, colIndex, dataIndex) {

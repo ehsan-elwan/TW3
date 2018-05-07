@@ -40,11 +40,11 @@ public class GetStudents extends HttpServlet {
         DAO dao = new DAO(new DataSource().getMySQLDataSource());
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         switch (getParm) {
-            case "getStudent":
+            case "getStudentsLikeName":
 
                 try (PrintWriter out = response.getWriter()) {
 
-                    out.println(gson.toJson(dao.getStudent()));
+                    out.println(gson.toJson(dao.getStudentsLikeName(request.getParameter("var"))));
                 }
                 break;
             case "getEstablishment":
@@ -56,7 +56,7 @@ public class GetStudents extends HttpServlet {
             case "getStudentByEstablishment":
                 try (PrintWriter out = response.getWriter()) {
 
-                    out.println(gson.toJson(dao.getStudentByEstablishment(request.getParameter("sch_name"))));
+                    out.println(gson.toJson(dao.getStudentBySchool(Integer.valueOf(request.getParameter("var")))));
                 }
                 break;
             case "getEtablissementByFormation":
@@ -68,7 +68,7 @@ public class GetStudents extends HttpServlet {
             case "getStudentByFormation":
                 try (PrintWriter out = response.getWriter()) {
 
-                    out.println(gson.toJson(dao.getStudentByFormation(request.getParameter("form_name"))));
+                    out.println(gson.toJson(dao.getStudentByFormation(request.getParameter("var"))));
                 }
                 break;
             case "getEtablissementByCity":

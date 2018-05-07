@@ -5,7 +5,6 @@
  */
 package Models;
 
-import Exceptions.DAOException;
 import com.google.gson.JsonObject;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.Connection;
@@ -35,17 +34,20 @@ public class DAO {
         myDataSource = new DataSource().getMySQLDataSource();
     }
 
-    public List<Student> getStudent() {
+    public List<Student> getStudentsLikeName(String lname) {
         List<Student> result = new LinkedList<>();
         Student st;
-        String sql = "SELECT distinct * FROM ancien_etudiant";
+        String sql = "SELECT distinct * FROM ancien_etudiant WHERE "
+                + "ancien_etudiant.nom LIKE ?";
+
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, "%" + lname + "%");
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
 
                     int id = rs.getInt("id_etud");
-                    String lname = rs.getString("nom");
+                    lname = rs.getString("nom");
                     String fname = rs.getString("prenom");
                     String email = rs.getString("mail");
                     Date promotion = rs.getDate("promotion");
@@ -101,18 +103,18 @@ public class DAO {
         return result;
     }
 
-    public List<Student> getStudentByEstablishment(String SchoolName) {
+    public List<Student> getStudentBySchool(int sch_id) {
         List<Student> result = new LinkedList<>();
         Student st;
-        String sql = "SELECT Distinct * FROM ancien_etudiant, a_effectue, "
-                + "SchoolName, formation WHERE "
+        String sql = "SELECT Distinct * FROM ancien_etudiant, a_effectue,"
+                + " etablissement, formation WHERE "
+                + "etablissement.id_etablissement = ? AND "
                 + "ancien_etudiant.id_etud=a_effectue.id_etud AND "
                 + "a_effectue.id_formation = formation.id_formation AND "
-                + "SchoolName.nom = ? AND "
-                + "SchoolName.id_SchoolName=formation.id_SchoolName";
+                + "etablissement.id_etablissement=formation.id_etablissement";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, SchoolName);
+            stmt.setInt(1, sch_id);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
 
@@ -652,7 +654,7 @@ public class DAO {
         return mainObj;
     }
 
-    public Student login(String mail, int pass) throws SQLException  {
+    public Student login(String mail, int pass) throws SQLException {
         Student result = null;
         String sql = "SELECT * FROM ancien_etudiant WHERE mail=? AND id_etud=?";
         try (Connection connection = myDataSource.getConnection();
@@ -672,7 +674,7 @@ public class DAO {
                             mail, promo, spec, cursus, avgID);
                 }
             }
-        } 
+        }
         return result;
     }
 
