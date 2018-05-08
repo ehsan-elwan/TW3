@@ -78,7 +78,7 @@ body {
 body {
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
-    font-size: 15px;
+   /* font-size: 15px; */
     line-height: 1.8;
     color: #515656;
 }
@@ -140,7 +140,7 @@ input:-webkit-autofill:focus {
 }
 
 .section-padding {
-    padding: 120px 0;
+    padding: 70px 0;
 }
 
 .social-menu {

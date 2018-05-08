@@ -68,13 +68,13 @@
                                 Trouver votre Master
                             </a>
                         </li>
-                        <li><!--class="element-to-hide"/-->
+                        <li class="element-to-hide"><!--class="element-to-hide"/-->
                             <a href="#ex-student">
                                 <span class="glyphicon glyphicon-user"></span>
                                 Ancien élèves
                             </a>
                         </li>
-                        <li><!--class="element-to-hide"/-->
+                        <li class="element-to-hide"><!--class="element-to-hide"/-->
                             <a href="#add-master">
                                 <span class="glyphicon glyphicon-plus"></span>
                                 Ajouter un master
@@ -98,8 +98,8 @@
                         </li>
                         <li>
                             <a href="#contact-page">
-                                <span class="glyphicon glyphicon-comment"></span>
-                                Contact
+                                <span class="glyphicon glyphicon-link"></span>
+                                Nous Rejoindre
                             </a>
                         </li>
                         <li class="dropdown">
@@ -180,7 +180,7 @@
                         <div class="form-check testimonial">
 
                             <label class="toggle block">
-                                <input code="search-for-input" type="radio" name="toggle" value="mot clé" checked> <span class="label-text">mot clé</span>
+                                <input code="search-for-input" type="radio" name="toggle" value="mot clé" checked=""> <span class="label-text">mot clé</span>
                             </label>
 
                             <label class="toggle block" >
@@ -207,16 +207,25 @@
     <!--Header-area/-->
     
     
-    <section class="section-padding gray-bg" id="ex-student">
-        <div class="container-fluid maintheme">
+    <section class="section-padding gray-bg element-to-hide" id="ex-student">
+        <div class="container" style="width: 100%">
+                                <div class="section-content" style="padding-bottom: 20px; padding-top: 20px; padding-left: 60px;">
+                        <h1 class="section-header" id="stat" style="font-size: 25px;">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <span class="content-header wow fadeIn  " data-wow-delay="0.5s" data-wow-duration="3s">
+                                
+                                Ancien élèves</span>
+                        </h1>
+                    </div>
+            
         
-            <div class="form-group full-width">
-                <div class="input-group">
+            <div class="form-group text-center" style="width: 60%; margin: 0 auto">
+                <div class="input-group text-center">
 
                     <input id="search_form-ex" class="form-control input wrap-input" placeholder="Recherche par nom" required>
                     <div id = "sch-ex-student-dp" class="input wrap-input" style="display: none;">        
                         <a id="etlab_name" class="form-control input wrap-input" data-toggle="dropdown" href="#">Veuillez choisir un établissement <span class="caret"></span></a>
-                        <ul id="etabdp" class="dropdown-menu etabdp"></ul>
+                        <ul class="dropdown-menu etabdp"></ul>
                     </div>
                     <div class="input-group-btn input">
                         <button class="ui btn btn-default wrap-input" onclick="searchStudent()">
@@ -229,7 +238,7 @@
 
 
                     <label class="toggle block-ex">
-                        <input code="ex-st-input" type="radio" name="toggle" value="nom" checked=""> <span class="label-text">Nom</span>
+                        <input code="ex-st-input" type="radio" name="toggle" value="nom" > <span class="label-text">Nom</span>
                     </label>
 
                     <label class="toggle block-ex">
@@ -244,22 +253,25 @@
                 </div>
                 <input id="filter_input-ex-student" name="filter" type="hidden" value="nom">
             </div>
+    </div>
         
             <div class="container">
                 <div id="ex-student-div" class="row">
                 </div>
             </div>
-        </div>
+   
     </section>
 
 
 
     <!--Feature-area-->
-    <section class="gray-bg section-padding " id="add-master"><!--element-to-hide-->
+    <section class="gray-bg section-padding element-to-hide" id="add-master"><!--element-to-hide-->
         
             <div class="contact-section">
                 <div class="section-content" style="padding-left: 60px;">
-                    <h1 class="section-header"><span class="content-header wow fadeIn " data-wow-delay="0.5s" data-wow-duration="5s">Ajouter un master</span></h1>
+                    <h1 class="section-header">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        <span class="content-header wow fadeIn " data-wow-delay="0.5s" data-wow-duration="3s">Ajouter un master</span></h1>
                 </div>
                 <div class="container" style="padding-top: 30px;"> 
                     <form id ="add-formation">                     
@@ -285,7 +297,7 @@
                             <div class="col-md-12 form-group">
                                 <label>Etablissement</label>
                                 <a id="etlab_name" class="form-control input wrap-input" data-toggle="dropdown" href="#">Veuillez choisir un établissement <span class="caret"></span></a>
-                                <ul id="etabdp" class="dropdown-menu etabdp"></ul>
+                                <ul class="dropdown-menu etabdp"></ul>
                                 <input id="etab_id" name="sch-id" type="hidden" value="">
                                 <input name="todo" type="hidden" value="add_formation">
                             </div>
@@ -310,7 +322,9 @@
         <div class="contact-section">
             <div class="section-content">
                 <div class="section-content" style="padding-left: 60px;">
-                    <h1 class="section-header" id="stat"><span class="content-header wow fadeIn " data-wow-delay="0.5s" data-wow-duration="5s">Statiques</span></h1>
+                    <h1 class="section-header" id="stat">
+                        <span class="glyphicon glyphicon-stats"></span>
+                        <span class="content-header wow fadeIn " data-wow-delay="0.5s" data-wow-duration="3s">Statistiques</span></h1>
                 </div>
                 <div class="container" style="padding-top: 30px;">
                     <p id="year-slider" class="testimonial"> Moyenne par master</p>
@@ -335,11 +349,12 @@
 
 
     <section class="gray-bg section-padding" id="faq-page">
+        
 
     </section>
 
 
-
+<!--
     <section class="section-padding overlay client-area overlay" id="client-page">
 
     </section>
@@ -347,9 +362,10 @@
 
     <section class="section-padding gray-bg" id="blog-page">
         <div class="container">
-
+            
         </div>
     </section>
+/-->
 
 
 
@@ -357,15 +373,47 @@
         <div class="absolute footer-bg"></div>
         <div class="footer-top">
             <div class="container">
+                
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-center">
                         <div class="page-title">
-                            <h2>Contactez nous</h2>
+                            <h2>Nous rejoindre</h2>
                             <p></p>
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="contact-section">
+                        <div class="section-content">
+                            <div class="section-content">
+                                <h1 class="section-header" id="stat" style="font-size: 25px;">
+                                    <span class="glyphicon glyphicon-home"></span>
+                                    	
+                                    <span class="content-header wow fadeIn"  data-wow-delay="0.5s" data-wow-duration="3s">
+                                        Campus Albi</span></h1>
+                            </div>
+                            <div class="section-content text-center" style="padding-bottom: 20px; padding-top: 20px;">
+                                <embed style="width: 85%; border-radius: 25px; color: black; border: 1px solid #ff542f;" height="540" src="https://www.univ-jfc.fr/sites/default/files/vue-360/">
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+                <div class="container">
+                    
+                                <div class="section-content" style="padding-bottom: 20px; padding-top: 20px;">
+                        <h1 class="section-header" id="stat" style="font-size: 25px;">
+                            <span class="glyphicon glyphicon-comment"></span>
+                            <span class="content-header wow fadeIn block " data-wow-delay="0.5s" data-wow-duration="3s">
+                                
+                                Contact</span>
+                        </h1>
+                    </div>
+                    
+               
                 <div class="row" >
+                    
                     <div class="col-xs-12 col-md-4">
                         <address class="side-icon-boxes">
                             <div class="side-icon-box">
@@ -406,8 +454,9 @@
                         </form>
                     </div>
                 </div>
+                </div>
             </div>
-        </div>
+        
         <div class="footer-middle">
             <div class="container">
                 <div class="row">
@@ -420,8 +469,7 @@
                             <li><a href="#"><i class="ti-github"></i></a></li>
                         </ul>
                     </div>
-                </div>
-            </div>
+                </div>               
         </div>
     </footer>
 
@@ -490,19 +538,21 @@
 
             $.ajax({
                 url: "Student",
-                data: {"set": "getEstablishment"},
+                data: {"set": "getSchools"},
                 dataType: "json",
                 error: showError,
                 success: // La fonction qui traite les résultats
                     function (results) {
-                        var myUl = $("#etabdp");
+                        var myUl = $(".etabdp");
                         var li;
                         var aOp;
-                        results.map((res) => {
-                            aOp = $('<a>' + res.sch_name + '</a>').attr({'id': res.sch_id, 'href': '#'});
-                            li = $('<li> </li>').append(aOp);
-                            myUl.append(li);
-                        });
+                        myUl.each(function() {
+                            results.map((res) => {
+                                aOp = $('<a>' + res.sch_name + '</a>').attr({'id': res.sch_id, 'href': '#'});
+                                li = $('<li> </li>').append(aOp);
+                                $(this).append(li);
+                                });                    
+                            });
                         $(".dropdown-menu li a").click(function (event) {
                             event.preventDefault();
                             var selText = $(this).text();
@@ -557,7 +607,7 @@
                     success: // La fonction qui traite les résultats
                         function (results) {
                             var element = '<span class="glyphicon glyphicon-user"></span> '
-                            + results.user.st_fname + ' ' + results.user.st_lname;
+                             + results.user.st_lname;
                             $("#user-tag").empty().append(element);
                             $("#login-dp").hide(1000);
                             $("#logout-dp").show(1000);
@@ -830,7 +880,7 @@
                         callfun = "getStudentByFormation";
                         break;
                 case "etablissement":
-                        callfun = "getStudentByEstablishment";
+                        callfun = "getStudentBySchool";
                         parm = $("#etab_id").val();
                         break;
                 default:

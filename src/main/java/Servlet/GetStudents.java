@@ -47,13 +47,13 @@ public class GetStudents extends HttpServlet {
                     out.println(gson.toJson(dao.getStudentsLikeName(request.getParameter("var"))));
                 }
                 break;
-            case "getEstablishment":
+            case "getSchools":
                 try (PrintWriter out = response.getWriter()) {
 
-                    out.println(gson.toJson(dao.getEstablishment()));
+                    out.println(gson.toJson(dao.getSchools()));
                 }
                 break;
-            case "getStudentByEstablishment":
+            case "getStudentBySchool":
                 try (PrintWriter out = response.getWriter()) {
 
                     out.println(gson.toJson(dao.getStudentBySchool(Integer.valueOf(request.getParameter("var")))));

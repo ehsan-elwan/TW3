@@ -71,7 +71,7 @@ public class DAO {
         return result;
     }
 
-    public List<School> getEstablishment() {
+    public List<School> getSchools() {
         List<School> result = new LinkedList<>();
         School sch;
         String sql = "SELECT distinct * FROM etablissement";
