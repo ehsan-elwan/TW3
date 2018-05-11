@@ -79,16 +79,17 @@ public class DAO {
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-
-                    int id = rs.getInt("id_etablissement");
-                    String lname = rs.getString("nom");
-                    String sigle = rs.getString("sigle");
-                    String postalCode = rs.getString("codePostal");
-                    String city = rs.getString("ville");
-                    String country = rs.getString("pays");
+                    int sch_id = rs.getInt("id_etablissement");
+                    String sch_name = rs.getString("nom");
+                    String sch_sigle = rs.getString("sigle");
+                    String posteCode = rs.getString("codePostal");
+                    String sch_city = rs.getString("ville");
+                    String sch_country = rs.getString("pays");
+                    float lat = rs.getFloat("lat");
+                    float lng = rs.getFloat("lng");
                     int id_region = rs.getInt("id_region");
-                    sch = new School(id, lname, sigle,
-                            postalCode, city, country, id_region);
+                    sch = new School(sch_id, sch_name, sch_sigle,
+                            posteCode, sch_city, sch_country, lat, lng, id_region);
 
                     result.add(sch);
                 }
@@ -155,17 +156,19 @@ public class DAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
 
-                    int sch_id = rs.getInt("id_SchoolName");
+                    int sch_id = rs.getInt("id_etablissement");
                     String sch_name = rs.getString("nom");
-                    String sigle = rs.getString("sigle");
+                    String sch_sigle = rs.getString("sigle");
                     String posteCode = rs.getString("codePostal");
                     String sch_city = rs.getString("ville");
                     String sch_country = rs.getString("pays");
-                    int sch_id_region = rs.getInt("id_region");
+                    float lat = rs.getFloat("lat");
+                    float lng = rs.getFloat("lng");
+                    int id_region = rs.getInt("id_region");
+                    sch = new School(sch_id, sch_name, sch_sigle,
+                            posteCode, sch_city, sch_country, lat, lng, id_region);
 
-                    sch = new School(sch_id, sch_name, sigle, posteCode,
-                            sch_city, sch_country, sch_id_region);
-
+                    result.add(sch);
                 }
 
             }
@@ -181,17 +184,17 @@ public class DAO {
 
     }
 
-    public List<Student> getStudentByFormation(String formationLabel) {
+    public List<Student> getStudentByFormationid(int form_id) {
         List<Student> result = new LinkedList<>();
         Student st;
         String sql = "SELECT Distinct * FROM ancien_etudiant, a_effectue, formation "
                 + "WHERE ancien_etudiant.id_etud=a_effectue.id_etud "
                 + "AND a_effectue.id_formation = formation.id_formation AND "
-                + "formation.intitule = ?";
+                + "formation.id_formation = ?";
 
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, formationLabel);
+            stmt.setInt(1, form_id);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     int id = rs.getInt("id_etud");
@@ -228,17 +231,19 @@ public class DAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
 
-                    int sch_id = rs.getInt("id_SchoolName");
+                    int sch_id = rs.getInt("id_etablissement");
                     String sch_name = rs.getString("nom");
                     String sch_sigle = rs.getString("sigle");
-                    String sch_posteCode = rs.getString("codePostal");
+                    String posteCode = rs.getString("codePostal");
                     String sch_city = rs.getString("ville");
                     String sch_country = rs.getString("pays");
-                    int sch_id_region = rs.getInt("id_region");
+                    float lat = rs.getFloat("lat");
+                    float lng = rs.getFloat("lng");
+                    int id_region = rs.getInt("id_region");
+                    sch = new School(sch_id, sch_name, sch_sigle,
+                            posteCode, sch_city, sch_country, lat, lng, id_region);
 
-                    sch = new School(sch_id, sch_name, sch_sigle, sch_posteCode,
-                            sch_city, sch_country, sch_id_region);
-
+                    result.add(sch);
                 }
 
             }
@@ -297,13 +302,14 @@ public class DAO {
                     int sch_id = rs.getInt("id_etablissement");
                     String sch_name = rs.getString("nom");
                     String sch_sigle = rs.getString("sigle");
-                    String sch_posteCode = rs.getString("codePostal");
+                    String posteCode = rs.getString("codePostal");
                     String sch_city = rs.getString("ville");
                     String sch_country = rs.getString("pays");
-                    int sch_id_region = rs.getInt("id_region");
-
-                    sch = new School(sch_id, sch_name, sch_sigle, sch_posteCode,
-                            sch_city, sch_country, sch_id_region);
+                    float lat = rs.getFloat("lat");
+                    float lng = rs.getFloat("lng");
+                    int id_region = rs.getInt("id_region");
+                    sch = new School(sch_id, sch_name, sch_sigle,
+                            posteCode, sch_city, sch_country, lat, lng, id_region);
 
                     form = new Formation(for_id, for_intitule, sigle, for_type,
                             for_speciality, sch);
@@ -344,13 +350,14 @@ public class DAO {
                     int sch_id = rs.getInt("id_etablissement");
                     String sch_name = rs.getString("nom");
                     String sch_sigle = rs.getString("sigle");
-                    String sch_posteCode = rs.getString("codePostal");
+                    String posteCode = rs.getString("codePostal");
                     String sch_city = rs.getString("ville");
                     String sch_country = rs.getString("pays");
-                    int sch_id_region = rs.getInt("id_region");
-
-                    sch = new School(sch_id, sch_name, sch_sigle, sch_posteCode,
-                            sch_city, sch_country, sch_id_region);
+                    float lat = rs.getFloat("lat");
+                    float lng = rs.getFloat("lng");
+                    int id_region = rs.getInt("id_region");
+                    sch = new School(sch_id, sch_name, sch_sigle,
+                            posteCode, sch_city, sch_country, lat, lng, id_region);
 
                     form = new Formation(for_id, for_intitule, sigle, for_type,
                             for_speciality, sch);
@@ -388,13 +395,14 @@ public class DAO {
                     int sch_id = rs.getInt("id_etablissement");
                     String sch_name = rs.getString("nom");
                     String sch_sigle = rs.getString("sigle");
-                    String sch_posteCode = rs.getString("codePostal");
+                    String posteCode = rs.getString("codePostal");
                     String sch_city = rs.getString("ville");
                     String sch_country = rs.getString("pays");
-                    int sch_id_region = rs.getInt("id_region");
-
-                    sch = new School(sch_id, sch_name, sch_sigle, sch_posteCode,
-                            sch_city, sch_country, sch_id_region);
+                    float lat = rs.getFloat("lat");
+                    float lng = rs.getFloat("lng");
+                    int id_region = rs.getInt("id_region");
+                    sch = new School(sch_id, sch_name, sch_sigle,
+                            posteCode, sch_city, sch_country, lat, lng, id_region);
 
                     form = new Formation(for_id, for_intitule, sigle, for_type,
                             for_speciality, sch);

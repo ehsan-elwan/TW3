@@ -68,7 +68,7 @@ public class GetStudents extends HttpServlet {
             case "getStudentByFormation":
                 try (PrintWriter out = response.getWriter()) {
 
-                    out.println(gson.toJson(dao.getStudentByFormation(request.getParameter("var"))));
+                    out.println(gson.toJson(dao.getStudentByFormationid(Integer.valueOf(request.getParameter("var")))));
                 }
                 break;
             case "getEtablissementByCity":
@@ -100,35 +100,35 @@ public class GetStudents extends HttpServlet {
                     out.println(gson.toJson(dao.getNBOfStudentByFormation(request.getParameter("form_lab"))));
                 }
                 break;
-                
+
             case "getFormationsLikeLabel":
                 try (PrintWriter out = response.getWriter()) {
                     out.println(gson.toJson(dao.getFormationsLikeLabel(request.getParameter("form_lab"))));
                 }
-                
+
             case "getAllFormations":
                 try (PrintWriter out = response.getWriter()) {
                     out.println(gson.toJson(dao.getAllFormations()));
                 }
-                
+
                 break;
-                
+
             case "graph1":
                 try (PrintWriter out = response.getWriter()) {
                     out.println(dao.getNBOfStudentoutOfJob());
                 }
-            break;
-                    
+                break;
+
             case "graph0":
                 try (PrintWriter out = response.getWriter()) {
                     out.println(dao.getAVGByFormation());
                 }
-            break;
+                break;
             case "graph2":
                 try (PrintWriter out = response.getWriter()) {
                     out.println(dao.getNBOfStudentMaster());
                 }
-            break;
+                break;
         }
 
     }

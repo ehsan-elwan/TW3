@@ -193,7 +193,7 @@
                         </div>
                         <input id="filter_input" name="filter" type="hidden" value="mot clé">
                     </div>
-                    <div class="col-md-10 form-group centerediv">
+                    <div class="col-md-10 form-group text-center">
                         <button class="ui button btn-tw" type="button" onclick="searchAllFormations()">
                             <i class="fa fa-spinner fa-spin btn-spin"></i>
                             Afficher toutes les Master
@@ -209,7 +209,7 @@
     
     <section class="section-padding gray-bg element-to-hide" id="ex-student">
         <div class="container" style="width: 100%">
-                                <div class="section-content" style="padding-bottom: 20px; padding-top: 20px; padding-left: 60px;">
+                                <div class="section-content" style="padding-bottom: 20px; padding-top: 30px; padding-left: 60px;">
                         <h1 class="section-header" id="stat" style="font-size: 25px;">
                             <span class="glyphicon glyphicon-user"></span>
                             <span class="content-header wow fadeIn  " data-wow-delay="0.5s" data-wow-duration="3s">
@@ -227,6 +227,11 @@
                         <a id="etlab_name" class="form-control input wrap-input" data-toggle="dropdown" href="#">Veuillez choisir un établissement <span class="caret"></span></a>
                         <ul class="dropdown-menu etabdp"></ul>
                     </div>
+                    <div id = "formation-ex-student-dp" class="input wrap-input" style="display: none;">        
+                        <a id="etlab_name2" class="form-control input wrap-input" data-toggle="dropdown" href="#">Veuillez choisir une formation <span class="caret"></span></a>
+                        <ul class="dropdown-menu formation-dp"></ul>
+                    </div>
+                    <input id="formation-id" name="for-id" type="hidden" value="">
                     <div class="input-group-btn input">
                         <button class="ui btn btn-default wrap-input" onclick="searchStudent()">
                             <i class="glyphicon glyphicon-search"></i>
@@ -268,7 +273,7 @@
     <section class="gray-bg section-padding element-to-hide" id="add-master"><!--element-to-hide-->
         
             <div class="contact-section">
-                <div class="section-content" style="padding-left: 60px;">
+                <div class="section-content" style="padding-left: 60px; padding-top: 30px;">
                     <h1 class="section-header">
                         <span class="glyphicon glyphicon-plus"></span>
                         <span class="content-header wow fadeIn " data-wow-delay="0.5s" data-wow-duration="3s">Ajouter un master</span></h1>
@@ -296,7 +301,7 @@
                             </div>
                             <div class="col-md-12 form-group">
                                 <label>Etablissement</label>
-                                <a id="etlab_name" class="form-control input wrap-input" data-toggle="dropdown" href="#">Veuillez choisir un établissement <span class="caret"></span></a>
+                                <a id="etlab_name3" class="form-control input wrap-input" data-toggle="dropdown" href="#">Veuillez choisir un établissement <span class="caret"></span></a>
                                 <ul class="dropdown-menu etabdp"></ul>
                                 <input id="etab_id" name="sch-id" type="hidden" value="">
                                 <input name="todo" type="hidden" value="add_formation">
@@ -321,7 +326,7 @@
 
         <div class="contact-section">
             <div class="section-content">
-                <div class="section-content" style="padding-left: 60px;">
+                <div class="section-content" style="padding-left: 60px; padding-top: 30px;">
                     <h1 class="section-header" id="stat">
                         <span class="glyphicon glyphicon-stats"></span>
                         <span class="content-header wow fadeIn " data-wow-delay="0.5s" data-wow-duration="3s">Statistiques</span></h1>
@@ -349,7 +354,26 @@
 
 
     <section class="gray-bg section-padding" id="faq-page">
-        
+        <div class="contact-section">
+                    <div class="section-content" style="padding-left: 60px; padding-top: 30px;">
+                        <h1 class="section-header">
+                            <span class="glyphicon glyphicon-question-sign"></span>
+                            <span class="content-header wow fadeIn " data-wow-delay="0.5s" data-wow-duration="3s">FAQ</span></h1>
+                    </div>
+            <div class="form-group text-center" style="width: 60%; margin: 0 auto">
+            <li><a class="Cms-anchorLink" href="#Rub1">Questions relatives au portail trouvermonmaster.gouv.fr</a>
+            <ul>
+                    <li><a href="#Rub1q1"><span style="color:#b22222">A quoi peut me servir le portail « trouvermonmaster.gouv.fr »?&nbsp; En quoi est-il différent des autres sites ?</span></a><span style="color:#b22222">&nbsp;</span><span style="color:#b22222">&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+                    <li><a href="#Rub1q2"><span style="color:#b22222">Suis-je certain que l’offre qui est recensée dans le portail correspond à une offre « validée » par l’Etat ?</span></a></li>
+                    <li><a href="#Rub1q3"><span style="color:#b22222">Qu’est-ce qu’un diplôme national de master&nbsp;(DNM) ?</span></a></li>
+                    <li><a href="#Rub1q4"><span style="color:#b22222">Quelle différence avec un mastère spécialisé, un MBA&nbsp;?</span></a></li>
+                    <li><a href="#Rub1q5"><span style="color:#b22222">J'ai trouvé une publicité pour un master dans une école mais je ne le trouve pas sur le portail, est-ce normal&nbsp;?</span></a></li>
+                    <li><a href="#Rub2q1"><span style="color:#b22222">A quoi correspondent les capacités d’accueil ?</span></a></li>
+                    <li><a href="#Rub3q1"><span style="color:#b22222">Que puis-je faire quand je n’ai eu que des réponses négatives à mes candidatures à l’entrée en master ?</span></a></li>
+            </ul>
+            </li>
+            </div>
+        </div>
 
     </section>
 
@@ -490,6 +514,8 @@
     <script src="js/wow.min.js"></script>
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
     <script type="text/javascript" src="js/bootstrap-slider.min.js"></script>
+    <script src="js/markerclusterer.js"></script>
+    
     <!--Main-active-JS-->
     <script src="js/main.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -507,14 +533,13 @@
         var $body = $("body");
         var geocoder;
         var map;
-        var nextAddress = -1;
         var delay = 100;
         var bounds;
         var infowindow;
         var icons = 'sc2.png';
-        var ser_lat_lng = [];
         var gmark = [];
         var donefac = [];
+        var markerCluster;
 
         $(document).on({
             ajaxStop: function () {
@@ -525,7 +550,7 @@
 
         function initialize() {
 
-
+            
             geocoder = new google.maps.Geocoder();
             bounds = new google.maps.LatLngBounds();
             infowindow = new google.maps.InfoWindow();
@@ -535,7 +560,6 @@
                 center: latlng
             };
             map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
             $.ajax({
                 url: "Student",
                 data: {"set": "getSchools"},
@@ -558,10 +582,41 @@
                             var selText = $(this).text();
                             var v = $(this).attr("id");
                             var elem = $("#etlab_name");
+                            var elem3 = $("#etlab_name3");
                             elem.html(selText + ' <span class="caret"></span>');
+                            elem3.html(selText + ' <span class="caret"></span>');
                             $("#etab_id").val(v);
                          });
-                         $body.removeClass("loading");
+                  
+                    }
+            });
+            
+                        $.ajax({
+                url: "Student",
+                data: {"set": "getAllFormations"},
+                dataType: "json",
+                error: showError,
+                success: // La fonction qui traite les résultats
+                    function (results) {
+                        var myUl = $(".formation-dp");
+                        var li;
+                        var aOp;
+                        myUl.each(function() {
+                            results.map((res) => {
+                                aOp = $('<a>' + res.for_intitule +"  |  "+res.sch.sch_city + '</a>').attr({'id': res.for_id, 'href': '#'});
+                                li = $('<li> </li>').append(aOp);
+                                $(this).append(li);
+                                });                    
+                            });
+                        $(".formation-dp li a").click(function (event) {
+                            event.preventDefault();
+                            var selText = $(this).text();
+                            var v = $(this).attr("id");
+                            var elem = $("#etlab_name2");
+                            elem.html(selText + ' <span class="caret"></span>');
+                            $("#formation-id").val(v);
+                         });
+                         
                     }
             });
 
@@ -570,24 +625,37 @@
             $("input[code=search-for-input]").change(function () {
                 var e = $('#search_form');
                 var value = $(this).val();
+                console.log(value);
                 e.attr('placeholder', "Recherche par " + value);
                 $("#filter_input").val(value);
             });
-            
-            // Search ex-student
+      
+            // Search ex-student dp menu by school
             $("input[code=ex-st-input]").change(function () {
                 var e = $('#search_form-ex');
                 var value = $(this).val();
                 var e2 = $("#sch-ex-student-dp");
-                if (value === "etablissement") {
-                    e.hide(500);
-                    e2.show(500);
-                } else {
-                    e2.hide();
-                    e.show(500);
-                e.attr('placeholder', "Recherche par " + value);     
+                var e3 = $("#formation-ex-student-dp");
+                switch (value) {
+                    case "etablissement":
+                             e3.hide(500);
+                             e.hide(500);
+                            e2.show(500);                  
+                            break;
+                    case "formation":
+                             e2.hide(500);
+                             e.hide(500);
+                            e3.show(500); 
+                            break;
+                            
+                    default: 
+                        e2.hide(500);
+                        e3.hide(500);
+                        e.show(500);
+                        break;
                 }
-            $("#filter_input-ex-student").val(value);
+                e.attr('placeholder', "Recherche par " + value); 
+                $("#filter_input-ex-student").val(value);
             });
             
             $("#conn-btn").click(function (evt) {
@@ -652,9 +720,8 @@
             //drawChart();
             drawDashboard();
             $("input.slider").slider();
-            $(".btn-spin").hide(1000);
-            
-
+            $(".btn-spin").hide(1000);          
+            $body.removeClass("loading");
         }
 
         function drawDashboard() {
@@ -773,8 +840,12 @@
             $("button.ui").attr("disabled", true);
             $(".btn-spin").show(500);
             setMapOnAll(null);
+            if (gmark.length>0) {
+                markerCluster.clearMarkers();
+            }
             ser_lat_lng = [];
             gmark = [];
+            donefac= [];
             nextAddress = -1;
         }
 
@@ -786,83 +857,44 @@
             }
         }
 
-        function createMarker(add, lat, lng) {
+        function createMarker(coords) {
 
+            coords.map((coord) => {
+                var lat =coord[0];
+                var lng =coord[1];
+                var add =coord[3]+" <PRE> <b> "+coord[2];
+                if (donefac.indexOf(add) === -1) {
+                    var marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(lat, lng),
+                        animation: google.maps.Animation.DROP,
+                        icon: icons,
+                        map: map
+                    });
 
-            var marker = new google.maps.Marker({
-                position: new google.maps.LatLng(lat, lng),
-                animation: google.maps.Animation.DROP,
-                icon: icons,
-                map: map
+                    google.maps.event.addListener(marker, 'click', function () {
+                        infowindow.setContent(add);
+                        infowindow.open(map, marker);
+                        marker.setAnimation(google.maps.Animation.BOUNCE);
+                        setTimeout(function () {
+                            marker.setAnimation(null);
+                        }, 700);
+                    });
+                    donefac.push(add);
+                    gmark.push(marker);
+                    bounds.extend(marker.position);
+                    marker.setMap(map);
+                }
             });
-
-            google.maps.event.addListener(marker, 'click', function () {
-                infowindow.setContent(add);
-                infowindow.open(map, marker);
-                marker.setAnimation(google.maps.Animation.BOUNCE);
-                setTimeout(function () {
-                    marker.setAnimation(null);
-                }, 700);
-            });
-
-            gmark.push(marker);
-            marker.setMap(map);
-            bounds.extend(marker.position);
+            markerCluster = new MarkerClusterer(map, gmark,
+                {imagePath: 'images/m'});
+                
+            map.fitBounds(bounds);
+            $("#dropinfo").removeClass("loading").show(1000);
+            $("#map").removeClass("loading");
+            $("button.ui").attr("disabled", false);
+            $(".btn-spin").hide(1000);
 
         }
-
-
-        function getAddress(search) {
-
-            var lat;
-            var lng;
-            var add = search.split(';')[0];
-            var fac = search.split(';')[2];
-            if (donefac.indexOf(fac) > -1) {
-                //
-            } else {
-                geocoder.geocode({address: add}, function (results, status) {
-                    if (status === google.maps.GeocoderStatus.OK) {
-
-                        var p = results[0].geometry.location;
-                        lat = p.lat();
-                        lng = p.lng();
-                        ser_lat_lng.push([search, lat, lng]);
-                        donefac.push(fac);
-                    } else {
-                        if (status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
-                            nextAddress--;
-                            delay++;
-                        }
-                    }
-                });
-            }
-        }
-
-
-        function theNext(addresses) {
-
-            if (nextAddress < addresses.length - 1) {
-
-                setTimeout(function () {
-                    getAddress(addresses[nextAddress]);
-
-                    theNext(addresses);
-                }, delay);
-                nextAddress++;
-            } else {
-                ser_lat_lng.map((res) => {
-                    var add = res[0].split(';');
-                    createMarker(add[1] + " <PRE> <b> " + add[2], res[1], res[2]);
-                });
-                map.fitBounds(bounds);
-                $("#dropinfo").removeClass("loading").show(1000);
-                $("#map").removeClass("loading");
-                $("button.ui").attr("disabled", false);
-                $(".btn-spin").hide(1000);
-            }
-        }
-        
         
         function searchStudent(){
             var maindiv = $("#ex-student-div");
@@ -878,6 +910,7 @@
                         break;
                 case "formation":
                         callfun = "getStudentByFormation";
+                        parm = $("#formation-id").val();
                         break;
                 case "etablissement":
                         callfun = "getStudentBySchool";
@@ -886,7 +919,7 @@
                 default:
                     callfun = "getStudentsLikeName";
                 }
-            $.ajax({
+            $.ajax({             
                 url: "Student",
                 data: {"set": callfun, "var": parm},
                 dataType: "json",
@@ -918,7 +951,7 @@
                                 <p><i class='glyphicon glyphicon-envelope'>\n\
                                 </i> %s <br /><i class='glyphicon glyphicon-console'>\n\
                                 </i>Specialty: %s <br /><i class='glyphicon glyphicon-bookmark'>\n\
-                                </i>Poste actuel: %s <br /><i class='glyphicon glyphicon-education'>\n\
+                                </i>Poste actuel: toDo <br /><i class='glyphicon glyphicon-education'>\n\
                                 </i>Promotion: %s </p><div class='btn-group'><button type='button' class='btn btn-primary'>Social</button>\n\
                                 <button type='button' class='btn btn-primary dropdown-toggle' data-toggle='dropdown'>\n\
                                 <span class='caret'></span><span class='sr-only'>Social</span></button>\n\
@@ -926,7 +959,7 @@
                                 <a href='https://google.fr'>Google +</a></li><li><a href='https://www.facebook.com'>Facebook\n\
                                 </a></li><li class='divider'></li><li><a href='#'>Github</a></li></ul></div></div></div></div>",
                                 getRandomInt(1,8), res.st_fname, res.st_lname, avg, res.st_email, res.st_spec,
-                                " M2 CSA ", res.st_promotion);
+                                 res.st_promotion);
                         div = $('<div> ' + tt + ' </div>').attr({ "class": "col-xs-12 col-sm-6 col-md-6"});
                         maindiv.append(div);
                     });
@@ -937,14 +970,11 @@
         }
 
         function searchFormations() {
-            clearMarkers();
-            var dropelement = $("#dropinfo");
-            dropelement.empty();
-            ser_lat_lng = [];
-            donefac = [];
-            cities = [];
+            var dropelement = $("#dropinfo");        
             var maindiv = $("#dropinfo");
             maindiv.hide(500).empty();
+            dropelement.empty();
+            clearMarkers();
             var form = $("#search_form").val();
             var value = $("#filter_input").val();
             var callfun;
@@ -958,77 +988,68 @@
                         default:
                         callfun = "getFormationsLikeLabel";
                 }
+                
             $.ajax({
                 url: "Student",
                 data: {"set": callfun, "form_lab": form},
                 dataType: "json",
                 error: showError,
                 success: // La fonction qui traite les résultats
-                function (results) {
-                var cities = [];
-                        var str;
-                        var cityc;
-                        var sch_name;
-                        var div;
-                        results.map((res) => {
-                            cityc = res.sch.sch_city + " ( " + res.sch.posteCode + " )";
-                            sch_name = res.sch.sch_name;
-                            str = res.sch.sch_city + ", " + res.sch.sch_country +
-                                    " ; " + cityc + ";" + sch_name;
-                            cities.push(str);
-                            var tt = parse("<div class='col-xs-4 form-line'><header >"
-                                    + "<a> %s</a></header><h4><a href='#'>%s</a></h4><p >"
-                                    + "%s</p><p >%s"
-                                    + "</p></div><div class='col-xs-2 form-line' style='padding-top: 20px;'><span ><img src='images/sch_avatar/%s.png'"
-                                    + " alt=''></span><div class='SavoirPlus'><a target='_blank' "
-                                    + "href='http://www.google.com/search?q=%s'>"
-                                    + "<span>En savoir plus</span></a></div></div><hr>", res.sigle, res.for_intitule, sch_name, cityc, res.sch.sch_id, sch_name);
-                            div = $('<div> ' + tt + ' </div>').attr({"id": res.sch.sch_id, "class": "container dropdiv"});
-                            maindiv.append(div);
-                        });
-                    theNext(cities);
+                function (results) {                    
+                    var coords = [];
+                    var cityc;
+                    var sch_name;
+                    var div;
+                    results.map((formation) => {
+                        cityc = formation.sch.sch_city + " ( " + formation.sch.posteCode + " )";
+                        sch_name = formation.sch.sch_name;
+                        coords.push([formation.sch.sch_lat,formation.sch.sch_lng,sch_name,cityc]);
+                        var tt = parse("<div class='col-xs-4 form-line'><header >"
+                                + "<a> %s</a></header><h4><a href='#'>%s</a></h4><p >"
+                                + "%s</p><p >%s"
+                                + "</p></div><div class='col-xs-2 form-line' style='padding-top: 20px;'><span ><img src='images/sch_avatar/%s.png'"
+                                + " alt=''></span><div class='SavoirPlus'><a target='_blank' "
+                                + "href='http://www.google.com/search?q=%s'>"
+                                + "<span>En savoir plus</span></a></div></div><hr>", formation.sigle, formation.for_intitule, sch_name, cityc, formation.sch.sch_id, sch_name);
+                        div = $('<div> ' + tt + ' </div>').attr({"id": formation.sch.sch_id, "class": "container dropdiv"});
+                        maindiv.append(div);
+                    });
+                    createMarker(coords);
                     }
             });
         }
         function searchAllFormations() {
-            clearMarkers();
-            ser_lat_lng = [];
-            donefac = [];
-            cities = [];
-            var dropelement = $("#dropinfo");
+            var dropelement = $("#dropinfo");        
+            var maindiv = $("#dropinfo");
+            maindiv.hide(500).empty();
             dropelement.hide(500).empty();
+            clearMarkers(); 
             $.ajax({
                 url: "Student",
                 data: {"set": "getAllFormations"},
                 dataType: "json",
                 error: showError,
                 success: // La fonction qui traite les résultats
-                        function (results) {
-                            var cities = [];
-                            var str;
-                            var cityc;
-                            var sch_name;
-                            var div;
-
-                            results.map((res) => {
-                                cityc = res.sch.sch_city + " ( " + res.sch.posteCode + " )";
-                                sch_name = res.sch.sch_name;
-                                str = res.sch.sch_city + ", " + res.sch.sch_country +
-                                        " ; " + cityc + ";" + sch_name;
-                                cities.push(str);
-                                var tt = parse("<div class='col-xs-4 form-line'><header >"
-                                        + "<a> %s</a></header><h4><a href='#'>%s</a></h4><p >"
-                                        + "%s</p><p >%s"
-                                        + "</p></div><div class='col-xs-2 form-line' style='padding-top: 20px;'><span ><img src='images/sch_avatar/%s.png'"
-                                        + " alt=''></span><div class='SavoirPlus'><a target='_blank' "
-                                        + "href='http://www.google.com/search?q=%s'>"
-                                        + "<span>En savoir plus</span></a></div></div><hr>", res.sigle, res.for_intitule, sch_name, cityc, res.sch.sch_id, sch_name);
-                                div = $('<div> ' + tt + ' </div>').attr({"id": res.sch.sch_id, "class": "container dropdiv"});
-                                $("#dropinfo").append(div);
-
-                            });
-                            theNext(cities);
-
+                    function (results) {                    
+                        var coords = [];
+                        var cityc;
+                        var sch_name;
+                        var div;
+                        results.map((formation) => {
+                            cityc = formation.sch.sch_city + " ( " + formation.sch.posteCode + " )";
+                            sch_name = formation.sch.sch_name;
+                            coords.push([formation.sch.sch_lat,formation.sch.sch_lng,sch_name,cityc]);
+                            var tt = parse("<div class='col-xs-4 form-line'><header >"
+                                    + "<a> %s</a></header><h4><a href='#'>%s</a></h4><p >"
+                                    + "%s</p><p >%s"
+                                    + "</p></div><div class='col-xs-2 form-line' style='padding-top: 20px;'><span ><img src='images/sch_avatar/%s.png'"
+                                    + " alt=''></span><div class='SavoirPlus'><a target='_blank' "
+                                    + "href='http://www.google.com/search?q=%s'>"
+                                    + "<span>En savoir plus</span></a></div></div><hr>", formation.sigle, formation.for_intitule, sch_name, cityc, formation.sch.sch_id, sch_name);
+                            div = $('<div> ' + tt + ' </div>').attr({"id": formation.sch.sch_id, "class": "container dropdiv"});
+                            maindiv.append(div);
+                        });
+                        createMarker(coords);
                         }
             });
         }
@@ -1084,6 +1105,7 @@
         google.charts.load('visualization', {'packages': ['corechart']});
         google.charts.setOnLoadCallback(initialize);
     </script>
+    
 
     </body>
 </html>
