@@ -1018,6 +1018,16 @@ fieldset[disabled] .btn-tw.active {
     color: black;
 }
 
+.etabdp{
+    max-height:250px;/* you can change as you need it */
+   overflow:auto;
+}
+
+.formation-dp{
+    max-height:250px;/* you can change as you need it */
+   overflow:auto;
+}
+
 .container-fluid{
     width: 100%; 
 }
