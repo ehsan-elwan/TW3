@@ -286,10 +286,10 @@ public class DAO {
         School sch;
         String sql = "SELECT Distinct * FROM  formation ,etablissement "
                 + "WHERE formation.id_etablissement = etablissement.id_etablissement "
-                + "AND etablissement.ville=?";
+                + "AND upper(etablissement.ville)=?";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, cityName);
+            stmt.setString(1, cityName.toUpperCase());
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
 

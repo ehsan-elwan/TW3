@@ -171,7 +171,7 @@
                         <div class="input-group">
                             <input id="search_form" class="form-control input wrap-input" placeholder="Recherche par mot clé" required>
                             <div class="input-group-btn input">
-                                <button class="ui btn btn-default wrap-input" onclick="searchFormations()">
+                                <button class="ui btn btn-default wrap-input" onclick="setup_some_search()">
                                     <i class="glyphicon glyphicon-search"></i>
                                     <i class="fa fa-spinner fa-spin btn-spin"></i>
                                 </button>
@@ -180,7 +180,7 @@
                         <div class="form-check testimonial">
 
                             <label class="toggle block">
-                                <input code="search-for-input" type="radio" name="toggle" value="mot clé" checked=""> <span class="label-text">mot clé</span>
+                                <input code="search-for-input" type="radio" name="toggle" value="mot clé" checked="" id="keyword"> <span class="label-text">mot clé</span>
                             </label>
 
                             <label class="toggle block" >
@@ -194,7 +194,7 @@
                         <input id="filter_input" name="filter" type="hidden" value="mot clé">
                     </div>
                     <div class="col-md-10 form-group text-center">
-                        <button class="ui button btn-tw" type="button" onclick="searchAllFormations()">
+                        <button class="ui button btn-tw" type="button" onclick="setup_all_search()">
                             <i class="fa fa-spinner fa-spin btn-spin"></i>
                             Afficher toutes les Master
                         </button>
@@ -625,7 +625,6 @@
             $("input[code=search-for-input]").change(function () {
                 var e = $('#search_form');
                 var value = $(this).val();
-                console.log(value);
                 e.attr('placeholder', "Recherche par " + value);
                 $("#filter_input").val(value);
             });
@@ -863,6 +862,7 @@
                 var lat =coord[0];
                 var lng =coord[1];
                 var add =coord[3]+" <PRE> <b> "+coord[2];
+                var eid = coord[4];
                 if (donefac.indexOf(add) === -1) {
                     var marker = new google.maps.Marker({
                         position: new google.maps.LatLng(lat, lng),
@@ -879,6 +879,14 @@
                             marker.setAnimation(null);
                         }, 700);
                     });
+             
+                        $('.'+eid).on('click',function(){
+                            google.maps.event.trigger(marker, 'click');
+                            map.panTo(marker.getPosition());
+                            map.setZoom(13);
+                        });
+                        
+
                     donefac.push(add);
                     gmark.push(marker);
                     bounds.extend(marker.position);
@@ -969,26 +977,28 @@
             
         }
 
-        function searchFormations() {
-            var dropelement = $("#dropinfo");        
+        function searchFormations(setup) {    
             var maindiv = $("#dropinfo");
             maindiv.hide(500).empty();
-            dropelement.empty();
             clearMarkers();
             var form = $("#search_form").val();
             var value = $("#filter_input").val();
             var callfun;
-            switch (value) {
-                case "ville":
+            if (setup) {
+                switch (value) {
+                    case "ville":
                         callfun = "getFormationByCity";
                         break;
-                        case "sigle":
+                    case "sigle":
                         callfun = "getFormationByCity";
                         break;
-                        default:
+                    case "mot clé":
                         callfun = "getFormationsLikeLabel";
-                }
-                
+                        break;
+                    }
+            } else {
+                callfun = "getAllFormations";
+            }
             $.ajax({
                 url: "Student",
                 data: {"set": callfun, "form_lab": form},
@@ -1003,57 +1013,30 @@
                     results.map((formation) => {
                         cityc = formation.sch.sch_city + " ( " + formation.sch.posteCode + " )";
                         sch_name = formation.sch.sch_name;
-                        coords.push([formation.sch.sch_lat,formation.sch.sch_lng,sch_name,cityc]);
                         var tt = parse("<div class='col-xs-4 form-line'><header >"
-                                + "<a> %s</a></header><h4><a href='#'>%s</a></h4><p >"
+                                + "<a> %s</a></header><h4><a class=%s href=# >%s</a></h4><p >"
                                 + "%s</p><p >%s"
                                 + "</p></div><div class='col-xs-2 form-line' style='padding-top: 20px;'><span ><img src='images/sch_avatar/%s.png'"
                                 + " alt=''></span><div class='SavoirPlus'><a target='_blank' "
                                 + "href='http://www.google.com/search?q=%s'>"
-                                + "<span>En savoir plus</span></a></div></div><hr>", formation.sigle, formation.for_intitule, sch_name, cityc, formation.sch.sch_id, sch_name);
-                        div = $('<div> ' + tt + ' </div>').attr({"id": formation.sch.sch_id, "class": "container dropdiv"});
+                                + "<span>En savoir plus</span></a></div></div><hr>", formation.sigle,formation.sch.sch_id, formation.for_intitule, sch_name, cityc, formation.sch.sch_id, sch_name);
+                        div = $('<div> ' + tt + ' </div>').attr({"class": "container dropdiv"});
+                        coords.push([formation.sch.sch_lat,formation.sch.sch_lng,sch_name,cityc,formation.sch.sch_id]);
                         maindiv.append(div);
                     });
                     createMarker(coords);
                     }
             });
         }
-        function searchAllFormations() {
-            var dropelement = $("#dropinfo");        
-            var maindiv = $("#dropinfo");
-            maindiv.hide(500).empty();
-            dropelement.hide(500).empty();
-            clearMarkers(); 
-            $.ajax({
-                url: "Student",
-                data: {"set": "getAllFormations"},
-                dataType: "json",
-                error: showError,
-                success: // La fonction qui traite les résultats
-                    function (results) {                    
-                        var coords = [];
-                        var cityc;
-                        var sch_name;
-                        var div;
-                        results.map((formation) => {
-                            cityc = formation.sch.sch_city + " ( " + formation.sch.posteCode + " )";
-                            sch_name = formation.sch.sch_name;
-                            coords.push([formation.sch.sch_lat,formation.sch.sch_lng,sch_name,cityc]);
-                            var tt = parse("<div class='col-xs-4 form-line'><header >"
-                                    + "<a> %s</a></header><h4><a href='#'>%s</a></h4><p >"
-                                    + "%s</p><p >%s"
-                                    + "</p></div><div class='col-xs-2 form-line' style='padding-top: 20px;'><span ><img src='images/sch_avatar/%s.png'"
-                                    + " alt=''></span><div class='SavoirPlus'><a target='_blank' "
-                                    + "href='http://www.google.com/search?q=%s'>"
-                                    + "<span>En savoir plus</span></a></div></div><hr>", formation.sigle, formation.for_intitule, sch_name, cityc, formation.sch.sch_id, sch_name);
-                            div = $('<div> ' + tt + ' </div>').attr({"id": formation.sch.sch_id, "class": "container dropdiv"});
-                            maindiv.append(div);
-                        });
-                        createMarker(coords);
-                        }
-            });
+        
+        function setup_all_search(){
+            searchFormations(false);
         }
-
+        
+        function setup_some_search(){
+            searchFormations(true);
+        }
+        
         function parse(str) {
             var args = [].slice.call(arguments, 1),
                     i = 0;
