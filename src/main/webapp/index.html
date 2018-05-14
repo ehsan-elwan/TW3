@@ -123,7 +123,7 @@
                                                     <label class="sr-only" for="pass">Password</label>
                                                     <input id="pass-id" type="password" class="form-control" name="pass" placeholder="Mot de passe" required>
                                                     <div class="help-block text-right">
-                                                        <a href="https://www.univ-jfc.fr">Mot de pass oublié ?</a>
+                                                        <a style="color: #515656;" href="https://www.univ-jfc.fr">Mot de pass oublié ?</a>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -139,9 +139,17 @@
                                             </form>
                                         </div>
                                         <div class="bottom text-center">
-                                            Rejoignez nous  <a target="_blank" href="https://www.univ-jfc.fr">
-                                                <b>INU Champollion</b>
+                                            Rejoignez nous  <a style="color: #515656;" target="_blank" href="https://www.univ-jfc.fr">
+                                               INU Champollion
                                             </a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="span4 pull-right">
+                                        <div class="alert alert-danger fade" style="display: none;">
+                                          <button type="button" class="close" data-dismiss="alert">×</button>
+                                          
                                         </div>
                                     </div>
                                 </li>
@@ -363,13 +371,13 @@
             <div class="form-group text-center" style="width: 60%; margin: 0 auto">
             <li><a class="Cms-anchorLink" href="#Rub1">Questions relatives au portail trouvermonmaster.gouv.fr</a>
             <ul>
-                    <li><a href="#Rub1q1"><span style="color:#b22222">A quoi peut me servir le portail « trouvermonmaster.gouv.fr »?&nbsp; En quoi est-il différent des autres sites ?</span></a><span style="color:#b22222">&nbsp;</span><span style="color:#b22222">&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
-                    <li><a href="#Rub1q2"><span style="color:#b22222">Suis-je certain que l’offre qui est recensée dans le portail correspond à une offre « validée » par l’Etat ?</span></a></li>
-                    <li><a href="#Rub1q3"><span style="color:#b22222">Qu’est-ce qu’un diplôme national de master&nbsp;(DNM) ?</span></a></li>
-                    <li><a href="#Rub1q4"><span style="color:#b22222">Quelle différence avec un mastère spécialisé, un MBA&nbsp;?</span></a></li>
-                    <li><a href="#Rub1q5"><span style="color:#b22222">J'ai trouvé une publicité pour un master dans une école mais je ne le trouve pas sur le portail, est-ce normal&nbsp;?</span></a></li>
-                    <li><a href="#Rub2q1"><span style="color:#b22222">A quoi correspondent les capacités d’accueil ?</span></a></li>
-                    <li><a href="#Rub3q1"><span style="color:#b22222">Que puis-je faire quand je n’ai eu que des réponses négatives à mes candidatures à l’entrée en master ?</span></a></li>
+                    <li><a href="#Rub1q1"><span class="faq-span">A quoi peut me servir le portail « trouvermonmaster.gouv.fr »?&nbsp; En quoi est-il différent des autres sites ?</span></a><span style="color:#b22222">&nbsp;</span><span style="color:#b22222">&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+                    <li><a href="#Rub1q2"><span class="faq-span">Suis-je certain que l’offre qui est recensée dans le portail correspond à une offre « validée » par l’Etat ?</span></a></li>
+                    <li><a href="#Rub1q3"><span class="faq-span">Qu’est-ce qu’un diplôme national de master&nbsp;(DNM) ?</span></a></li>
+                    <li><a href="#Rub1q4"><span class="faq-span">Quelle différence avec un mastère spécialisé, un MBA&nbsp;?</span></a></li>
+                    <li><a href="#Rub1q5"><span class="faq-span">J'ai trouvé une publicité pour un master dans une école mais je ne le trouve pas sur le portail, est-ce normal&nbsp;?</span></a></li>
+                    <li><a href="#Rub2q1"><span class="faq-span">A quoi correspondent les capacités d’accueil ?</span></a></li>
+                    <li><a href="#Rub3q1"><span class="faq-span">Que puis-je faire quand je n’ai eu que des réponses négatives à mes candidatures à l’entrée en master ?</span></a></li>
             </ul>
             </li>
             </div>
@@ -673,12 +681,18 @@
                     },
                     success: // La fonction qui traite les résultats
                         function (results) {
-                            var element = '<span class="glyphicon glyphicon-user"></span> '
-                             + results.user.st_lname;
-                            $("#user-tag").empty().append(element);
-                            $("#login-dp").hide(1000);
-                            $("#logout-dp").show(1000);
-                            $(".element-to-hide").show(1000);
+                            if (results.code === -1) {
+                                $(".alert").show().append("<strong>Erreur!</strong> "+results.msg).delay(200).addClass("in");
+                            } else {
+                                var element = '<span class="glyphicon glyphicon-user"></span> '
+                                 + results.user.st_lname;
+                                $("#user-tag").empty().append(element);
+                                $("#login-dp").hide(1000);
+                                $("#logout-dp").show(1000).click(function(){
+                                    location.reload();
+                                });
+                                $(".element-to-hide").show(1000);
+                            }
                         }
                 });
             });
@@ -883,7 +897,7 @@
                         $('.'+eid).on('click',function(){
                             google.maps.event.trigger(marker, 'click');
                             map.panTo(marker.getPosition());
-                            map.setZoom(8);
+                            map.setZoom(12);
                         });
                         
 

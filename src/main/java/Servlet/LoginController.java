@@ -40,7 +40,8 @@ public class LoginController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        String msg = "";
+        String msg;
+        int code = 0;
         Student user = null;
         String mail = request.getParameter("login");
         String st_id = request.getParameter("pass");
@@ -49,31 +50,38 @@ public class LoginController extends HttpServlet {
         String adminName = getInitParameter("userName");
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonObject jsonObject = new JsonObject();
-        int id = 0;
+
         DAO dao = new DAO(new DataSource().getMySQLDataSource());
         if (mail.equals(adminUser) && st_id.equals(adminPassword)) {
 
             user = new Student(0, "Admin", adminName,
                     mail, new Date(15, 1, 20), "info", "c", 1);
-            msg = "connexion réussie, Bienvenue "+adminName;
+            msg = "connexion réussie, Bienvenue " + adminName;
             jsonObject.add("user", gson.toJsonTree(user));
-            
 
         } else {
             try {
-                id = Integer.parseInt(st_id);
+                int id = Integer.parseInt(st_id);
                 user = dao.login(mail, id);
-                msg = "connexion réussie, Bienvenue "+user.getFname();
-            } catch (IllegalStateException | NumberFormatException |SQLException  ex) {
-                msg = "connexion echouée, cause: "+ex.getMessage();
-            } 
-            
+                if (user != null) {
+                    msg = "connexion réussie, Bienvenue " + user.getFname();
+                } else {
+                    msg ="Connexion refusée. Nom de compte ou mot de passe incorrect!";
+                    code=-1;
+                }
+                
+            } catch (IllegalStateException | NumberFormatException | SQLException ex) {
+                msg = "connexion echouée, cause: le mot de passe doit être numérique " + ex.getMessage();
+                code = -1;
+            }
+
         }
         jsonObject.add("user", gson.toJsonTree(user));
         jsonObject.addProperty("msg", msg);
+        jsonObject.addProperty("code", code);
         try (PrintWriter out = response.getWriter()) {
-                    out.println(jsonObject);
-                }
+            out.println(jsonObject);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
