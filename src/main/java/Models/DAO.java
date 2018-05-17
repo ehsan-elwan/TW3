@@ -220,6 +220,41 @@ public class DAO {
         }
         return result;
     }
+    
+    public List<Student> getStudentByPromo(Date date) {
+        List<Student> result = new LinkedList<>();
+        Student st;
+        String sql = "SELECT Distinct * FROM ancien_etudiant WHERE "
+                + "ancien_etudiant.promotion = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setDate(1, date);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("id_etud");
+                    String lname = rs.getString("nom");
+                    String fname = rs.getString("prenom");
+                    String email = rs.getString("mail");
+                    Date promotion = rs.getDate("promotion");
+                    String spec = rs.getString("specialite");
+                    String cursus = rs.getString("cursus");
+                    int L3average = rs.getInt("moyenne_l3_id");
+
+                    st = new Student(id, fname, lname,
+                            email, promotion, spec, cursus, L3average);
+                    result.add(st);
+                }
+
+            }
+            stmt.close();
+            connection.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
 
     public List<School> getSchoolByCity(String cityName) {
         List<School> result = new LinkedList<>();
@@ -717,4 +752,6 @@ public class DAO {
         mainObj.addProperty("code", msg_code);
         return mainObj;
     }
+    
+    
 }

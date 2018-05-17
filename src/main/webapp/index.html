@@ -231,6 +231,13 @@
                 <div class="input-group text-center">
 
                     <input id="search_form-ex" class="form-control input wrap-input" placeholder="Recherche par nom" required>
+                    <div id="promo-ex-student-dp" class="input wrap-input" style="display: none;">        
+                        <a id="prom" class="form-control input wrap-input" data-toggle="dropdown" href="#">Veuillez choisir une annee <span class="caret"></span></a>
+                        <ul class="dropdown-menu promo-dp">
+                        </ul>
+                    </div>
+                    <input id="promo-date" name="for-id" type="hidden" value="">
+                    
                     <div id = "sch-ex-student-dp" class="input wrap-input" style="display: none;">        
                         <a id="etlab_name" class="form-control input wrap-input" data-toggle="dropdown" href="#">Veuillez choisir un établissement <span class="caret"></span></a>
                         <ul class="dropdown-menu etabdp"></ul>
@@ -369,9 +376,9 @@
                             <span class="content-header wow fadeIn " data-wow-delay="0.5s" data-wow-duration="3s">FAQ</span></h1>
                     </div>
             <div class="form-group text-center" style="width: 60%; margin: 0 auto">
-            <li><a class="Cms-anchorLink" href="#Rub1">Questions relatives au portail trouvermonmaster.gouv.fr</a>
+            <li><a class="Cms-anchorLink" href="#Rub1">Questions relatives au portail monmaster.jfc.fr</a>
             <ul>
-                    <li><a href="#Rub1q1"><span class="faq-span">A quoi peut me servir le portail « trouvermonmaster.gouv.fr »?&nbsp; En quoi est-il différent des autres sites ?</span></a><span style="color:#b22222">&nbsp;</span><span style="color:#b22222">&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+                    <li><a href="#Rub1q1"><span class="faq-span">A quoi peut me servir le portail « monmaster.jfc.fr »?&nbsp; En quoi est-il différent des autres sites ?</span></a><span style="color:#b22222">&nbsp;</span><span style="color:#b22222">&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
                     <li><a href="#Rub1q2"><span class="faq-span">Suis-je certain que l’offre qui est recensée dans le portail correspond à une offre « validée » par l’Etat ?</span></a></li>
                     <li><a href="#Rub1q3"><span class="faq-span">Qu’est-ce qu’un diplôme national de master&nbsp;(DNM) ?</span></a></li>
                     <li><a href="#Rub1q4"><span class="faq-span">Quelle différence avec un mastère spécialisé, un MBA&nbsp;?</span></a></li>
@@ -402,7 +409,7 @@
 
 
     <footer class="footer-area relative sky-bg" id="contact-page">
-        <div class="absolute footer-bg"></div>
+        <div class=" footer-bg"></div>
         <div class="footer-top">
             <div class="container">
                 
@@ -425,7 +432,7 @@
                                         Campus Albi</span></h1>
                             </div>
                             <div class="section-content text-center" style="padding-bottom: 20px; padding-top: 20px;">
-                                <embed style="width: 85%; border-radius: 25px; color: black; border: 1px solid #ff542f;" height="540" src="https://www.univ-jfc.fr/sites/default/files/vue-360/">
+                                <embed id="testf" style="width: 85%; border-radius: 25px; color: black; border: 1px solid #ff542f;" height="540" src="https://www.univ-jfc.fr/sites/default/files/vue-360/">
                             </div>
                         </div>
                     </div>
@@ -585,7 +592,7 @@
                                 $(this).append(li);
                                 });                    
                             });
-                        $(".dropdown-menu li a").click(function (event) {
+                        $(".etabdp li a").click(function (event) {
                             event.preventDefault();
                             var selText = $(this).text();
                             var v = $(this).attr("id");
@@ -611,7 +618,7 @@
                         var aOp;
                         myUl.each(function() {
                             results.map((res) => {
-                                aOp = $('<a>' + res.for_intitule +"  |  "+res.sch.sch_city + '</a>').attr({'id': res.for_id, 'href': '#'});
+                                aOp = $('<a>' + res.for_intitule +"  |  "+res.sch.sch_name + '</a>').attr({'id': res.for_id, 'href': '#'});
                                 li = $('<li> </li>').append(aOp);
                                 $(this).append(li);
                                 });                    
@@ -643,21 +650,31 @@
                 var value = $(this).val();
                 var e2 = $("#sch-ex-student-dp");
                 var e3 = $("#formation-ex-student-dp");
+                var e4 = $("#promo-ex-student-dp");
                 switch (value) {
                     case "etablissement":
                              e3.hide(500);
                              e.hide(500);
-                            e2.show(500);                  
+                             e2.show(500);
+                             e4.hide(500);
                             break;
                     case "formation":
                              e2.hide(500);
                              e.hide(500);
                             e3.show(500); 
+                            e4.hide(500);
                             break;
+                    case "promotion":
+                            e2.hide(500);
+                            e.hide(500);
+                            e3.hide(500); 
+                            e4.show(500);
+                        break;
                             
                     default: 
                         e2.hide(500);
                         e3.hide(500);
+                        e4.hide(500);
                         e.show(500);
                         break;
                 }
@@ -669,7 +686,7 @@
                 evt.preventDefault();
                 var login = $("#login-id").val();
                 var pass = $("#pass-id").val();
-
+                $('.alert').empty();
                 $.ajax({
                     url: "LoginController",
                     data: {"login": login, "pass": pass},
@@ -681,7 +698,7 @@
                     },
                     success: // La fonction qui traite les résultats
                         function (results) {
-                            if (results.code === -1) {
+                            if (results.code === -1 || results.user === null) {
                                 $(".alert").show().append("<strong>Erreur!</strong> "+results.msg).delay(200).addClass("in");
                             } else {
                                 var element = '<span class="glyphicon glyphicon-user"></span> '
@@ -753,9 +770,24 @@
                 success: function (res) {
                     var dates=[];
                     var array = [];
+                    var promodp=$('ul.promo-dp');
+                    var aOp;
+                    var li;
                     for (date in res) {                        
-                        dates.push(date);            
+                        dates.push(date); 
+                        aOp = $('<a>' + date + '</a>').attr({'id': date, 'href': '#'});
+                        li = $('<li> </li>').append(aOp);
+                        promodp.append(li);
                     }
+                    $(".promo-dp li a").click(function (event) {
+                            event.preventDefault();
+                            var selText = $(this).text();
+                            var v = $(this).attr("id");
+                            var elem = $("#prom");
+                            elem.html(selText + ' <span class="caret"></span>');
+                            $("#promo-date").val(v);
+                         });
+                    
                     var maxi=dates.max();
                     for (var i=0; i<res[maxi].length; i++) {
                         array.push([res[maxi][i].sigle,res[maxi][i].sigle,res[maxi][i].avg]);
@@ -928,7 +960,8 @@
             var callfun;
             switch (value) {
                 case "promotion":
-                        callfun = "getFormationByCity";                    
+                        callfun = "getFormationByPromo"; 
+                        parm = $("#promo-date").val();
                         break;
                 case "formation":
                         callfun = "getStudentByFormation";

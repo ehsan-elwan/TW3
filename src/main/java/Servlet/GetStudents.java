@@ -16,6 +16,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -57,6 +61,16 @@ public class GetStudents extends HttpServlet {
                 try (PrintWriter out = response.getWriter()) {
 
                     out.println(gson.toJson(dao.getStudentBySchool(Integer.valueOf(request.getParameter("var")))));
+                }
+                break;
+            case "getFormationByPromo":
+                try (PrintWriter out = response.getWriter()) {
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy");
+                    java.util.Date parsed = format.parse(request.getParameter("var"));
+                    java.sql.Date sqlDate = new java.sql.Date(parsed.getTime());
+                    out.println(gson.toJson(dao.getStudentByPromo(sqlDate)));
+                } catch (ParseException ex) {
+                    System.out.println(ex.getMessage());
                 }
                 break;
             case "getEtablissementByFormation":
