@@ -983,6 +983,7 @@
                 function (results) {
                     var div;
                     var avg;
+                    if (results.length >0) {
                     results.map((res) => {
                         switch (res.st_L3average) {
                             case 1:
@@ -1018,6 +1019,9 @@
                         div = $('<div> ' + tt + ' </div>').attr({ "class": "col-xs-12 col-sm-6 col-md-6"});
                         maindiv.append(div);
                     });
+                } else {
+                    maindiv.append($('<div> aucun résultat trouvé </div>').attr({ "class": "text-center"}));
+                }
                     maindiv.show(1000);
                     }
             });
