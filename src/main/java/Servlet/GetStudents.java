@@ -14,9 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import Models.DataSource;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -41,23 +44,33 @@ public class GetStudents extends HttpServlet {
         DAO dao = new DAO(new DataSource().getMySQLDataSource());
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         switch (getParm) {
-            case "getStudent":
+            case "getStudentsLikeName":
 
                 try (PrintWriter out = response.getWriter()) {
 
-                    out.println(gson.toJson(dao.getStudent()));
+                    out.println(gson.toJson(dao.getStudentsLikeName(request.getParameter("var"))));
                 }
                 break;
-            case "getEstablishment":
+            case "getSchools":
                 try (PrintWriter out = response.getWriter()) {
 
-                    out.println(gson.toJson(dao.getEstablishment()));
+                    out.println(gson.toJson(dao.getSchools()));
                 }
                 break;
-            case "getStudentByEstablishment":
+            case "getStudentBySchool":
                 try (PrintWriter out = response.getWriter()) {
 
-                    out.println(gson.toJson(dao.getStudentByEstablishment(request.getParameter("sch_name"))));
+                    out.println(gson.toJson(dao.getStudentBySchool(Integer.valueOf(request.getParameter("var")))));
+                }
+                break;
+            case "getFormationByPromo":
+                try (PrintWriter out = response.getWriter()) {
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy");
+                    java.util.Date parsed = format.parse(request.getParameter("var"));
+                    java.sql.Date sqlDate = new java.sql.Date(parsed.getTime());
+                    out.println(gson.toJson(dao.getStudentByPromo(sqlDate)));
+                } catch (ParseException ex) {
+                    System.out.println(ex.getMessage());
                 }
                 break;
             case "getEtablissementByFormation":
@@ -69,7 +82,7 @@ public class GetStudents extends HttpServlet {
             case "getStudentByFormation":
                 try (PrintWriter out = response.getWriter()) {
 
-                    out.println(gson.toJson(dao.getStudentByFormation(request.getParameter("form_name"))));
+                    out.println(gson.toJson(dao.getStudentByFormationid(Integer.valueOf(request.getParameter("var")))));
                 }
                 break;
             case "getEtablissementByCity":
@@ -86,7 +99,7 @@ public class GetStudents extends HttpServlet {
 
             case "getFormationByCity":
                 try (PrintWriter out = response.getWriter()) {
-                    out.println(gson.toJson(dao.getFormationByCity(request.getParameter("city_name"))));
+                    out.println(gson.toJson(dao.getFormationByCity(request.getParameter("form_lab"))));
                 }
                 break;
 
@@ -101,24 +114,35 @@ public class GetStudents extends HttpServlet {
                     out.println(gson.toJson(dao.getNBOfStudentByFormation(request.getParameter("form_lab"))));
                 }
                 break;
-                
+
             case "getFormationsLikeLabel":
                 try (PrintWriter out = response.getWriter()) {
                     out.println(gson.toJson(dao.getFormationsLikeLabel(request.getParameter("form_lab"))));
                 }
+
+            case "getAllFormations":
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(gson.toJson(dao.getAllFormations()));
+                }
+
                 break;
-                
+
             case "graph1":
                 try (PrintWriter out = response.getWriter()) {
                     out.println(dao.getNBOfStudentoutOfJob());
                 }
-            break;
-                    
+                break;
+
             case "graph0":
                 try (PrintWriter out = response.getWriter()) {
                     out.println(dao.getAVGByFormation());
                 }
-            break;
+                break;
+            case "graph2":
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(dao.getNBOfStudentMaster());
+                }
+                break;
         }
 
     }

@@ -5,7 +5,6 @@
  */
 package Models;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.Connection;
@@ -13,6 +12,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,17 +34,20 @@ public class DAO {
         myDataSource = new DataSource().getMySQLDataSource();
     }
 
-    public List<Student> getStudent() {
+    public List<Student> getStudentsLikeName(String lname) {
         List<Student> result = new LinkedList<>();
         Student st;
-        String sql = "SELECT distinct * FROM ancien_etudiant";
+        String sql = "SELECT distinct * FROM ancien_etudiant WHERE "
+                + "ancien_etudiant.nom LIKE ?";
+
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, "%" + lname + "%");
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
 
                     int id = rs.getInt("id_etud");
-                    String lname = rs.getString("nom");
+                    lname = rs.getString("nom");
                     String fname = rs.getString("prenom");
                     String email = rs.getString("mail");
                     Date promotion = rs.getDate("promotion");
@@ -68,24 +71,25 @@ public class DAO {
         return result;
     }
 
-    public List<School> getEstablishment() {
+    public List<School> getSchools() {
         List<School> result = new LinkedList<>();
         School sch;
-        String sql = "SELECT distinct * FROM SchoolName";
+        String sql = "SELECT distinct * FROM etablissement";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-
-                    int id = rs.getInt("id_SchoolName");
-                    String lname = rs.getString("nom");
-                    String sigle = rs.getString("sigle");
-                    String postalCode = rs.getString("codePostal");
-                    String city = rs.getString("ville");
-                    String country = rs.getString("pays");
+                    int sch_id = rs.getInt("id_etablissement");
+                    String sch_name = rs.getString("nom");
+                    String sch_sigle = rs.getString("sigle");
+                    String posteCode = rs.getString("codePostal");
+                    String sch_city = rs.getString("ville");
+                    String sch_country = rs.getString("pays");
+                    float lat = rs.getFloat("lat");
+                    float lng = rs.getFloat("lng");
                     int id_region = rs.getInt("id_region");
-                    sch = new School(id, lname, sigle,
-                            postalCode, city, country, id_region);
+                    sch = new School(sch_id, sch_name, sch_sigle,
+                            posteCode, sch_city, sch_country, lat, lng, id_region);
 
                     result.add(sch);
                 }
@@ -100,18 +104,18 @@ public class DAO {
         return result;
     }
 
-    public List<Student> getStudentByEstablishment(String SchoolName) {
+    public List<Student> getStudentBySchool(int sch_id) {
         List<Student> result = new LinkedList<>();
         Student st;
-        String sql = "SELECT Distinct * FROM ancien_etudiant, a_effectue, "
-                + "SchoolName, formation WHERE "
+        String sql = "SELECT Distinct * FROM ancien_etudiant, a_effectue,"
+                + " etablissement, formation WHERE "
+                + "etablissement.id_etablissement = ? AND "
                 + "ancien_etudiant.id_etud=a_effectue.id_etud AND "
                 + "a_effectue.id_formation = formation.id_formation AND "
-                + "SchoolName.nom = ? AND "
-                + "SchoolName.id_SchoolName=formation.id_SchoolName";
+                + "etablissement.id_etablissement=formation.id_etablissement";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, SchoolName);
+            stmt.setInt(1, sch_id);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
 
@@ -152,17 +156,19 @@ public class DAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
 
-                    int sch_id = rs.getInt("id_SchoolName");
+                    int sch_id = rs.getInt("id_etablissement");
                     String sch_name = rs.getString("nom");
-                    String sigle = rs.getString("sigle");
+                    String sch_sigle = rs.getString("sigle");
                     String posteCode = rs.getString("codePostal");
                     String sch_city = rs.getString("ville");
                     String sch_country = rs.getString("pays");
-                    int sch_id_region = rs.getInt("id_region");
+                    float lat = rs.getFloat("lat");
+                    float lng = rs.getFloat("lng");
+                    int id_region = rs.getInt("id_region");
+                    sch = new School(sch_id, sch_name, sch_sigle,
+                            posteCode, sch_city, sch_country, lat, lng, id_region);
 
-                    sch = new School(sch_id, sch_name, sigle, posteCode,
-                            sch_city, sch_country, sch_id_region);
-
+                    result.add(sch);
                 }
 
             }
@@ -178,17 +184,52 @@ public class DAO {
 
     }
 
-    public List<Student> getStudentByFormation(String formationLabel) {
+    public List<Student> getStudentByFormationid(int form_id) {
         List<Student> result = new LinkedList<>();
         Student st;
         String sql = "SELECT Distinct * FROM ancien_etudiant, a_effectue, formation "
                 + "WHERE ancien_etudiant.id_etud=a_effectue.id_etud "
                 + "AND a_effectue.id_formation = formation.id_formation AND "
-                + "formation.intitule = ?";
+                + "formation.id_formation = ?";
 
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, formationLabel);
+            stmt.setInt(1, form_id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("id_etud");
+                    String lname = rs.getString("nom");
+                    String fname = rs.getString("prenom");
+                    String email = rs.getString("mail");
+                    Date promotion = rs.getDate("promotion");
+                    String spec = rs.getString("specialite");
+                    String cursus = rs.getString("cursus");
+                    int L3average = rs.getInt("moyenne_l3_id");
+
+                    st = new Student(id, fname, lname,
+                            email, promotion, spec, cursus, L3average);
+                    result.add(st);
+                }
+
+            }
+            stmt.close();
+            connection.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+    
+    public List<Student> getStudentByPromo(Date date) {
+        List<Student> result = new LinkedList<>();
+        Student st;
+        String sql = "SELECT Distinct * FROM ancien_etudiant WHERE "
+                + "ancien_etudiant.promotion = ?";
+
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setDate(1, date);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     int id = rs.getInt("id_etud");
@@ -225,17 +266,19 @@ public class DAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
 
-                    int sch_id = rs.getInt("id_SchoolName");
+                    int sch_id = rs.getInt("id_etablissement");
                     String sch_name = rs.getString("nom");
                     String sch_sigle = rs.getString("sigle");
-                    String sch_posteCode = rs.getString("codePostal");
+                    String posteCode = rs.getString("codePostal");
                     String sch_city = rs.getString("ville");
                     String sch_country = rs.getString("pays");
-                    int sch_id_region = rs.getInt("id_region");
+                    float lat = rs.getFloat("lat");
+                    float lng = rs.getFloat("lng");
+                    int id_region = rs.getInt("id_region");
+                    sch = new School(sch_id, sch_name, sch_sigle,
+                            posteCode, sch_city, sch_country, lat, lng, id_region);
 
-                    sch = new School(sch_id, sch_name, sch_sigle, sch_posteCode,
-                            sch_city, sch_country, sch_id_region);
-
+                    result.add(sch);
                 }
 
             }
@@ -276,12 +319,12 @@ public class DAO {
         List<Formation> result = new LinkedList<>();
         Formation form;
         School sch;
-        String sql = "SELECT Distinct * FROM  formation ,SchoolName "
+        String sql = "SELECT Distinct * FROM  formation ,etablissement "
                 + "WHERE formation.id_etablissement = etablissement.id_etablissement "
-                + "AND etablissement.ville=?";
+                + "AND upper(etablissement.ville)=?";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, cityName);
+            stmt.setString(1, cityName.toUpperCase());
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
 
@@ -294,13 +337,14 @@ public class DAO {
                     int sch_id = rs.getInt("id_etablissement");
                     String sch_name = rs.getString("nom");
                     String sch_sigle = rs.getString("sigle");
-                    String sch_posteCode = rs.getString("codePostal");
+                    String posteCode = rs.getString("codePostal");
                     String sch_city = rs.getString("ville");
                     String sch_country = rs.getString("pays");
-                    int sch_id_region = rs.getInt("id_region");
-
-                    sch = new School(sch_id, sch_name, sch_sigle, sch_posteCode,
-                            sch_city, sch_country, sch_id_region);
+                    float lat = rs.getFloat("lat");
+                    float lng = rs.getFloat("lng");
+                    int id_region = rs.getInt("id_region");
+                    sch = new School(sch_id, sch_name, sch_sigle,
+                            posteCode, sch_city, sch_country, lat, lng, id_region);
 
                     form = new Formation(for_id, for_intitule, sigle, for_type,
                             for_speciality, sch);
@@ -341,13 +385,59 @@ public class DAO {
                     int sch_id = rs.getInt("id_etablissement");
                     String sch_name = rs.getString("nom");
                     String sch_sigle = rs.getString("sigle");
-                    String sch_posteCode = rs.getString("codePostal");
+                    String posteCode = rs.getString("codePostal");
                     String sch_city = rs.getString("ville");
                     String sch_country = rs.getString("pays");
-                    int sch_id_region = rs.getInt("id_region");
+                    float lat = rs.getFloat("lat");
+                    float lng = rs.getFloat("lng");
+                    int id_region = rs.getInt("id_region");
+                    sch = new School(sch_id, sch_name, sch_sigle,
+                            posteCode, sch_city, sch_country, lat, lng, id_region);
 
-                    sch = new School(sch_id, sch_name, sch_sigle, sch_posteCode,
-                            sch_city, sch_country, sch_id_region);
+                    form = new Formation(for_id, for_intitule, sigle, for_type,
+                            for_speciality, sch);
+                    result.add(form);
+                }
+
+            }
+            stmt.close();
+            connection.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return result;
+    }
+
+    public List<Formation> getAllFormations() {
+        List<Formation> result = new LinkedList<>();
+        Formation form;
+        School sch;
+        String sql = "SELECT Distinct * FROM  formation ,etablissement "
+                + "WHERE formation.id_etablissement = etablissement.id_etablissement ";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+
+                    int for_id = rs.getInt("id_formation");
+                    String for_intitule = rs.getString("intitule");
+                    String sigle = rs.getString("sigle");
+                    String for_type = rs.getString("type");
+                    String for_speciality = rs.getString("specialite");
+
+                    int sch_id = rs.getInt("id_etablissement");
+                    String sch_name = rs.getString("nom");
+                    String sch_sigle = rs.getString("sigle");
+                    String posteCode = rs.getString("codePostal");
+                    String sch_city = rs.getString("ville");
+                    String sch_country = rs.getString("pays");
+                    float lat = rs.getFloat("lat");
+                    float lng = rs.getFloat("lng");
+                    int id_region = rs.getInt("id_region");
+                    sch = new School(sch_id, sch_name, sch_sigle,
+                            posteCode, sch_city, sch_country, lat, lng, id_region);
 
                     form = new Formation(for_id, for_intitule, sigle, for_type,
                             for_speciality, sch);
@@ -548,25 +638,55 @@ public class DAO {
     }
 
     public JSONObject getAVGByFormation() {
-        JSONObject json = new JSONObject();
-        String sql = "SELECT formation.sigle, AVG(a_effectue.moyenne_M) AS avg"
-                + " FROM a_effectue,formation where "
+        JSONObject mainObj = new JSONObject();
+        Calendar cal = Calendar.getInstance();
+        String sql = "SELECT formation.sigle, AVG(a_effectue.moyenne_M) "
+                + "AS avg,a_effectue.debut_formation as yf FROM "
+                + "a_effectue,formation where "
                 + "a_effectue.id_formation=formation.id_formation "
-                + "GROUP BY formation.sigle";
+                + "GROUP BY yf,formation.sigle Order by yf";
         try (Connection connection = myDataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             try (ResultSet rs = stmt.executeQuery()) {
+                Date date;
+                JSONArray ja = new JSONArray();
+                JSONObject jo = new JSONObject();
+                rs.first();
+                date = rs.getDate("yf");
+                Integer nb = rs.getInt("avg");
+                String sig = rs.getString("sigle");
+                jo.put("sigle", sig);
+                jo.put("avg", nb);
+                ja.put(jo);
+
                 while (rs.next()) {
-                    Integer nb = rs.getInt("avg");
-                    if (nb != null && nb>1) {
-                        String sig = rs.getString("sigle");
-                        json.put(sig, nb);
+                    jo = new JSONObject();
+                    if (date.equals(rs.getDate("yf"))) {
+                        nb = rs.getInt("avg");
+                        if (nb != null && nb > 1) {
+                            sig = rs.getString("sigle");
+                            jo.put("sigle", sig);
+                            jo.put("avg", nb);
+                            ja.put(jo);
+
+                        }
+
+                    } else {
+                        cal.setTime(date);
+                        mainObj.put(String.valueOf(cal.get(Calendar.YEAR)), ja);
+                        ja = new JSONArray();
+                        date = rs.getDate("yf");
+                        nb = rs.getInt("avg");
+                        sig = rs.getString("sigle");
+                        jo.put("sigle", sig);
+                        jo.put("avg", nb);
+                        ja.put(jo);
                     }
 
                 }
-
             }
+
             stmt.close();
             connection.close();
         } catch (SQLException ex) {
@@ -574,6 +694,64 @@ public class DAO {
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return json;
+        return mainObj;
     }
+
+    public Student login(String mail, int pass) throws SQLException {
+        Student result = null;
+        String sql = "SELECT * FROM ancien_etudiant WHERE mail=? AND id_etud=?";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, mail);
+            stmt.setInt(2, pass);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    String lname = rs.getString("nom");
+                    String fname = rs.getString("prenom");
+                    Date promo = rs.getDate("promotion");
+                    String spec = rs.getString("specialite");
+                    String cursus = rs.getString("cursus");
+                    int avgID = rs.getInt("moyenne_l3_id");
+                    result = new Student(pass, fname, lname,
+                            mail, promo, spec, cursus, avgID);
+                }
+            }
+        }
+        return result;
+    }
+
+    public JsonObject addFormation(String title, String sigle,
+            String type, String spec, int sch_id) {
+        JsonObject mainObj = new JsonObject();
+        String msg = "";
+        int msg_code = 0;
+        String sql = "INSERT INTO formation "
+                + "(intitule,sigle ,type,specialite,id_etablissement) "
+                + "values (?,?,?,?,?)";
+        try (Connection connection = myDataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, title);
+            stmt.setString(2, sigle);
+            stmt.setString(3, type);
+            stmt.setString(4, spec);
+            stmt.setInt(5, sch_id);
+            int count = stmt.executeUpdate();
+            if (count > 0) {
+                msg = "Formation ajouter avec success";
+            } else {
+                msg = "Formation n'est pas ajouter, cause: ";
+            }
+
+        } catch (SQLException ex) {
+            msg += ex.getMessage();
+            msg_code = -1;
+        }
+        mainObj.addProperty("msg", msg);
+        mainObj.addProperty("code", msg_code);
+        return mainObj;
+    }
+    
+    
 }

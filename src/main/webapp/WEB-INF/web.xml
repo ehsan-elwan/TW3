@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>LoginController</servlet-name>
+        <servlet-class>Servlet.LoginController</servlet-class>
+        <!-- Les identifiants pour se connecter -->
+        <init-param>
+            <param-name>login</param-name>
+            <param-value>admin@admin.com</param-value>
+        </init-param>
+        <init-param>
+            <param-name>pass</param-name>
+            <param-value>admin</param-value>
+        </init-param>
+        <init-param>
+            <param-name>userName</param-name>
+            <param-value>Administrator</param-value>
+        </init-param>
+    </servlet>
+    <!--
+    <filter>
+        <filter-name>ProtectedPagesFilter</filter-name>
+        <filter-class>filters.ProtectedPagesFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ProtectedPagesFilter</filter-name>
+        <url-pattern>/AddOrder.jsp</url-pattern>
+        <url-pattern>/UpdateOrder.jsp</url-pattern>
+        <url-pattern>/admin.jsp</url-pattern>
+        <url-pattern>/customer.jsp</url-pattern>
+        <url-pattern>/errorView.jsp</url-pattern>
+        <url-pattern>/AddOrder</url-pattern>
+        <url-pattern>/DeleteOrder</url-pattern>
+        <url-pattern>/UpdateOrder</url-pattern>
+    </filter-mapping>
+    <listener>
+        <description>ApplicationListener</description>
+        <listener-class>listener.ApplicationListener</listener-class>
+    </listener>
+    <session-config>
+        <session-timeout>
+            8
+        </session-timeout>
+    </session-config>
+    
+    <welcome-file-list>
+        <welcome-file>Login.jsp</welcome-file>
+    </welcome-file-list>
+    -->
+</web-app>
