@@ -196,7 +196,7 @@
                             </label>
 
                             <label class="toggle block">
-                                <input code="search-for-input" type="radio" name="toggle" value="sigle"> <span class="label-text">sigle</span>
+                                <input code="search-for-input" type="radio" name="toggle" value="région"> <span class="label-text">région</span>
                             </label>
                         </div>
                         <input id="filter_input" name="filter" type="hidden" value="mot clé">
@@ -1003,8 +1003,8 @@
                     case "ville":
                         callfun = "getFormationByCity";
                         break;
-                    case "sigle":
-                        callfun = "getFormationByCity";
+                    case "région":
+                        callfun = "getFormationsLikeLabel";
                         break;
                     case "mot clé":
                         callfun = "getFormationsLikeLabel";
